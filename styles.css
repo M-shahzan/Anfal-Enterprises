@@ -1,0 +1,626 @@
+/* ==========================================================================
+   ANFAL ENTERPRISES - Single-Screen Identity Website (No Scroll, 100vh)
+   Identity Website for Wholesale FMCG Distributor, Bhatkal
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Brand Colors */
+  --anfal-red: #D32F2F;
+  --anfal-red-hover: #B71C1C;
+  --anfal-navy: #0F1B2E;
+  --anfal-black: #0A0D14;
+  --anfal-gold: #B8860B;
+  
+  /* Text */
+  --text-dark: #0A0D14;
+  --text-muted: #64748B;
+  --text-white: #FFFFFF;
+  
+  /* Borders & Radius */
+  --border-subtle: rgba(255, 255, 255, 0.25);
+  --border-glass: rgba(255, 255, 255, 0.4);
+  --border-card: #CBD5E1;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  
+  /* Typography */
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 100vh Non-Scrolling Viewport on Desktop */
+body.single-screen-body {
+  overflow: hidden;
+  position: relative;
+  background-color: #0F172A;
+}
+
+/* Background Facility Image (Bright & Visible) */
+.screen-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('assets/images/anfal-building.jpg');
+  background-size: cover;
+  background-position: center 35%;
+  filter: brightness(0.92) contrast(1.03);
+  z-index: 1;
+}
+
+/* Subtle Architectural Frosted Scrim Overlay */
+.screen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.94) 0%,
+    rgba(255, 255, 255, 0.88) 38%,
+    rgba(255, 255, 255, 0.55) 65%,
+    rgba(255, 255, 255, 0.2) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Single Screen Layout Container */
+.screen-layout {
+  position: relative;
+  z-index: 10;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px 28px 12px 28px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   TOP BAR / HEADER
+   ========================================================================== */
+.screen-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.brand-logo-img {
+  height: 48px;
+  width: auto;
+  max-width: 250px;
+  object-fit: contain;
+  display: block;
+}
+
+.brand-anfal {
+  color: var(--anfal-red);
+  font-weight: 900;
+}
+
+.brand-enterprises {
+  color: #000000;
+  font-weight: 900;
+}
+
+.header-quick-contact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.action-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: var(--radius-xs);
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.pill-call {
+  background: #FFFFFF;
+  color: var(--anfal-red);
+  border-color: rgba(211, 47, 47, 0.35);
+}
+.pill-call:hover {
+  background: var(--anfal-red);
+  color: #FFFFFF;
+  border-color: var(--anfal-red);
+  transform: translateY(-1px);
+}
+
+.pill-whatsapp {
+  background: #FFFFFF;
+  color: #128C7E;
+  border-color: rgba(37, 211, 102, 0.4);
+}
+.pill-whatsapp:hover {
+  background: #25D366;
+  color: #FFFFFF;
+  border-color: #25D366;
+  transform: translateY(-1px);
+}
+
+.pill-enquiry {
+  background: var(--anfal-red);
+  color: #FFFFFF;
+  border-color: var(--anfal-red);
+}
+.pill-enquiry:hover {
+  background: var(--anfal-red-hover);
+  border-color: var(--anfal-red-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.35);
+}
+
+/* ==========================================================================
+   MAIN CONTINUOUS STAGE (About & Focus)
+   ========================================================================== */
+.screen-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.identity-stage {
+  max-width: 680px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-left: 4px solid var(--anfal-red);
+  padding: 24px 30px;
+  border-radius: var(--radius-xs);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.identity-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  padding: 4px 12px;
+  margin-bottom: 12px;
+  border-radius: var(--radius-xs);
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--anfal-red);
+  border-radius: 50%;
+}
+
+.badge-text {
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: var(--anfal-navy);
+  text-transform: uppercase;
+}
+
+.badge-divider {
+  color: #CBD5E1;
+}
+
+.badge-loc {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748B;
+  letter-spacing: 0.06em;
+}
+
+.main-headline {
+  font-family: var(--font-heading);
+  font-size: clamp(2.1rem, 3.2vw, 2.9rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: var(--anfal-navy);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.main-headline .highlight {
+  color: var(--anfal-red);
+}
+
+.main-statement {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1E293B;
+  margin-bottom: 10px;
+}
+
+.main-desc {
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+/* Concise Business Info Strip */
+.business-info-strip {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr auto;
+  gap: 14px;
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  padding: 14px 18px;
+  border-radius: var(--radius-xs);
+}
+
+.info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.info-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #94A3B8;
+}
+
+.info-value {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--anfal-navy);
+  line-height: 1.35;
+}
+
+.info-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.link-btn {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--anfal-navy);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  background: #F1F5F9;
+  border-radius: var(--radius-xs);
+  border: 1px solid #E2E8F0;
+  transition: all var(--transition-fast);
+}
+
+.link-btn:hover {
+  background: var(--anfal-navy);
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   BRANDS PLAQUE STRIP (The 6 Verified Brands)
+   ========================================================================== */
+.screen-brands-strip {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  padding: 12px 20px;
+  border-radius: var(--radius-xs);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  margin-bottom: 8px;
+}
+
+.brands-strip-header {
+  margin-bottom: 8px;
+}
+
+.strip-label {
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--anfal-navy);
+}
+
+.brands-plaque-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+
+.brand-tile {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-xs);
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+}
+
+.brand-tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--anfal-red);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09);
+}
+
+/* Single Line Footer */
+.screen-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-size: 0.74rem;
+  color: #475569;
+  font-weight: 600;
+  padding-top: 4px;
+}
+
+.footer-dot {
+  color: #94A3B8;
+}
+
+.footer-tagline {
+  color: var(--anfal-red);
+  font-weight: 800;
+}
+
+.admin-discrete-link {
+  color: #94A3B8;
+  text-decoration: underline;
+}
+.admin-discrete-link:hover {
+  color: var(--anfal-red);
+}
+
+/* ==========================================================================
+   COMPACT ENQUIRY MODAL
+   ========================================================================== */
+.enquiry-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.enquiry-modal-backdrop.open {
+  display: flex;
+}
+
+.enquiry-modal-box {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-xs);
+  width: 100%;
+  max-width: 440px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.modal-box-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.modal-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--anfal-navy);
+  text-transform: uppercase;
+}
+
+.modal-sub {
+  font-size: 0.78rem;
+  color: #64748B;
+}
+
+.btn-close-modal {
+  background: transparent;
+  border: 0;
+  font-size: 1.5rem;
+  color: #64748B;
+  cursor: pointer;
+  line-height: 1;
+}
+.btn-close-modal:hover {
+  color: var(--anfal-red);
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #475569;
+  margin-bottom: 4px;
+}
+
+.form-input, .form-textarea {
+  width: 100%;
+  background: #F8FAFC;
+  border: 1px solid #CBD5E1;
+  color: #0F172A;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  border-radius: var(--radius-xs);
+  outline: none;
+}
+
+.form-input:focus, .form-textarea:focus {
+  border-color: var(--anfal-red);
+  background: #FFFFFF;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.btn-submit-enquiry {
+  width: 100%;
+  background: var(--anfal-red);
+  color: #FFFFFF;
+  border: 1px solid var(--anfal-red);
+  padding: 11px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background-color var(--transition-fast);
+}
+
+.btn-submit-enquiry:hover {
+  background: var(--anfal-red-hover);
+}
+
+/* Toast Notice */
+.toast-notice {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--anfal-navy);
+  color: #FFFFFF;
+  border-left: 4px solid var(--anfal-red);
+  padding: 14px 18px;
+  border-radius: var(--radius-xs);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 2000;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all var(--transition-fast);
+}
+
+.toast-notice.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   MOBILE VIEWPORT (Graceful Fitting)
+   ========================================================================== */
+@media (max-width: 900px) {
+  body.single-screen-body {
+    overflow-y: auto;
+    min-height: 100vh;
+  }
+
+  .screen-layout {
+    height: auto;
+    min-height: 100vh;
+    padding: 16px;
+  }
+
+  .screen-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .header-quick-contact {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .action-pill {
+    padding: 7px 10px;
+    font-size: 0.75rem;
+  }
+
+  .business-info-strip {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .info-actions {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .brands-plaque-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .screen-footer {
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .brands-plaque-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

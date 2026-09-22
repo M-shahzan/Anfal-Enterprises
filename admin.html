@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | ANFAL ENTERPRISES</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0D14'/><path d='M6 10h3l3 12h12l2-8H11' stroke='%23D32F2F' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/><circle cx='14' cy='25' r='2' fill='%23FFFFFF'/><circle cx='22' cy='25' r='2' fill='%23FFFFFF'/></svg>">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <style>
+    /* Dedicated Admin Page Layout */
+    body.admin-body {
+      background-color: #0F172A;
+      color: #F8FAFC;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .admin-navbar {
+      background-color: #1E293B;
+      border-bottom: 1px solid #334155;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .admin-brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .admin-brand-title {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+    }
+
+    .admin-badge {
+      background: var(--anfal-red);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: var(--radius-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .admin-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-view-site {
+      background: #334155;
+      color: #F8FAFC;
+      padding: 8px 16px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border-radius: var(--radius-xs);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid #475569;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-view-site:hover {
+      background: #475569;
+      color: #FFFFFF;
+    }
+
+    .admin-container {
+      width: 100%;
+      max-width: 1160px;
+      margin: 32px auto;
+      padding: 0 20px;
+      flex: 1;
+    }
+
+    .admin-dashboard-card {
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: var(--radius-xs);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .admin-tabs-bar {
+      display: flex;
+      background: #0F172A;
+      border-bottom: 1px solid #334155;
+      padding: 0 16px;
+      overflow-x: auto;
+    }
+
+    .admin-tab-btn {
+      background: transparent;
+      border: 0;
+      color: #94A3B8;
+      padding: 16px 20px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      white-space: nowrap;
+      transition: color var(--transition-fast);
+    }
+
+    .admin-tab-btn:hover {
+      color: #F8FAFC;
+    }
+
+    .admin-tab-btn.active {
+      color: #F8FAFC;
+    }
+
+    .admin-tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--anfal-red);
+    }
+
+    .admin-tab-pane {
+      padding: 28px;
+      display: none;
+    }
+
+    .admin-tab-pane.active {
+      display: block;
+    }
+
+    .admin-section-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #F8FAFC;
+      margin-bottom: 6px;
+      letter-spacing: 0.02em;
+    }
+
+    .admin-section-sub {
+      font-size: 0.88rem;
+      color: #94A3B8;
+      margin-bottom: 24px;
+    }
+
+    .admin-form-box {
+      background: #0F172A;
+      border: 1px solid #334155;
+      border-radius: var(--radius-xs);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .admin-table th, .admin-table td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid #334155;
+    }
+
+    .admin-table th {
+      background: #0F172A;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #94A3B8;
+      letter-spacing: 0.06em;
+    }
+
+    .admin-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .admin-enquiries-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .admin-enquiry-box {
+      background: #0F172A;
+      border: 1px solid #334155;
+      border-left: 4px solid var(--anfal-red);
+      border-radius: var(--radius-xs);
+      padding: 20px;
+    }
+
+    .admin-footer {
+      background: #0F172A;
+      border-top: 1px solid #334155;
+      padding: 20px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #64748B;
+      margin-top: auto;
+    }
+
+    @media (max-width: 768px) {
+      .admin-navbar {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .admin-nav-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .admin-tab-pane {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body class="admin-body">
+
+  <!-- Admin Navigation Bar -->
+  <nav class="admin-navbar">
+    <div class="admin-brand-group">
+      <img src="assets/images/anfal-logo.png" alt="Anfal Enterprises Logo" style="height: 36px; width: auto; object-fit: contain;">
+      <span class="admin-badge">Admin Panel</span>
+    </div>
+    
+    <div class="admin-nav-actions">
+      <a href="index.html" class="btn-view-site">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View Live Website
+      </a>
+      <button type="button" id="btn-admin-reset" class="cms-action-btn" style="padding: 8px 12px;">Reset Defaults</button>
+    </div>
+  </nav>
+
+  <!-- Admin Main Container -->
+  <main class="admin-container">
+    
+    <div class="admin-dashboard-card">
+      
+      <!-- Tab Header -->
+      <div class="admin-tabs-bar">
+        <button type="button" class="admin-tab-btn active" data-tab="company">
+          🏢 Company Details
+        </button>
+        <button type="button" class="admin-tab-btn" data-tab="brands">
+          🏷️ Brands Portfolio
+        </button>
+        <button type="button" class="admin-tab-btn" data-tab="enquiries">
+          📩 Wholesale Enquiries
+        </button>
+      </div>
+
+      <!-- Tab 1: Company Information -->
+      <section class="admin-tab-pane active" id="admin-tab-company">
+        <h2 class="admin-section-title">Company Profile & Contact Settings</h2>
+        <p class="admin-section-sub">Update business contact numbers, official address, and homepage copy.</p>
+
+        <form id="cms-company-form">
+          <div class="cms-form-grid">
+            
+            <div class="cms-input-group">
+              <label class="cms-label" for="cms-input-name">Company Name</label>
+              <input type="text" id="cms-input-name" class="cms-input" required>
+            </div>
+
+            <div class="cms-input-group">
+              <label class="cms-label" for="cms-input-subtitle">Subtitle / Category</label>
+              <input type="text" id="cms-input-subtitle" class="cms-input">
+            </div>
+
+            <div class="cms-input-group">
+              <label class="cms-label" for="cms-input-tagline">Main Tagline</label>
+              <input type="text" id="cms-input-tagline" class="cms-input">
+            </div>
+
+            <div class="cms-input-group">
+              <label class="cms-label" for="cms-input-proprietor">Proprietor Name</label>
+              <input type="text" id="cms-input-proprietor" class="cms-input">
+            </div>
+
+            <div class="cms-input-group full-width">
+              <label class="cms-label" for="cms-input-hero-text">Hero Supporting Description</label>
+              <input type="text" id="cms-input-hero-text" class="cms-input">
+            </div>
+
+            <div class="cms-input-group full-width">
+              <label class="cms-label" for="cms-input-about-statement">About Statement</label>
+              <input type="text" id="cms-input-about-statement" class="cms-input">
+            </div>
+
+            <div class="cms-input-group full-width">
+              <label class="cms-label" for="cms-input-about-desc">About Full Description</label>
+              <textarea id="cms-input-about-desc" class="cms-textarea"></textarea>
+            </div>
+
+            <div class="cms-input-group full-width">
+              <label class="cms-label" for="cms-input-address">Official Address</label>
+              <textarea id="cms-input-address" class="cms-textarea" style="min-height: 60px;"></textarea>
+            </div>
+
+            <div class="cms-input-group">
+              <label class="cms-label" for="cms-input-location-short">Short Location (City, State)</label>
+              <input type="text" id="cms-input-location-short" class="cms-input">
+            </div>
+
+            <div class="cms-input-group">
+              <label class="cms-label" for="cms-input-phone">Phone Number (Calling)</label>
+              <input type="text" id="cms-input-phone" class="cms-input" placeholder="+91 98450 12345">
+            </div>
+
+            <div class="cms-input-group">
+              <label class="cms-label" for="cms-input-whatsapp">WhatsApp Number</label>
+              <input type="text" id="cms-input-whatsapp" class="cms-input" placeholder="+91 98450 12345">
+            </div>
+
+            <div class="cms-input-group">
+              <label class="cms-label" for="cms-input-email">Official Email</label>
+              <input type="email" id="cms-input-email" class="cms-input" placeholder="info@anfalenterprises.com">
+            </div>
+
+            <div class="cms-input-group full-width">
+              <label class="cms-label" for="cms-input-maps-url">Google Maps Embed URL</label>
+              <input type="text" id="cms-input-maps-url" class="cms-input">
+            </div>
+
+            <div class="cms-input-group full-width">
+              <label class="cms-label" for="cms-input-hero-image">Facility / Warehouse Image Path</label>
+              <input type="text" id="cms-input-hero-image" class="cms-input">
+            </div>
+
+          </div>
+
+          <div style="margin-top: 24px; text-align: right;">
+            <button type="submit" class="btn-primary">💾 Save Company Settings</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Tab 2: Brands Management -->
+      <section class="admin-tab-pane" id="admin-tab-brands">
+        <h2 class="admin-section-title">Brand Portfolio Management</h2>
+        <p class="admin-section-sub">Add, reorder, or toggle FMCG brands displayed on the homepage.</p>
+
+        <!-- Add Brand Form Box -->
+        <div class="admin-form-box">
+          <h3 style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; text-transform: uppercase; margin-bottom: 14px;">+ Add New Brand</h3>
+          <form id="cms-add-brand-form">
+            <div class="cms-form-grid">
+              <div class="cms-input-group">
+                <label class="cms-label" for="cms-new-brand-name">Brand Name *</label>
+                <input type="text" id="cms-new-brand-name" class="cms-input" placeholder="e.g. Cadbury" required>
+              </div>
+
+              <div class="cms-input-group">
+                <label class="cms-label" for="cms-new-brand-category">Category *</label>
+                <input type="text" id="cms-new-brand-category" class="cms-input" placeholder="e.g. Confectionery & Biscuits" required>
+              </div>
+
+              <div class="cms-input-group">
+                <label class="cms-label" for="cms-new-brand-color">Brand Accent Color</label>
+                <input type="color" id="cms-new-brand-color" class="cms-input" value="#D32F2F" style="height: 38px; padding: 2px;">
+              </div>
+
+              <div class="cms-input-group">
+                <label class="cms-label" for="cms-new-brand-logotext">Badge Monogram Text</label>
+                <input type="text" id="cms-new-brand-logotext" class="cms-input" placeholder="e.g. Cadbury">
+              </div>
+
+              <div class="cms-input-group full-width">
+                <label class="cms-label" for="cms-new-brand-desc">Product Segment / Description</label>
+                <input type="text" id="cms-new-brand-desc" class="cms-input" placeholder="e.g. Packaged chocolates, cookies, and beverages">
+              </div>
+            </div>
+
+            <div style="text-align: right; margin-top: 14px;">
+              <button type="submit" class="btn-primary" style="padding: 10px 22px; font-size: 0.85rem;">Add Brand to Portfolio</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Brands Table -->
+        <div style="overflow-x: auto;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">#</th>
+                <th>Brand Name</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Order & Actions</th>
+              </tr>
+            </thead>
+            <tbody id="cms-brands-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Tab 3: Enquiries Inbox -->
+      <section class="admin-tab-pane" id="admin-tab-enquiries">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2 class="admin-section-title">Wholesale Enquiries Inbox</h2>
+            <p class="admin-section-sub" style="margin-bottom: 0;">Direct inquiries submitted by retail stores and business clients.</p>
+          </div>
+          <button type="button" class="btn-view-site" id="btn-export-enquiries" style="background: var(--anfal-red); border-color: var(--anfal-red);">
+            📥 Export to CSV
+          </button>
+        </div>
+
+        <div class="admin-enquiries-grid" id="cms-enquiries-container">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <footer class="admin-footer">
+    ANFAL ENTERPRISES • Internal Management Portal • Bhatkal, Karnataka
+  </footer>
+
+  <!-- Scripts -->
+  <script src="cms-data.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
