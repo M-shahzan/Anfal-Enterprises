@@ -1,6 +1,6 @@
 /**
  * ANFAL ENTERPRISES - Standalone Admin Portal Controller
- * Drives admin.html dashboard.
+ * Drives admin.html dashboard (Company, Team, Brands with Image upload, Enquiries).
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,7 +11,9 @@ function initAdminDashboard() {
   setupAdminTabs();
   loadCompanyFormValues();
   setupCompanyForm();
-  setupBrandsManager();
+  renderTeamEditor();
+  setupTeamForm();
+  setupBrandForm();
   renderAdminBrandsTable();
   setupEnquiriesManager();
   renderAdminEnquiriesList();
@@ -61,9 +63,10 @@ function setupCompanyForm() {
       phone: document.getElementById("cms-input-phone").value.trim(),
       whatsapp: document.getElementById("cms-input-whatsapp").value.trim(),
       email: document.getElementById("cms-input-email").value.trim(),
+      operatingHours: document.getElementById("cms-input-hours").value.trim(),
       googleMapsUrl: document.getElementById("cms-input-maps-url").value.trim(),
-      heroImage: document.getElementById("cms-input-hero-image").value.trim() || "assets/images/anfal-building.jpg",
-      aboutImage: document.getElementById("cms-input-about-image") ? document.getElementById("cms-input-about-image").value.trim() : "assets/images/anfal-building.jpg"
+      heroImage: "assets/images/anfal-building.jpg",
+      aboutImage: "assets/images/anfal-building.jpg"
     };
 
     if (CMS.saveCompanyData(companyData)) {
@@ -90,140 +93,321 @@ function loadCompanyFormValues() {
   setVal("cms-input-phone", data.phone);
   setVal("cms-input-whatsapp", data.whatsapp);
   setVal("cms-input-email", data.email);
+  setVal("cms-input-hours", data.operatingHours);
   setVal("cms-input-maps-url", data.googleMapsUrl);
-  setVal("cms-input-hero-image", data.heroImage);
-}
-
-function setVal(id, val) {
-  const el = document.getElementById(id);
-  if (el) el.value = val || "";
 }
 
 /**
- * Brands Manager
+ * Team Management Setup
  */
-function setupBrandsManager() {
-  const addBrandForm = document.getElementById("cms-add-brand-form");
-  if (!addBrandForm) return;
+function renderTeamEditor() {
+  const container = document.getElementById("cms-team-list-container");
+  if (!container) return;
 
-  addBrandForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+  const team = CMS.getTeam();
 
-    const name = document.getElementById("cms-new-brand-name").value.trim();
-    const category = document.getElementById("cms-new-brand-category").value.trim();
-    const color = document.getElementById("cms-new-brand-color").value.trim() || "#D32F2F";
-    const logoText = document.getElementById("cms-new-brand-logotext").value.trim() || name;
-    const description = document.getElementById("cms-new-brand-desc").value.trim();
+  container.innerHTML = team.map((member, idx) => `
+    <div class="team-edit-card" data-index="${idx}">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <span style="font-weight: 800; color: var(--anfal-red); font-size: 0.85rem; text-transform: uppercase;">Role ${idx + 1}: ${escapeHtml(member.role)}</span>
+        <span style="font-size: 0.75rem; color: #94A3B8;">ID: ${escapeHtml(member.id)}</span>
+      </div>
 
-    if (!name || !category) {
-      showAdminToast("Please provide Brand Name and Category.", "warning");
-      return;
+      <div class="cms-form-grid">
+        <div class="cms-input-group">
+          <label class="cms-label">Designation / Role Title</label>
+          <input type="text" class="cms-input team-input-role" value="${escapeHtml(member.role)}">
+        </div>
+        <div class="cms-input-group">
+          <label class="cms-label">Member Name</label>
+          <input type="text" class="cms-input team-input-name" value="${escapeHtml(member.name)}">
+        </div>
+        <div class="cms-input-group">
+          <label class="cms-label">Category Subtitle</label>
+          <input type="text" class="cms-input team-input-category" value="${escapeHtml(member.category)}">
+        </div>
+        <div class="cms-input-group">
+          <label class="cms-label">Direct Phone Number</label>
+          <input type="text" class="cms-input team-input-phone" value="${escapeHtml(member.phone || '')}" placeholder="+91 98450 00000">
+        </div>
+        <div class="cms-input-group full-width">
+          <label class="cms-label">Contact Email</label>
+          <input type="email" class="cms-input team-input-email" value="${escapeHtml(member.email || '')}" placeholder="name@anfalenterprises.com">
+        </div>
+        <div class="cms-input-group full-width">
+          <label class="cms-label">Role Description / Bio</label>
+          <textarea class="cms-textarea team-input-bio">${escapeHtml(member.bio)}</textarea>
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+function setupTeamForm() {
+  const saveBtn = document.getElementById("btn-save-team");
+  if (!saveBtn) return;
+
+  saveBtn.addEventListener("click", () => {
+    const cards = document.querySelectorAll(".team-edit-card");
+    const currentTeam = CMS.getTeam();
+    const updatedTeam = [];
+
+    cards.forEach((card, idx) => {
+      const original = currentTeam[idx] || {};
+      updatedTeam.push({
+        id: original.id || `team-${idx + 1}`,
+        role: card.querySelector(".team-input-role").value.trim(),
+        name: card.querySelector(".team-input-name").value.trim(),
+        category: card.querySelector(".team-input-category").value.trim(),
+        phone: card.querySelector(".team-input-phone").value.trim() || "+91 98450 12345",
+        email: card.querySelector(".team-input-email").value.trim(),
+        bio: card.querySelector(".team-input-bio").value.trim(),
+        avatarIcon: original.avatarIcon || "shield"
+      });
+    });
+
+    if (CMS.saveTeam(updatedTeam)) {
+      showAdminToast("Leadership & Team details saved successfully!");
+    } else {
+      showAdminToast("Failed to save team details.", "warning");
     }
-
-    const brands = CMS.getBrands();
-    const newBrand = {
-      id: "brand-" + Date.now(),
-      name,
-      category,
-      color,
-      logoText,
-      description,
-      active: true,
-      order: brands.length + 1
-    };
-
-    brands.push(newBrand);
-    CMS.saveBrands(brands);
-    addBrandForm.reset();
-    renderAdminBrandsTable();
-    showAdminToast(`Added "${name}" to brand portfolio.`);
   });
 }
 
+/**
+ * Brands Management Setup with Image Upload & URL
+ */
+let currentBrandImageBase64 = "";
+
+function setupBrandForm() {
+  const form = document.getElementById("cms-brand-edit-form");
+  const fileInput = document.getElementById("cms-brand-image-file");
+  const urlInput = document.getElementById("cms-brand-image-url");
+  const previewBox = document.getElementById("brand-img-preview-box");
+  const cancelBtn = document.getElementById("btn-cancel-brand-edit");
+
+  if (fileInput) {
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          currentBrandImageBase64 = event.target.result;
+          if (previewBox) {
+            previewBox.innerHTML = `<img src="${currentBrandImageBase64}" alt="Brand Preview">`;
+          }
+          if (urlInput) urlInput.value = "";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  if (urlInput) {
+    urlInput.addEventListener("input", () => {
+      const url = urlInput.value.trim();
+      if (url) {
+        currentBrandImageBase64 = url;
+        if (previewBox) {
+          previewBox.innerHTML = `<img src="${url}" alt="Brand Preview" onerror="this.parentElement.innerHTML='<span style=\\'font-size:0.65rem;color:#EF4444;\\'>Invalid URL</span>'">`;
+        }
+      } else {
+        currentBrandImageBase64 = "";
+        if (previewBox) previewBox.innerHTML = `<span style="font-size: 0.7rem; color: #64748B;">No Image</span>`;
+      }
+    });
+  }
+
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", () => {
+      resetBrandForm();
+    });
+  }
+
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const editId = document.getElementById("cms-brand-edit-id").value;
+      const name = document.getElementById("cms-brand-name").value.trim();
+      const shortName = document.getElementById("cms-brand-shortname").value.trim();
+      const category = document.getElementById("cms-brand-category").value.trim();
+      const color = document.getElementById("cms-brand-color").value;
+      const desc = document.getElementById("cms-brand-desc").value.trim();
+      const imageUrl = currentBrandImageBase64 || urlInput.value.trim();
+
+      const brands = CMS.getBrands();
+
+      if (editId) {
+        // Update existing brand
+        const brandIndex = brands.findIndex(b => b.id === editId);
+        if (brandIndex !== -1) {
+          brands[brandIndex].name = name;
+          brands[brandIndex].shortName = shortName;
+          brands[brandIndex].category = category;
+          brands[brandIndex].color = color;
+          brands[brandIndex].description = desc;
+          if (imageUrl) {
+            brands[brandIndex].imageUrl = imageUrl;
+          }
+          CMS.saveBrands(brands);
+          showAdminToast(`Updated brand "${name}" successfully!`);
+        }
+      } else {
+        // Add new brand
+        CMS.addBrand({
+          name,
+          shortName,
+          category,
+          color,
+          description: desc,
+          imageUrl: imageUrl || ""
+        });
+        showAdminToast(`Added new brand "${name}"!`);
+      }
+
+      resetBrandForm();
+      renderAdminBrandsTable();
+    });
+  }
+}
+
+function resetBrandForm() {
+  const form = document.getElementById("cms-brand-edit-form");
+  if (form) form.reset();
+  
+  document.getElementById("cms-brand-edit-id").value = "";
+  currentBrandImageBase64 = "";
+  
+  const heading = document.getElementById("brand-form-heading");
+  if (heading) heading.textContent = "+ Add / Edit Brand";
+  
+  const cancelBtn = document.getElementById("btn-cancel-brand-edit");
+  if (cancelBtn) cancelBtn.style.display = "none";
+
+  const previewBox = document.getElementById("brand-img-preview-box");
+  if (previewBox) previewBox.innerHTML = `<span style="font-size: 0.7rem; color: #64748B;">No Image</span>`;
+}
+
+function editBrand(id) {
+  const brands = CMS.getBrands();
+  const brand = brands.find(b => b.id === id);
+  if (!brand) return;
+
+  document.getElementById("cms-brand-edit-id").value = brand.id;
+  document.getElementById("cms-brand-name").value = brand.name || "";
+  document.getElementById("cms-brand-shortname").value = brand.shortName || "";
+  document.getElementById("cms-brand-category").value = brand.category || "";
+  document.getElementById("cms-brand-color").value = brand.color || "#005A9C";
+  document.getElementById("cms-brand-desc").value = brand.description || "";
+  document.getElementById("cms-brand-image-url").value = brand.imageUrl || "";
+
+  currentBrandImageBase64 = brand.imageUrl || "";
+
+  const previewBox = document.getElementById("brand-img-preview-box");
+  if (previewBox) {
+    if (brand.imageUrl) {
+      previewBox.innerHTML = `<img src="${brand.imageUrl}" alt="${brand.name}">`;
+    } else if (brand.logoSvg) {
+      previewBox.innerHTML = brand.logoSvg;
+    } else {
+      previewBox.innerHTML = `<span style="font-size: 0.8rem; font-weight: 800; color: ${brand.color || '#000'}">${brand.shortName || 'Logo'}</span>`;
+    }
+  }
+
+  const heading = document.getElementById("brand-form-heading");
+  if (heading) heading.textContent = `✏️ Edit Brand: ${brand.name}`;
+
+  const cancelBtn = document.getElementById("btn-cancel-brand-edit");
+  if (cancelBtn) cancelBtn.style.display = "inline-flex";
+
+  // Scroll to form smoothly
+  document.getElementById("admin-tab-brands").scrollIntoView({ behavior: "smooth" });
+}
+
+/**
+ * Brands Management Table
+ */
 function renderAdminBrandsTable() {
   const tbody = document.getElementById("cms-brands-tbody");
   if (!tbody) return;
 
   const brands = CMS.getBrands();
-  if (brands.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #94A3B8; padding: 24px;">No brands configured yet.</td></tr>`;
-    return;
-  }
 
-  tbody.innerHTML = brands.map((brand, index) => {
+  tbody.innerHTML = brands.map((brand, idx) => {
+    let logoThumbnail = "";
+    if (brand.imageUrl) {
+      logoThumbnail = `<img src="${brand.imageUrl}" alt="${escapeHtml(brand.name)}" style="max-height: 32px; max-width: 60px; object-fit: contain;">`;
+    } else if (brand.logoSvg) {
+      logoThumbnail = brand.logoSvg;
+    } else {
+      logoThumbnail = `<span style="font-weight: 800; color: ${brand.color || '#0F1B2E'}; font-size: 0.85rem;">${escapeHtml(brand.shortName || brand.name)}</span>`;
+    }
+
     return `
-      <tr class="cms-brand-row">
-        <td><strong>${index + 1}</strong></td>
+      <tr>
+        <td>${idx + 1}</td>
         <td>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="display: inline-block; width: 14px; height: 14px; border-radius: 2px; background: ${escapeHtml(brand.color || '#D32F2F')}"></span>
-            <strong>${escapeHtml(brand.name)}</strong>
+          <div class="brand-thumb-preview">
+            ${logoThumbnail}
           </div>
         </td>
-        <td><span style="font-size: 0.82rem; color: #CBD5E1;">${escapeHtml(brand.category)}</span></td>
         <td>
-          <button class="cms-action-btn" onclick="window.toggleBrandStatus('${brand.id}')">
-            ${brand.active !== false ? '✅ Active' : '⏸ Inactive'}
-          </button>
+          <strong style="color: #FFFFFF;">${escapeHtml(brand.name)}</strong>
+          <div style="font-size: 0.78rem; color: #94A3B8;">${escapeHtml(brand.shortName || '')}</div>
+        </td>
+        <td>${escapeHtml(brand.category)}</td>
+        <td>
+          <span style="color: ${brand.active !== false ? '#10B981' : '#EF4444'}; font-weight: 700; font-size: 0.8rem;">
+            ${brand.active !== false ? '● Active' : '○ Inactive'}
+          </span>
         </td>
         <td>
-          <button class="cms-action-btn" title="Move Up" onclick="window.moveBrand('${brand.id}', -1)">↑</button>
-          <button class="cms-action-btn" title="Move Down" onclick="window.moveBrand('${brand.id}', 1)">↓</button>
-          <button class="cms-action-btn delete" title="Delete Brand" onclick="window.deleteBrand('${brand.id}')">✕ Delete</button>
+          <div style="display: flex; gap: 6px;">
+            <button type="button" class="btn-view-site" onclick="editBrand('${brand.id}')" style="padding: 4px 8px; font-size: 0.75rem; background: #2563EB; border-color: #3B82F6;">
+              Edit
+            </button>
+            <button type="button" class="btn-view-site" onclick="toggleBrandStatus('${brand.id}')" style="padding: 4px 8px; font-size: 0.75rem;">
+              ${brand.active !== false ? 'Deactivate' : 'Activate'}
+            </button>
+            <button type="button" class="btn-view-site" onclick="deleteBrandItem('${brand.id}')" style="padding: 4px 8px; font-size: 0.75rem; background: #DC2626; border-color: #EF4444;">
+              Delete
+            </button>
+          </div>
         </td>
       </tr>
     `;
   }).join("");
 }
 
-window.toggleBrandStatus = function(id) {
+window.editBrand = editBrand;
+
+window.toggleBrandStatus = function(brandId) {
   const brands = CMS.getBrands();
-  const target = brands.find(b => b.id === id);
-  if (target) {
-    target.active = target.active === false ? true : false;
+  const brand = brands.find(b => b.id === brandId);
+  if (brand) {
+    brand.active = brand.active === false ? true : false;
     CMS.saveBrands(brands);
     renderAdminBrandsTable();
-    showAdminToast(`Brand status updated.`);
+    showAdminToast(`Updated status for ${brand.name}`);
   }
 };
 
-window.moveBrand = function(id, direction) {
-  const brands = CMS.getBrands();
-  const index = brands.findIndex(b => b.id === id);
-  if (index === -1) return;
-
-  const newIndex = index + direction;
-  if (newIndex < 0 || newIndex >= brands.length) return;
-
-  const temp = brands[index];
-  brands[index] = brands[newIndex];
-  brands[newIndex] = temp;
-
-  brands.forEach((b, i) => b.order = i + 1);
-  CMS.saveBrands(brands);
-  renderAdminBrandsTable();
-};
-
-window.deleteBrand = function(id) {
-  const brands = CMS.getBrands();
-  const target = brands.find(b => b.id === id);
-  if (target && confirm(`Remove "${target.name}" from brands list?`)) {
-    const updated = brands.filter(b => b.id !== id);
-    CMS.saveBrands(updated);
+window.deleteBrandItem = function(brandId) {
+  if (confirm("Are you sure you want to delete this brand from the list?")) {
+    CMS.deleteBrand(brandId);
     renderAdminBrandsTable();
-    showAdminToast(`Brand deleted.`);
+    showAdminToast("Brand deleted.");
   }
 };
 
 /**
- * Enquiries Viewer
+ * Wholesale Enquiries Inbox
  */
 function setupEnquiriesManager() {
   const exportBtn = document.getElementById("btn-export-enquiries");
   if (exportBtn) {
-    exportBtn.addEventListener("click", () => {
-      exportEnquiriesToCSV();
-    });
+    exportBtn.addEventListener("click", () => exportEnquiriesToCSV());
   }
 }
 
@@ -232,44 +416,47 @@ function renderAdminEnquiriesList() {
   if (!container) return;
 
   const enquiries = CMS.getEnquiries();
+
   if (enquiries.length === 0) {
     container.innerHTML = `
-      <div style="text-align: center; padding: 40px; background: #0F172A; border: 1px solid #334155; border-radius: var(--radius-xs);">
-        <p style="color: #94A3B8; font-size: 0.95rem;">No wholesale enquiries received yet.</p>
+      <div style="text-align: center; padding: 40px; background: #0F172A; border-radius: var(--radius-xs); border: 1px solid #334155;">
+        <p style="color: #94A3B8;">No wholesale enquiries submitted yet.</p>
       </div>
     `;
     return;
   }
 
-  container.innerHTML = enquiries.map(enq => {
-    return `
-      <div class="admin-enquiry-box">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
-          <div>
-            <div style="font-weight: 800; font-size: 1.05rem; color: #FFFFFF;">${escapeHtml(enq.name)}</div>
-            <div style="font-size: 0.85rem; color: #94A3B8; margin-top: 2px;">
-              🏢 <strong>${escapeHtml(enq.company || 'Retailer')}</strong> &nbsp;|&nbsp; 
-              📞 <a href="tel:${escapeHtml(enq.phone)}" style="color: var(--anfal-red); text-decoration: underline;">${escapeHtml(enq.phone)}</a>
-            </div>
-          </div>
-          <div style="text-align: right;">
-            <div style="font-size: 0.75rem; color: #64748B;">${escapeHtml(enq.date)}</div>
-            <button class="cms-action-btn delete" style="margin-top: 8px;" onclick="window.removeEnquiry('${enq.id}')">Delete</button>
-          </div>
+  container.innerHTML = enquiries.map(enq => `
+    <div class="admin-enquiry-box">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <strong style="font-size: 1.05rem; color: #FFFFFF;">${escapeHtml(enq.name)}</strong>
+          <span style="color: #94A3B8; font-size: 0.85rem; margin-left: 8px;">• ${escapeHtml(enq.company || 'Retailer')}</span>
         </div>
-        <div style="background: #1E293B; border: 1px solid #334155; padding: 12px 16px; border-radius: 4px; font-size: 0.9rem; line-height: 1.5; color: #F1F5F9;">
-          ${escapeHtml(enq.message)}
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 0.78rem; color: #64748B;">${escapeHtml(enq.date)}</span>
+          <button type="button" onclick="deleteEnquiryItem('${enq.id}')" style="background: transparent; border: 0; color: #EF4444; font-size: 0.8rem; cursor: pointer;">Delete</button>
         </div>
       </div>
-    `;
-  }).join("");
+
+      <div style="margin-bottom: 10px;">
+        <span style="font-size: 0.82rem; color: #94A3B8;">Phone:</span>
+        <a href="tel:${escapeHtml(enq.phone)}" style="color: var(--anfal-red); font-weight: 700; text-decoration: none; margin-left: 6px;">${escapeHtml(enq.phone)}</a>
+        <a href="https://wa.me/${escapeHtml(enq.phone).replace(/[^0-9]/g, '')}" target="_blank" style="margin-left: 10px; font-size: 0.78rem; color: #10B981; text-decoration: underline;">Open WhatsApp</a>
+      </div>
+
+      <p style="font-size: 0.9rem; color: #E2E8F0; background: #1E293B; padding: 12px; border-radius: var(--radius-xs); line-height: 1.5;">
+        ${escapeHtml(enq.message)}
+      </p>
+    </div>
+  `).join("");
 }
 
-window.removeEnquiry = function(id) {
+window.deleteEnquiryItem = function(id) {
   if (confirm("Delete this wholesale enquiry?")) {
     CMS.deleteEnquiry(id);
     renderAdminEnquiriesList();
-    showAdminToast("Enquiry removed.");
+    showAdminToast("Enquiry deleted.");
   }
 };
 
@@ -280,56 +467,51 @@ function exportEnquiriesToCSV() {
     return;
   }
 
-  const headers = ["Date", "Name", "Company", "Phone", "Message", "Status"];
+  const headers = ["ID", "Name", "Company", "Phone", "Message", "Date", "Status"];
   const rows = enquiries.map(e => [
-    `"${e.date || ''}"`,
+    e.id,
     `"${(e.name || '').replace(/"/g, '""')}"`,
     `"${(e.company || '').replace(/"/g, '""')}"`,
     `"${(e.phone || '').replace(/"/g, '""')}"`,
     `"${(e.message || '').replace(/"/g, '""')}"`,
-    `"${e.status || 'New'}"`
+    `"${(e.date || '').replace(/"/g, '""')}"`,
+    `"${(e.status || '').replace(/"/g, '""')}"`
   ]);
 
   const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
   link.setAttribute("href", encodedUri);
-  link.setAttribute("download", `anfal_enquiries_${Date.now()}.csv`);
+  link.setAttribute("download", `anfal_wholesale_enquiries_${Date.now()}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  showAdminToast("Exported enquiries to CSV!");
 }
 
 function setupResetButton() {
-  const resetBtn = document.getElementById("btn-admin-reset");
-  if (resetBtn) {
-    resetBtn.addEventListener("click", () => {
-      if (confirm("Reset company settings and brands to defaults?")) {
+  const btn = document.getElementById("btn-admin-reset");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      if (confirm("Reset all company, brand, and team settings to factory defaults?")) {
         CMS.resetDefaults();
         loadCompanyFormValues();
+        renderTeamEditor();
         renderAdminBrandsTable();
         renderAdminEnquiriesList();
-        showAdminToast("Reset to factory defaults.");
+        showAdminToast("Reset to defaults complete.");
       }
     });
   }
 }
 
-function showAdminToast(message, type = "success") {
-  let toast = document.getElementById("admin-toast");
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.id = "admin-toast";
-    toast.className = "toast-notice";
-    document.body.appendChild(toast);
-  }
+function setVal(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = val || "";
+}
 
-  toast.innerHTML = `<span>${escapeHtml(message)}</span>`;
-  toast.classList.add("show");
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 3500);
+function showAdminToast(message) {
+  alert(message);
 }
 
 function escapeHtml(str) {

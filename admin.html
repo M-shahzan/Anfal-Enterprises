@@ -12,18 +12,18 @@
   <link rel="stylesheet" href="styles.css">
   
   <style>
-    /* Dedicated Admin Page Layout */
+    /* Dedicated Admin Page Layout - Light Mode */
     body.admin-body {
-      background-color: #0F172A;
-      color: #F8FAFC;
+      background-color: #F1F5F9;
+      color: #0F172A;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
 
     .admin-navbar {
-      background-color: #1E293B;
-      border-bottom: 1px solid #334155;
+      background-color: #FFFFFF;
+      border-bottom: 1px solid #E2E8F0;
       padding: 14px 24px;
       display: flex;
       align-items: center;
@@ -31,6 +31,7 @@
       position: sticky;
       top: 0;
       z-index: 50;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
     .admin-brand-group {
@@ -44,6 +45,7 @@
       font-weight: 800;
       font-size: 1.1rem;
       letter-spacing: 0.04em;
+      color: #0F172A;
     }
 
     .admin-badge {
@@ -64,8 +66,8 @@
     }
 
     .btn-view-site {
-      background: #334155;
-      color: #F8FAFC;
+      background: #F8FAFC;
+      color: #0F172A;
       padding: 8px 16px;
       font-size: 0.82rem;
       font-weight: 700;
@@ -73,35 +75,37 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      border: 1px solid #475569;
+      border: 1px solid #CBD5E1;
+      text-decoration: none;
+      cursor: pointer;
       transition: all var(--transition-fast);
     }
 
     .btn-view-site:hover {
-      background: #475569;
-      color: #FFFFFF;
+      background: #E2E8F0;
+      color: #000000;
     }
 
     .admin-container {
       width: 100%;
-      max-width: 1160px;
+      max-width: 1180px;
       margin: 32px auto;
       padding: 0 20px;
       flex: 1;
     }
 
     .admin-dashboard-card {
-      background: #1E293B;
-      border: 1px solid #334155;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
       border-radius: var(--radius-xs);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
       overflow: hidden;
     }
 
     .admin-tabs-bar {
       display: flex;
-      background: #0F172A;
-      border-bottom: 1px solid #334155;
+      background: #F8FAFC;
+      border-bottom: 1px solid #E2E8F0;
       padding: 0 16px;
       overflow-x: auto;
     }
@@ -109,7 +113,7 @@
     .admin-tab-btn {
       background: transparent;
       border: 0;
-      color: #94A3B8;
+      color: #64748B;
       padding: 16px 20px;
       font-size: 0.88rem;
       font-weight: 800;
@@ -125,11 +129,11 @@
     }
 
     .admin-tab-btn:hover {
-      color: #F8FAFC;
+      color: #0F172A;
     }
 
     .admin-tab-btn.active {
-      color: #F8FAFC;
+      color: #0F172A;
     }
 
     .admin-tab-btn.active::after {
@@ -155,23 +159,85 @@
       font-family: var(--font-heading);
       font-size: 1.25rem;
       font-weight: 800;
-      color: #F8FAFC;
+      color: #0F172A;
       margin-bottom: 6px;
       letter-spacing: 0.02em;
     }
 
     .admin-section-sub {
       font-size: 0.88rem;
-      color: #94A3B8;
+      color: #64748B;
       margin-bottom: 24px;
     }
 
     .admin-form-box {
-      background: #0F172A;
-      border: 1px solid #334155;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
       border-radius: var(--radius-xs);
       padding: 24px;
       margin-bottom: 24px;
+    }
+
+    .cms-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .cms-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .cms-input-group.full-width {
+      grid-column: span 2;
+    }
+
+    .cms-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #475569;
+    }
+
+    .cms-input, .cms-textarea {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      color: #0F172A;
+      padding: 9px 12px;
+      border-radius: var(--radius-xs);
+      font-size: 0.88rem;
+      outline: none;
+    }
+
+    .cms-input:focus, .cms-textarea:focus {
+      border-color: var(--anfal-red);
+      box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+    }
+
+    .cms-textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+
+    .btn-primary {
+      background: var(--anfal-red);
+      color: #FFFFFF;
+      border: 0;
+      padding: 11px 22px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: var(--radius-xs);
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+
+    .btn-primary:hover {
+      background: var(--anfal-red-hover);
     }
 
     .admin-table {
@@ -183,20 +249,21 @@
     .admin-table th, .admin-table td {
       padding: 12px 14px;
       text-align: left;
-      border-bottom: 1px solid #334155;
+      border-bottom: 1px solid #E2E8F0;
+      vertical-align: middle;
     }
 
     .admin-table th {
-      background: #0F172A;
+      background: #F8FAFC;
       font-size: 0.75rem;
       font-weight: 800;
       text-transform: uppercase;
-      color: #94A3B8;
+      color: #475569;
       letter-spacing: 0.06em;
     }
 
     .admin-table tr:hover {
-      background: rgba(255, 255, 255, 0.02);
+      background: #F8FAFC;
     }
 
     .admin-enquiries-grid {
@@ -206,21 +273,73 @@
     }
 
     .admin-enquiry-box {
-      background: #0F172A;
-      border: 1px solid #334155;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
       border-left: 4px solid var(--anfal-red);
       border-radius: var(--radius-xs);
       padding: 20px;
     }
 
     .admin-footer {
-      background: #0F172A;
-      border-top: 1px solid #334155;
+      background: #FFFFFF;
+      border-top: 1px solid #E2E8F0;
       padding: 20px;
       text-align: center;
       font-size: 0.8rem;
       color: #64748B;
       margin-top: auto;
+    }
+
+    .team-edit-card {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      padding: 20px;
+      border-radius: var(--radius-xs);
+      margin-bottom: 16px;
+    }
+
+    .brand-thumb-preview {
+      width: 60px;
+      height: 40px;
+      background: #FFFFFF;
+      border-radius: var(--radius-xs);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      overflow: hidden;
+    }
+
+    .brand-thumb-preview img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .image-input-flex {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .image-preview-box {
+      width: 80px;
+      height: 45px;
+      background: #FFFFFF;
+      border: 1px solid #475569;
+      border-radius: var(--radius-xs);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .image-preview-box img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
     }
 
     @media (max-width: 768px) {
@@ -232,6 +351,12 @@
       .admin-nav-actions {
         width: 100%;
         justify-content: space-between;
+      }
+      .cms-form-grid {
+        grid-template-columns: 1fr;
+      }
+      .cms-input-group.full-width {
+        grid-column: span 1;
       }
       .admin-tab-pane {
         padding: 16px;
@@ -253,7 +378,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         View Live Website
       </a>
-      <button type="button" id="btn-admin-reset" class="cms-action-btn" style="padding: 8px 12px;">Reset Defaults</button>
+      <button type="button" id="btn-admin-reset" class="btn-view-site" style="background: #475569;">Reset Defaults</button>
     </div>
   </nav>
 
@@ -267,8 +392,11 @@
         <button type="button" class="admin-tab-btn active" data-tab="company">
           🏢 Company Details
         </button>
+        <button type="button" class="admin-tab-btn" data-tab="team">
+          👥 Leadership Team
+        </button>
         <button type="button" class="admin-tab-btn" data-tab="brands">
-          🏷️ Brands Portfolio
+          🏷️ Brands
         </button>
         <button type="button" class="admin-tab-btn" data-tab="enquiries">
           📩 Wholesale Enquiries
@@ -344,13 +472,13 @@
             </div>
 
             <div class="cms-input-group full-width">
-              <label class="cms-label" for="cms-input-maps-url">Google Maps Embed URL</label>
-              <input type="text" id="cms-input-maps-url" class="cms-input">
+              <label class="cms-label" for="cms-input-hours">Operating Working Hours</label>
+              <input type="text" id="cms-input-hours" class="cms-input" placeholder="Monday – Saturday: 9:00 AM – 8:00 PM">
             </div>
 
             <div class="cms-input-group full-width">
-              <label class="cms-label" for="cms-input-hero-image">Facility / Warehouse Image Path</label>
-              <input type="text" id="cms-input-hero-image" class="cms-input">
+              <label class="cms-label" for="cms-input-maps-url">Google Maps Embed URL</label>
+              <input type="text" id="cms-input-maps-url" class="cms-input">
             </div>
 
           </div>
@@ -361,44 +489,84 @@
         </form>
       </section>
 
-      <!-- Tab 2: Brands Management -->
-      <section class="admin-tab-pane" id="admin-tab-brands">
-        <h2 class="admin-section-title">Brand Portfolio Management</h2>
-        <p class="admin-section-sub">Add, reorder, or toggle FMCG brands displayed on the homepage.</p>
+      <!-- Tab 2: Leadership & Team Management -->
+      <section class="admin-tab-pane" id="admin-tab-team">
+        <h2 class="admin-section-title">Leadership &amp; Management Team</h2>
+        <p class="admin-section-sub">Configure the 4 key roles: CEO, General Manager, Sales Manager, and Sales & Marketing.</p>
 
-        <!-- Add Brand Form Box -->
+        <div id="cms-team-list-container">
+          <!-- Dynamically populated from admin.js -->
+        </div>
+
+        <div style="margin-top: 20px; text-align: right;">
+          <button type="button" id="btn-save-team" class="btn-primary">💾 Save Team Information</button>
+        </div>
+      </section>
+
+      <!-- Tab 3: Brands Management -->
+      <section class="admin-tab-pane" id="admin-tab-brands">
+        <h2 class="admin-section-title">Brands Management</h2>
+        <p class="admin-section-sub">Add, edit, upload brand logo images, or toggle brands displayed on the website.</p>
+
+        <!-- Add / Edit Brand Form Box -->
         <div class="admin-form-box">
-          <h3 style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; text-transform: uppercase; margin-bottom: 14px;">+ Add New Brand</h3>
-          <form id="cms-add-brand-form">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h3 id="brand-form-heading" style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; text-transform: uppercase;">
+              + Add / Edit Brand
+            </h3>
+            <button type="button" id="btn-cancel-brand-edit" class="btn-view-site" style="display: none; padding: 4px 10px; font-size: 0.75rem;">
+              Cancel Edit
+            </button>
+          </div>
+
+          <form id="cms-brand-edit-form">
+            <input type="hidden" id="cms-brand-edit-id" value="">
+            
             <div class="cms-form-grid">
               <div class="cms-input-group">
-                <label class="cms-label" for="cms-new-brand-name">Brand Name *</label>
-                <input type="text" id="cms-new-brand-name" class="cms-input" placeholder="e.g. Cadbury" required>
+                <label class="cms-label" for="cms-brand-name">Brand Name *</label>
+                <input type="text" id="cms-brand-name" class="cms-input" placeholder="e.g. Hindustan Unilever Limited" required>
               </div>
 
               <div class="cms-input-group">
-                <label class="cms-label" for="cms-new-brand-category">Category *</label>
-                <input type="text" id="cms-new-brand-category" class="cms-input" placeholder="e.g. Confectionery & Biscuits" required>
+                <label class="cms-label" for="cms-brand-shortname">Short Name / Monogram *</label>
+                <input type="text" id="cms-brand-shortname" class="cms-input" placeholder="e.g. HUL" required>
               </div>
 
               <div class="cms-input-group">
-                <label class="cms-label" for="cms-new-brand-color">Brand Accent Color</label>
-                <input type="color" id="cms-new-brand-color" class="cms-input" value="#D32F2F" style="height: 38px; padding: 2px;">
+                <label class="cms-label" for="cms-brand-category">Product Category *</label>
+                <input type="text" id="cms-brand-category" class="cms-input" placeholder="e.g. Consumer Goods & Personal Care" required>
               </div>
 
               <div class="cms-input-group">
-                <label class="cms-label" for="cms-new-brand-logotext">Badge Monogram Text</label>
-                <input type="text" id="cms-new-brand-logotext" class="cms-input" placeholder="e.g. Cadbury">
+                <label class="cms-label" for="cms-brand-color">Brand Accent Color</label>
+                <input type="color" id="cms-brand-color" class="cms-input" value="#005A9C" style="height: 38px; padding: 2px;">
+              </div>
+
+              <!-- Brand Image Upload / URL Option -->
+              <div class="cms-input-group full-width">
+                <label class="cms-label">Brand Logo Image (Upload File or Enter Image URL)</label>
+                <div class="image-input-flex">
+                  <div class="image-preview-box" id="brand-img-preview-box">
+                    <span style="font-size: 0.7rem; color: #64748B;">No Image</span>
+                  </div>
+                  <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
+                    <input type="file" id="cms-brand-image-file" class="cms-input" accept="image/*" style="padding: 6px;">
+                    <input type="text" id="cms-brand-image-url" class="cms-input" placeholder="Or enter image URL (https://... or assets/images/...)">
+                  </div>
+                </div>
               </div>
 
               <div class="cms-input-group full-width">
-                <label class="cms-label" for="cms-new-brand-desc">Product Segment / Description</label>
-                <input type="text" id="cms-new-brand-desc" class="cms-input" placeholder="e.g. Packaged chocolates, cookies, and beverages">
+                <label class="cms-label" for="cms-brand-desc">Product Segment / Description</label>
+                <input type="text" id="cms-brand-desc" class="cms-input" placeholder="e.g. Home care, personal wash, skin care, and foods">
               </div>
             </div>
 
-            <div style="text-align: right; margin-top: 14px;">
-              <button type="submit" class="btn-primary" style="padding: 10px 22px; font-size: 0.85rem;">Add Brand to Portfolio</button>
+            <div style="text-align: right; margin-top: 16px;">
+              <button type="submit" id="btn-submit-brand-form" class="btn-primary" style="padding: 10px 22px; font-size: 0.85rem;">
+                💾 Save Brand
+              </button>
             </div>
           </form>
         </div>
@@ -408,21 +576,22 @@
           <table class="admin-table">
             <thead>
               <tr>
-                <th style="width: 50px;">#</th>
+                <th style="width: 40px;">#</th>
+                <th style="width: 80px;">Logo</th>
                 <th>Brand Name</th>
                 <th>Category</th>
                 <th>Status</th>
-                <th>Order & Actions</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody id="cms-brands-tbody">
-              <!-- Dynamically populated -->
+              <!-- Dynamically populated from admin.js -->
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- Tab 3: Enquiries Inbox -->
+      <!-- Tab 4: Enquiries Inbox -->
       <section class="admin-tab-pane" id="admin-tab-enquiries">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
           <div>

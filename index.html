@@ -4,165 +4,697 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- SEO Meta Tags -->
-  <title>ANFAL ENTERPRISES | Wholesale FMCG Distributor | Bhatkal</title>
-  <meta name="description" content="ANFAL ENTERPRISES - Wholesale FMCG Distributor based in Bhatkal, Karnataka. Built on Trust, Range & Reliability.">
+  <!-- Primary SEO Meta Tags -->
+  <title>ANFAL ENTERPRISES | Wholesale FMCG Distributor | Bhatkal, Karnataka</title>
+  <meta name="description" content="ANFAL ENTERPRISES is an established Wholesale FMCG Distributor based on N.H. 66, Bhatkal, Karnataka. Supplying HUL, P&G, Nestlé, Dabur, ITC & Britannia to retailers. Wide Range, Competitive Prices, Timely Delivery, Customer Focus.">
+  <meta name="keywords" content="Anfal Enterprises, FMCG Distributor Bhatkal, Wholesale FMCG Karnataka, HUL Bhatkal, P&G distributor, Nestle wholesale, Dabur Bhatkal, ITC distributor, Britannia wholesale, N.H. 66 Nawayath Colony">
+  <meta name="author" content="ANFAL ENTERPRISES">
   <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ANFAL ENTERPRISES | Wholesale FMCG Distributor">
+  <meta property="og:description" content="Built on Trust, Range & Reliability. Premier FMCG Wholesale Distributor in Bhatkal, Karnataka.">
+  <meta property="og:image" content="assets/images/anfal-building.jpg">
   
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0D14'/><path d='M6 10h3l3 12h12l2-8H11' stroke='%23D32F2F' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/><circle cx='14' cy='25' r='2' fill='%23FFFFFF'/><circle cx='22' cy='25' r='2' fill='%23FFFFFF'/></svg>">
 
-  <!-- Fonts & Stylesheet -->
+  <!-- Google Fonts & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="single-screen-body">
+<body class="scrollable-site-body">
 
-  <!-- Fullscreen Background Facility Image (Bright & Visible) -->
-  <div class="screen-bg" id="hero-backdrop"></div>
-  <div class="screen-overlay"></div>
+  <!-- Fixed Background Texture / Visual Scrim -->
+  <div class="site-bg-overlay"></div>
 
-  <!-- Single Screen Master Viewport (100vh - No Scroll) -->
-  <div class="screen-layout">
-    
-    <!-- Top Bar: Logo & Fast Contact Actions -->
-    <header class="screen-header">
-      <div class="header-brand-wrap">
-        <img src="assets/images/anfal-logo.png" alt="ANFAL ENTERPRISES" class="brand-logo-img">
+  <!-- Top Announcement Strip -->
+  <div class="top-announcement-bar">
+    <div class="container announcement-inner">
+      <div class="announcement-left">
+        <span class="pulse-indicator"></span>
+        <span class="announcement-text">Official FMCG Wholesale Distribution Hub • Bhatkal, Karnataka</span>
       </div>
-
-      <div class="header-quick-contact">
-        <a href="tel:+919845012345" class="action-pill pill-call" id="btn-quick-call">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <span>Call Now</span>
+      <div class="announcement-right">
+        <a href="tel:+919845012345" class="top-contact-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span id="top-bar-phone">+91 98450 12345</span>
         </a>
-
-        <a href="https://wa.me/919845012345?text=Hello%20Anfal%20Enterprises,%20I%20have%20a%20wholesale%20enquiry" target="_blank" rel="noopener" class="action-pill pill-whatsapp" id="btn-quick-whatsapp">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-          <span>WhatsApp</span>
+        <span class="bar-separator">|</span>
+        <a href="mailto:info@anfalenterprises.com" class="top-contact-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span id="top-bar-email">info@anfalenterprises.com</span>
         </a>
-
-        <button type="button" class="action-pill pill-enquiry" id="btn-open-enquiry-modal">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          <span>Send Enquiry</span>
-        </button>
       </div>
-    </header>
-
-    <!-- Main Content Stage (Continuous Single Section) -->
-    <main class="screen-main">
-      
-      <!-- Left Column: Core Identity, Focus & Address -->
-      <div class="identity-stage">
-        
-        <div class="identity-badge">
-          <span class="badge-dot"></span>
-          <span class="badge-text" id="hero-tagline">WHOLESALE FMCG DISTRIBUTOR</span>
-          <span class="badge-divider">•</span>
-          <span class="badge-loc">BHATKAL, KARNATAKA</span>
-        </div>
-
-        <h1 class="main-headline">
-          TRUST. RANGE. <span class="highlight">RELIABILITY.</span>
-        </h1>
-
-        <p class="main-statement" id="about-statement">
-          Reliable FMCG Distribution. Built on Trust.
-        </p>
-
-        <p class="main-desc" id="about-description">
-          <span class="brand-anfal">ANFAL</span> <span class="brand-enterprises">ENTERPRISES</span> is an established FMCG wholesaler and distributor based in Bhatkal, Karnataka, supplying everyday branded consumer goods to retailers and institutions.
-        </p>
-
-        <!-- Concise Business & Contact Panel -->
-        <div class="business-info-strip">
-          <div class="info-block">
-            <span class="info-label">Official Location</span>
-            <span class="info-value" id="contact-address-text">N.H. 66, Nawayath Colony, Bhatkal, Karnataka – 581320</span>
-          </div>
-
-          <div class="info-block">
-            <span class="info-label">Proprietor</span>
-            <span class="info-value" id="contact-proprietor-name">Mr. Imtiyaz Hussain</span>
-          </div>
-
-          <div class="info-actions">
-            <a href="https://maps.google.com/?q=Nawayath+Colony+Bhatkal+Karnataka+581320" target="_blank" rel="noopener" class="link-btn" id="btn-get-directions">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-              Get Directions
-            </a>
-            <a href="mailto:info@anfalenterprises.com?subject=Wholesale%20FMCG%20Enquiry" class="link-btn" id="btn-email-us">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              Email Us
-            </a>
-          </div>
-        </div>
-
-      </div>
-
-    </main>
-
-    <!-- Bottom Section: The 6 Verified Brands Plaque Strip (Directly from building monument sign) -->
-    <section class="screen-brands-strip">
-      <div class="brands-strip-header">
-        <span class="strip-label">BRANDS WE DISTRIBUTE:</span>
-      </div>
-
-      <div class="brands-plaque-row" id="brands-grid">
-        <!-- Exactly the 6 brands populated cleanly from data -->
-      </div>
-    </section>
-
-    <!-- Single Line Footer -->
-    <footer class="screen-footer">
-      <span>Copyright © ANFAL ENTERPRISES • Bhatkal, Karnataka</span>
-      <span class="footer-dot">•</span>
-      <span class="footer-tagline">"TRUST. RANGE. RELIABILITY."</span>
-      <span class="footer-dot">•</span>
-      <a href="admin.html" class="admin-discrete-link">Admin</a>
-    </footer>
-
-  </div>
-
-  <!-- Compact Wholesale Enquiry Modal (Pop-up on demand without taking page space) -->
-  <div class="enquiry-modal-backdrop" id="enquiry-modal" role="dialog" aria-modal="true">
-    <div class="enquiry-modal-box">
-      <div class="modal-box-header">
-        <div>
-          <h3 class="modal-title">Wholesale Enquiry</h3>
-          <p class="modal-sub">Direct business supply requirement</p>
-        </div>
-        <button type="button" class="btn-close-modal" id="btn-close-enquiry">&times;</button>
-      </div>
-
-      <form id="wholesale-enquiry-form" novalidate>
-        <div class="form-group">
-          <label class="form-label" for="enquiry-name">Full Name *</label>
-          <input type="text" id="enquiry-name" class="form-input" placeholder="e.g. Rahil Merchant" required>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="enquiry-company">Store / Company</label>
-          <input type="text" id="enquiry-company" class="form-input" placeholder="e.g. City Supermarket">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="enquiry-phone">Phone / WhatsApp *</label>
-          <input type="tel" id="enquiry-phone" class="form-input" placeholder="+91 98450 00000" required>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="enquiry-message">Requirements *</label>
-          <textarea id="enquiry-message" class="form-textarea" placeholder="Specify brand requirements or volume..." required></textarea>
-        </div>
-
-        <button type="submit" class="btn-submit-enquiry" id="btn-submit-enquiry">
-          Send Wholesale Enquiry
-        </button>
-      </form>
     </div>
   </div>
 
-  <!-- Client Application Logic -->
+  <!-- Sticky Main Navigation Header -->
+  <header class="main-navbar" id="site-header">
+    <div class="container navbar-inner">
+      
+      <!-- Brand Logo -->
+      <a href="#hero" class="navbar-brand">
+        <img src="assets/images/anfal-logo.png" alt="ANFAL ENTERPRISES Logo" class="brand-logo-img">
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="navbar-links" id="navbar-menu">
+        <a href="#hero" class="nav-link active">Home</a>
+        <a href="#features" class="nav-link">Why Choose Us</a>
+        <a href="#brands" class="nav-link">Brands</a>
+        <a href="#about" class="nav-link">About Us</a>
+        <a href="#team" class="nav-link">Our Team</a>
+        <a href="#contact" class="nav-link">Contact &amp; Enquiry</a>
+      </nav>
+
+      <!-- Header CTA Action -->
+      <div class="navbar-actions">
+        <a href="#contact" class="btn-nav-contact">Contact Us</a>
+
+        <!-- Mobile Hamburger Button -->
+        <button type="button" class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation -->
+  <div class="mobile-drawer" id="mobile-drawer">
+    <nav class="mobile-nav-links">
+      <a href="#hero" class="mobile-nav-link">Home</a>
+      <a href="#features" class="mobile-nav-link">Why Choose Us</a>
+      <a href="#brands" class="mobile-nav-link">Brands</a>
+      <a href="#about" class="mobile-nav-link">About Anfal</a>
+      <a href="#team" class="mobile-nav-link">Leadership Team</a>
+      <a href="#contact" class="mobile-nav-link">Contact &amp; Wholesale Enquiry</a>
+    </nav>
+  </div>
+
+  <main>
+    
+    <!-- =========================================================================
+         1. HERO SECTION
+         ========================================================================= -->
+    <section class="hero-section" id="hero">
+      <div class="hero-bg-media" id="hero-backdrop"></div>
+      <div class="hero-scrim-gradient"></div>
+
+      <div class="container hero-content-grid">
+        <div class="hero-main-column">
+          
+          <div class="identity-badge">
+            <span class="badge-dot"></span>
+            <span class="badge-text" id="hero-tagline">WHOLESALE FMCG DISTRIBUTOR</span>
+            <span class="badge-divider">•</span>
+            <span class="badge-loc" id="hero-location-text">BHATKAL, KARNATAKA</span>
+          </div>
+
+          <h1 class="hero-headline">
+            TRUST. RANGE. <span class="highlight">RELIABILITY.</span>
+          </h1>
+
+          <p class="hero-subheadline" id="about-statement">
+            Reliable FMCG Distribution. Built on Trust.
+          </p>
+
+          <p class="hero-paragraph" id="hero-desc-text">
+            <strong class="brand-anfal">ANFAL</strong> <strong class="brand-enterprises">ENTERPRISES</strong> is the premier wholesale FMCG distribution house based on N.H. 66, Bhatkal, Karnataka. Supplying verified, high-velocity consumer goods to supermarkets, retailers, and commercial businesses with speed and volume pricing.<br>Partnering directly with leading manufacturing conglomerates to guarantee uninterrupted stock availability and transparent B2B wholesale rates.
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="hero-cta-group">
+            <a href="#contact" class="btn-hero-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span>Get Wholesale Price List</span>
+            </a>
+
+            <a href="#brands" class="btn-hero-secondary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              <span>Explore Verified Brands</span>
+            </a>
+          </div>
+
+          <!-- Quick Business Highlights Strip -->
+          <div class="hero-quick-meta-strip">
+            <div class="quick-meta-item">
+              <span class="meta-label">Facility Location</span>
+              <span class="meta-val" id="contact-address-text">N.H. 66, Nawayath Colony, Bhatkal</span>
+            </div>
+            <div class="quick-meta-item">
+              <span class="meta-label">Proprietor</span>
+              <span class="meta-val" id="contact-proprietor-name">Mr. Imtiyaz Hussain</span>
+            </div>
+            <div class="quick-meta-actions">
+              <a href="https://maps.app.goo.gl/Vvbhyn822UTp8xpi7" target="_blank" rel="noopener" class="link-btn" id="btn-get-directions">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                Directions
+              </a>
+              <a href="mailto:info@anfalenterprises.com" class="link-btn" id="btn-email-us">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                Email
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Trust Metrics Bar -->
+      <div class="hero-stats-band">
+        <div class="container stats-band-inner">
+          <div class="stat-cell">
+            <span class="stat-number" id="hero-brands-count">6+</span>
+            <span class="stat-label">Global FMCG Brands</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Genuine Direct Stock</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-number">N.H. 66</span>
+            <span class="stat-label">Prime Highway Logistics Hub</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-number">B2B</span>
+            <span class="stat-label">Bulk Wholesale Pricing</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         2. CORE PILLARS / WHY CHOOSE US (From User's Monolith Sign Image)
+         ========================================================================= -->
+    <section class="section-container section-features" id="features">
+      <div class="container">
+        
+        <div class="section-header-block text-center">
+          <span class="section-sub-badge">CORE STRENGTHS</span>
+          <h2 class="section-title">WHY CHOOSE ANFAL ENTERPRISES</h2>
+          <p class="section-desc">
+            Built on foundational distribution principles designed to empower retail merchants, supermarkets, and commercial partners across coastal Karnataka.
+          </p>
+        </div>
+
+        <!-- 4 Monolithic Feature Cards (Wide Range, Competitive Prices, Timely Delivery, Customer Focus) -->
+        <div class="pillars-monolith-grid" id="pillars-container">
+          
+          <!-- Pillar 1: Wide Range -->
+          <div class="pillar-card">
+            <div class="pillar-card-inner">
+              <div class="pillar-icon-box">
+                <!-- Shopping Cart Icon -->
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="9" cy="21" r="1"></circle>
+                  <circle cx="20" cy="21" r="1"></circle>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+              </div>
+              <h3 class="pillar-title">WIDE RANGE</h3>
+              <p class="pillar-text">
+                Comprehensive inventory of fast-moving consumer products spanning food &amp; nutrition, home hygiene, personal care, and confectionery essentials from leading market brands.
+              </p>
+              <div class="pillar-bottom-indicator"></div>
+            </div>
+          </div>
+
+          <!-- Pillar 2: Competitive Prices -->
+          <div class="pillar-card">
+            <div class="pillar-card-inner">
+              <div class="pillar-icon-box">
+                <!-- Price Tag Icon -->
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                  <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                </svg>
+              </div>
+              <h3 class="pillar-title">COMPETITIVE PRICES</h3>
+              <p class="pillar-text">
+                Direct authorized distributor margins with structured tiered wholesale price slabs that provide retail store owners maximum profitability and competitive edge.
+              </p>
+              <div class="pillar-bottom-indicator"></div>
+            </div>
+          </div>
+
+          <!-- Pillar 3: Timely Delivery -->
+          <div class="pillar-card">
+            <div class="pillar-card-inner">
+              <div class="pillar-icon-box">
+                <!-- Delivery Truck Icon -->
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="1" y="3" width="15" height="13"></rect>
+                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                  <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                  <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                </svg>
+              </div>
+              <h3 class="pillar-title">TIMELY DELIVERY</h3>
+              <p class="pillar-text">
+                Reliable supply chain logistics and dedicated vehicle dispatch servicing Bhatkal, Kundapura, Honnavar, and adjoining coastal regions to keep shelves fully stocked.
+              </p>
+              <div class="pillar-bottom-indicator"></div>
+            </div>
+          </div>
+
+          <!-- Pillar 4: Customer Focus -->
+          <div class="pillar-card">
+            <div class="pillar-card-inner">
+              <div class="pillar-icon-box">
+                <!-- Users / People Icon -->
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <h3 class="pillar-title">CUSTOMER FOCUS</h3>
+              <p class="pillar-text">
+                Dedicated relationship managers, transparent computerized billing, flexible ordering channels, and personalized support for wholesale business partners.
+              </p>
+              <div class="pillar-bottom-indicator"></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         3. BRANDS PORTFOLIO SECTION (6 Verified Conglomerates)
+         ========================================================================= -->
+    <section class="section-container section-brands" id="brands">
+      <div class="container">
+        
+        <div class="brands-section-header">
+          <div>
+            <span class="section-sub-badge">VERIFIED BRANDS</span>
+            <h2 class="section-title">VERIFIED FMCG BRANDS WE DISTRIBUTE</h2>
+            <p class="section-desc">
+              Authoritative supply lines direct from India’s leading FMCG multinational corporations.
+            </p>
+          </div>
+          <a href="#contact" class="btn-outline-primary">
+            <span>Request Full Catalog</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <div class="brands-grid-layout" id="brands-grid">
+          <!-- Dynamically populated by app.js from CMS Data -->
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         4. ABOUT US & DETAIL ABOUT ANFAL ENTERPRISES
+         ========================================================================= -->
+    <section class="section-container section-about" id="about">
+      <div class="container">
+        
+        <div class="about-split-grid">
+          
+          <!-- Left Column: Story & Operational Highlights -->
+          <div class="about-text-column">
+            <span class="section-sub-badge">COMPANY OVERVIEW</span>
+            <h2 class="section-title">ABOUT ANFAL ENTERPRISES</h2>
+            <h3 class="about-highlight-subtitle" id="about-statement-2">
+              Reliable FMCG Distribution. Built on Trust.
+            </h3>
+            
+            <div class="about-body-text" id="about-description-full">
+              <p>
+                <strong>ANFAL ENTERPRISES</strong> was established to bridge consumer demand with seamless wholesale fulfillment across Bhatkal and the coastal belt of Karnataka. Situated strategically on <strong>National Highway 66 (N.H. 66) in Nawayath Colony</strong>, our facility serves as a vital logistics node connecting national FMCG conglomerates with local retail stores, regional supermarkets, and institutional merchants.
+              </p>
+              <p>
+                Under the leadership of <strong>Mr. Imtiyaz Hussain</strong>, our company upholds strict benchmarks for product authenticity, temperature-controlled inventory preservation, and rapid order turnaround. We ensure that our retail clients benefit from stable supply, wholesale rate transparency, and verified branded goods with full GST compliance.
+              </p>
+            </div>
+
+            <!-- Key Operational Checkmarks -->
+            <div class="about-highlights-list">
+              <div class="highlight-item">
+                <div class="highlight-icon">✓</div>
+                <div>
+                  <strong>High-Capacity Warehousing:</strong>
+                  <span>Spacious depot equipped for secure bulk storage and systematic FIFO rotation.</span>
+                </div>
+              </div>
+              <div class="highlight-item">
+                <div class="highlight-icon">✓</div>
+                <div>
+                  <strong>Strategic Highway Connectivity:</strong>
+                  <span>Direct N.H. 66 location enabling fast dispatch and regional vehicle accessibility.</span>
+                </div>
+              </div>
+              <div class="highlight-item">
+                <div class="highlight-icon">✓</div>
+                <div>
+                  <strong>100% Genuine Manufacturer Sourcing:</strong>
+                  <span>Zero counterfeit risk with verifiable batches directly from FMCG principals.</span>
+                </div>
+              </div>
+              <div class="highlight-item">
+                <div class="highlight-icon">✓</div>
+                <div>
+                  <strong>Transparent B2B Billing:</strong>
+                  <span>Detailed GST invoices, clear payment terms, and volume rebate structures.</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Facility Visual Card & Core Facts -->
+          <div class="about-visual-column">
+            <div class="facility-showcase-card">
+              <div class="facility-img-wrap">
+                <img src="assets/images/anfal-building.jpg" alt="ANFAL ENTERPRISES Facility at Nawayath Colony Bhatkal" class="facility-img" id="about-facility-image">
+                <div class="facility-overlay-badge">
+                  <span class="facility-tag">OFFICIAL FACILITY</span>
+                  <span class="facility-loc">N.H. 66, Nawayath Colony, Bhatkal</span>
+                </div>
+              </div>
+
+              <div class="facility-card-footer">
+                <div class="facility-detail-row">
+                  <span class="f-label">Entity Name</span>
+                  <span class="f-val">ANFAL ENTERPRISES</span>
+                </div>
+                <div class="facility-detail-row">
+                  <span class="f-label">Key Focus</span>
+                  <span class="f-val">Wholesale FMCG &amp; Packaged Goods</span>
+                </div>
+                <div class="facility-detail-row">
+                  <span class="f-label">Service Area</span>
+                  <span class="f-val">Bhatkal, Kundapura, Honnavar &amp; Coastal Dist.</span>
+                </div>
+                <div class="facility-detail-row">
+                  <span class="f-label">Proprietor</span>
+                  <span class="f-val">Mr. Imtiyaz Hussain</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         5. LEADERSHIP & TEAM SECTION (About Us Team)
+         ========================================================================= -->
+    <section class="section-container section-team" id="team">
+      <div class="container">
+        
+        <div class="section-header-block text-center">
+          <span class="section-sub-badge">OUR LEADERSHIP</span>
+          <h2 class="section-title">LEADERSHIP &amp; MANAGEMENT TEAM</h2>
+          <p class="section-desc">
+            Experienced professionals driving distribution excellence, warehouse logistics, and dedicated client relationships.
+          </p>
+        </div>
+
+        <!-- 4 Team Roles: CEO, General Manager, Sales Manager, Sales & Marketing -->
+        <div class="team-cards-grid" id="team-cards-container">
+          <!-- Dynamically populated from CMS Data -->
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         6. CONTACT & WHOLESALE ENQUIRY (Full Contact Page at End)
+         ========================================================================= -->
+    <section class="section-container section-contact" id="contact">
+      <div class="container">
+        
+        <div class="section-header-block text-center">
+          <span class="section-sub-badge">GET IN TOUCH</span>
+          <h2 class="section-title">CONNECT WITH ANFAL ENTERPRISES</h2>
+          <p class="section-desc">
+            Whether you run a supermarket, grocery store, or institutional canteen, connect with our wholesale team today.
+          </p>
+        </div>
+
+        <div class="contact-main-grid">
+          
+          <!-- Left: Contact Details Cards & Operational Hours -->
+          <div class="contact-info-column">
+            
+            <div class="contact-card-box">
+              <div class="form-card-header">
+                <h3 class="form-card-title">Direct Contact Desk</h3>
+                <p class="form-card-sub">Reach our wholesale facility and sales office directly for supply queries.</p>
+              </div>
+
+              <div class="contact-info-list">
+                <div class="contact-info-row">
+                <div class="contact-icon-bubble">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div class="contact-text-content">
+                  <span class="contact-label">Facility &amp; Warehouse Address</span>
+                  <p class="contact-value" id="contact-full-address">
+                    N.H. 66, Nawayath Colony, Bhatkal, Karnataka – 581320, India
+                  </p>
+                  <a href="https://maps.app.goo.gl/Vvbhyn822UTp8xpi7" target="_blank" rel="noopener" class="contact-inline-link">
+                    Open in Google Maps →
+                  </a>
+                </div>
+              </div>
+
+              <div class="contact-info-row">
+                <div class="contact-icon-bubble">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div class="contact-text-content">
+                  <span class="contact-label">Direct Calling Line</span>
+                  <a href="tel:+919845012345" class="contact-value link-highlight" id="contact-phone-link">+91 98450 12345</a>
+                  <span class="contact-sub">Available Mon–Sat during operating hours</span>
+                </div>
+              </div>
+
+              <div class="contact-info-row">
+                <div class="contact-icon-bubble">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                </div>
+                <div class="contact-text-content">
+                  <span class="contact-label">WhatsApp Wholesale Desk</span>
+                  <a href="https://wa.me/919845012345" target="_blank" rel="noopener" class="contact-value link-highlight" id="contact-whatsapp-link">+91 98450 12345</a>
+                  <span class="contact-sub">Instant chat for catalog &amp; availability</span>
+                </div>
+              </div>
+
+              <div class="contact-info-row">
+                <div class="contact-icon-bubble">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div class="contact-text-content">
+                  <span class="contact-label">Official Email</span>
+                  <a href="mailto:info@anfalenterprises.com" class="contact-value link-highlight" id="contact-email-link">info@anfalenterprises.com</a>
+                  <span class="contact-sub">For formal quotations &amp; vendor queries</span>
+                </div>
+              </div>
+
+              <div class="contact-info-row">
+                <div class="contact-icon-bubble">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="contact-text-content">
+                  <span class="contact-label">Working Hours</span>
+                  <p class="contact-value" id="contact-operating-hours">Monday – Saturday: 9:00 AM – 8:00 PM</p>
+                  <span class="contact-sub">Sunday: Closed for maintenance</span>
+                </div>
+              </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right: Interactive In-Page Wholesale Enquiry Form -->
+          <div class="contact-form-column">
+            
+            <div class="contact-form-card">
+              <div class="form-card-header">
+                <h3 class="form-card-title">Send Wholesale Enquiry</h3>
+                <p class="form-card-sub">Submit your store requirements to receive customized distributor pricing.</p>
+              </div>
+
+              <form id="inpage-enquiry-form" class="wholesale-form" novalidate>
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label class="form-label" for="inpage-name">Full Name *</label>
+                    <input type="text" id="inpage-name" class="form-input" placeholder="e.g. Rahil Merchant" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="inpage-company">Store / Supermarket Name</label>
+                    <input type="text" id="inpage-company" class="form-input" placeholder="e.g. City Supermarket">
+                  </div>
+                </div>
+
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label class="form-label" for="inpage-phone">Phone / WhatsApp Number *</label>
+                    <input type="tel" id="inpage-phone" class="form-input" placeholder="+91 98450 00000" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="inpage-brand-interest">Brands of Interest</label>
+                    <select id="inpage-brand-interest" class="form-input form-select">
+                      <option value="All Brands">All 6 Verified Brands</option>
+                      <option value="Hindustan Unilever">Hindustan Unilever (HUL)</option>
+                      <option value="P&G">Procter &amp; Gamble (P&amp;G)</option>
+                      <option value="Nestlé">Nestlé Foods &amp; Nutrition</option>
+                      <option value="Dabur">Dabur Health &amp; Personal Care</option>
+                      <option value="ITC">ITC Foods &amp; Staples</option>
+                      <option value="Britannia">Britannia Bakery &amp; Dairy</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="inpage-message">Product Requirements &amp; Estimated Volume *</label>
+                  <textarea id="inpage-message" class="form-textarea" placeholder="Describe the categories, items, or weekly volume you need..." required rows="2"></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit-full" id="btn-submit-inpage">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  <span>Submit Wholesale Enquiry</span>
+                </button>
+
+                <p class="form-disclaimer">
+                  🔒 We respect your business privacy. Your enquiry is forwarded directly to the wholesale sales desk.
+                </p>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Embedded Interactive Google Map -->
+        <div class="map-embed-container">
+          <div class="map-frame-header">
+            <div class="map-title-row">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <strong>Facility Location Map</strong>
+              <span class="map-badge">N.H. 66, Bhatkal</span>
+            </div>
+            <a href="https://maps.app.goo.gl/Vvbhyn822UTp8xpi7" target="_blank" rel="noopener" class="map-external-btn">
+              Get Driving Directions ↗
+            </a>
+          </div>
+          <iframe 
+            id="google-maps-frame"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3871.2568341932706!2d74.5403539!3d14.0027796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbc431ca824eaed%3A0x1cfc394b49cd1e5f!2sAnfal%20hyper%20market!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" 
+            width="100%" 
+            height="360" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="ANFAL ENTERPRISES Location Map">
+          </iframe>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       7. RICH FOOTER
+       ========================================================================= -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      
+      <div class="footer-col brand-col">
+        <img src="assets/images/anfal-logo.png" alt="ANFAL ENTERPRISES" class="footer-logo">
+        <p class="footer-bio">
+          ANFAL ENTERPRISES is an established FMCG wholesaler and distributor in Bhatkal, Karnataka. Built on Trust, Range, and Reliability.
+        </p>
+        <div class="footer-proprietor-badge">
+          <span>Proprietor: <strong>Mr. Imtiyaz Hussain</strong></span>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col-title">Core FMCG Brands</h4>
+        <ul class="footer-links-list">
+          <li><a href="#brands">Hindustan Unilever (HUL)</a></li>
+          <li><a href="#brands">Procter &amp; Gamble (P&amp;G)</a></li>
+          <li><a href="#brands">Nestlé Foods</a></li>
+          <li><a href="#brands">Dabur Health Care</a></li>
+          <li><a href="#brands">ITC Consumer Goods</a></li>
+          <li><a href="#brands">Britannia Bakery &amp; Dairy</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col-title">Quick Navigation</h4>
+        <ul class="footer-links-list">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#features">Why Choose Us (Pillars)</a></li>
+          <li><a href="#brands">Brands</a></li>
+          <li><a href="#about">About Anfal Enterprises</a></li>
+          <li><a href="#team">Leadership Team</a></li>
+          <li><a href="#contact">Contact &amp; Enquiry</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col contact-col">
+        <h4 class="footer-col-title">Facility Details</h4>
+        <p class="footer-address">
+          N.H. 66, Nawayath Colony,<br>
+          Bhatkal, Karnataka – 581320, India
+        </p>
+        <p class="footer-contact-line">
+          <strong>Phone:</strong> <a href="tel:+919845012345">+91 98450 12345</a>
+        </p>
+        <p class="footer-contact-line">
+          <strong>Email:</strong> <a href="mailto:info@anfalenterprises.com">info@anfalenterprises.com</a>
+        </p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom-bar">
+      <div class="container footer-bottom-inner">
+        <p class="copyright-text">
+          &copy; <span id="current-year">2026</span> <strong>ANFAL ENTERPRISES</strong>. All Rights Reserved. • Bhatkal, Karnataka
+        </p>
+        <div class="footer-bottom-actions">
+          <span class="motto-tag">"TRUST. RANGE. RELIABILITY."</span>
+          <span class="dot-separator">•</span>
+          <a href="admin.html" class="footer-admin-link">Admin Portal</a>
+          <span class="dot-separator">•</span>
+          <a href="#hero" class="back-to-top-btn" title="Back to top">↑ Top</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification System -->
+  <div id="app-toast" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- Scripts -->
   <script src="cms-data.js"></script>
   <script src="app.js"></script>
 </body>
