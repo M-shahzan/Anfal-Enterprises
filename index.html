@@ -12,9 +12,25 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
   <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-
   <!-- Leaflet Live Map CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css"/>
+
+  <!-- Early Theme Init Script (Zero FOUC) -->
+  <script>
+    (function() {
+      const stored = localStorage.getItem('anfal_theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (stored === 'dark' || (!stored && prefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
 
   <style>
     @layer base {
@@ -24,34 +40,6 @@
       main > :last-child { margin-bottom: 0 !important; }
     }
     ::-webkit-scrollbar { display: none; }
-    @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
-    .animate-marquee { display: flex; width: max-content; animation: marquee 32s linear infinite; }
-    .animate-marquee:hover { animation-play-state: paused; }
-
-    /* Hero Products Side-to-Side Glide Animation */
-    @keyframes hero-side-glide {
-      0% { transform: translateX(0%); }
-      50% { transform: translateX(calc(-100% + 100vw - 48px)); }
-      100% { transform: translateX(0%); }
-    }
-    .animate-hero-products {
-      display: flex;
-      gap: 1.25rem;
-      width: max-content;
-      animation: hero-side-glide 22s ease-in-out infinite alternate;
-      will-change: transform;
-    }
-    .animate-hero-products:hover {
-      animation-play-state: paused;
-    }
-
-    /* Dynamic Brand Card Theming */
-    .brand-card {
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease-out, border-color 0.3s ease;
-    }
-    .brand-card:hover {
-      transform: translateY(-4px);
-    }
   </style>
 
   <!-- Tailwind CSS CDN -->
@@ -62,17 +50,17 @@
       theme: {
         extend: {
           colors: {
-            "primary": "#0a192f",
-            "primary-container": "#0f2442",
-            "primary-fixed": "#d6e3ff",
-            "primary-fixed-dim": "#b0c8f5",
-            "on-primary": "#ffffff",
-            "on-primary-container": "#d6e3ff",
+            "primary": "var(--color-navy)",
+            "primary-container": "var(--bg-alt)",
+            "primary-fixed": "var(--bg-subtle)",
+            "primary-fixed-dim": "var(--bg-alt)",
+            "on-primary": "var(--bg-canvas)",
+            "on-primary-container": "var(--color-navy)",
             "on-primary-fixed": "#001b3e",
             "on-primary-fixed-variant": "#003268",
 
-            "secondary": "#c51d24",
-            "secondary-container": "#d9252d",
+            "secondary": "var(--color-red)",
+            "secondary-container": "var(--color-red-hover)",
             "secondary-fixed": "#ffdad6",
             "secondary-fixed-dim": "#ffb4ab",
             "on-secondary": "#ffffff",
@@ -89,27 +77,27 @@
             "on-tertiary-fixed": "#00184a",
             "on-tertiary-fixed-variant": "#22355c",
 
-            "surface": "#f8fafc",
-            "surface-dim": "#e2e8f0",
-            "surface-bright": "#ffffff",
-            "surface-container-lowest": "#ffffff",
-            "surface-container-low": "#f1f5f9",
-            "surface-container": "#e2e8f0",
-            "surface-container-high": "#cbd5e1",
-            "surface-container-highest": "#94a3b8",
-            "surface-variant": "#f1f5f9",
-            "surface-tint": "#0a192f",
+            "surface": "var(--bg-canvas)",
+            "surface-dim": "var(--bg-alt)",
+            "surface-bright": "var(--bg-card)",
+            "surface-container-lowest": "var(--bg-card)",
+            "surface-container-low": "var(--bg-subtle)",
+            "surface-container": "var(--bg-alt)",
+            "surface-container-high": "var(--color-gray)",
+            "surface-container-highest": "var(--color-gray-dark)",
+            "surface-variant": "var(--bg-subtle)",
+            "surface-tint": "var(--color-navy)",
 
-            "on-surface": "#0a192f",
-            "on-surface-variant": "#475569",
-            "inverse-surface": "#0a192f",
-            "inverse-on-surface": "#f1f5f9",
+            "on-surface": "var(--color-navy)",
+            "on-surface-variant": "var(--color-charcoal-muted)",
+            "inverse-surface": "var(--color-navy)",
+            "inverse-on-surface": "var(--bg-canvas)",
             "inverse-primary": "#b0c8f5",
 
-            "outline": "#94a3b8",
-            "outline-variant": "#e2e8f0",
-            "background": "#f8fafc",
-            "on-background": "#0a192f",
+            "outline": "var(--color-charcoal-muted)",
+            "outline-variant": "var(--color-gray)",
+            "background": "var(--bg-canvas)",
+            "on-background": "var(--color-navy)",
 
             "error": "#ba1a1a",
             "error-container": "#ffdad6",
@@ -175,7 +163,7 @@
 <body class="bg-surface font-body-md text-body-md text-on-surface antialiased selection:bg-secondary selection:text-on-secondary">
 
 <!-- 1. Header / Navigation: Translucent, ultra-minimal, refined luxury retail feel -->
-<header class="fixed top-0 left-0 w-full z-50 bg-surface/35 backdrop-blur-md border-b border-outline-variant/20 transition-all duration-300">
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/35 backdrop-blur-md transition-all duration-300">
   <div class="h-20 max-w-[1440px] mx-auto px-margin-mobile md:px-margin flex items-center justify-between gap-gutter">
     <div class="flex items-center gap-space-md">
       <a href="#home" class="flex items-center gap-3 select-none group">
@@ -187,16 +175,23 @@
       </a>
     </div>
     
-    <nav class="hidden lg:flex items-center gap-1 bg-surface-container-lowest/80 backdrop-blur-lg border border-outline-variant/40 p-1.5 rounded-full shadow-sm" id="desktop-nav">
-      <a aria-current="page" class="nav-item px-space-md py-1.5 transition-all text-on-primary font-bold bg-primary text-[13px] rounded-full shadow-sm" data-path="home" href="#home">Overview</a>
-      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-on-surface-variant hover:text-primary transition-colors text-[13px]" data-path="strengths" href="#strengths">Strengths</a>
-      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-on-surface-variant hover:text-primary transition-colors text-[13px]" data-path="brands" href="#brands">Brands</a>
-      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-on-surface-variant hover:text-primary transition-colors text-[13px]" data-path="facility" href="#facility">About</a>
-      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-on-surface-variant hover:text-primary transition-colors text-[13px]" data-path="team" href="#team">Team</a>
-      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-on-surface-variant hover:text-primary transition-colors text-[13px]" data-path="contact" href="#contact">Contact</a>
+    <nav class="hidden lg:flex items-center gap-1 bg-surface-container-lowest/80 backdrop-blur-lg border border-outline-variant/40 p-1.5 rounded-full shadow-sm relative" id="desktop-nav">
+      <!-- Persistent Single Sliding Pill Indicator -->
+      <div id="desktop-nav-pill" class="nav-indicator-pill pointer-events-none" aria-hidden="true"></div>
+      <a aria-current="page" class="nav-item is-active px-space-md py-1.5 rounded-full font-label-md text-[13px]" data-path="home" href="#home">Overview</a>
+      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-[13px]" data-path="strengths" href="#strengths">Strengths</a>
+      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-[13px]" data-path="brands" href="#brands">Brands</a>
+      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-[13px]" data-path="facility" href="#facility">About</a>
+      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-[13px]" data-path="team" href="#team">Team</a>
+      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-[13px]" data-path="contact" href="#contact">Contact</a>
     </nav>
     
     <div class="flex items-center gap-space-md">
+      <!-- Theme Toggle Button -->
+      <button id="theme-toggle-btn" aria-label="Toggle Dark/Light Mode" class="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-lowest/80 backdrop-blur-md border border-outline-variant/40 text-on-surface hover:text-secondary hover:border-secondary transition-all duration-200 shadow-sm">
+        <span id="theme-toggle-icon" class="material-symbols-outlined text-[20px]">dark_mode</span>
+      </button>
+
       <a class="inline-flex items-center justify-center gap-space-xs px-6 py-2.5 bg-secondary text-on-secondary rounded-full font-label-lg text-sm font-bold shadow-md hover:bg-secondary/90 active:scale-95 transition-all duration-150" data-path="price-list" href="#contact">
         <span>Get Price List</span>
         <span class="material-symbols-outlined text-[17px]">arrow_forward</span>
@@ -211,24 +206,24 @@
   <!-- ========================================== -->
   <section class="relative w-full min-h-screen flex flex-col justify-between overflow-hidden bg-surface pt-24 md:pt-28 pb-10 md:pb-14 text-on-surface" id="home">
     <!-- Edge-to-edge realistic grocery supermarket aisle photograph (Dynamic CMS) -->
-    <div id="hero-bg-layer" class="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-500" style="background-image: url('assets/images/facility-full.jpg');"></div>
+    <div id="hero-bg-layer" class="absolute inset-0 w-full h-full bg-cover bg-center" style="background-image: url('assets/images/facility-full.jpg');"></div>
     <!-- Subtle rich overlay that keeps aisle shelves, lighting and depth vivid while ensuring text legibility -->
     <div class="absolute inset-0 bg-gradient-to-b from-stone-950/80 via-stone-900/55 to-surface pointer-events-none"></div>
     
     <div class="relative z-20 max-w-[1440px] mx-auto w-full px-margin-mobile md:px-margin flex-1 flex flex-col justify-between">
       <!-- Editorial Display Typography & CTA -->
-      <div class="flex flex-col items-center text-center max-w-4xl mx-auto pt-2 md:pt-4">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-stone-900/80 backdrop-blur-md border border-white/20 shadow-md mb-4">
+      <div id="hero-editorial-content" class="flex flex-col items-center text-center max-w-4xl mx-auto pt-2 md:pt-4">
+        <div class="hero-badge-anim inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-stone-900/80 backdrop-blur-md border border-white/20 shadow-md mb-4">
           <span class="w-2.5 h-2.5 rounded-full bg-secondary-fixed animate-pulse"></span>
           <span id="hero-badge-text" class="font-label-sm text-[11px] tracking-widest uppercase text-white font-extrabold">Direct Wholesale Distribution</span>
         </div>
         <h1 id="hero-heading-text" class="font-display-lg text-display-lg-mobile md:text-display-lg text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.8)] tracking-tight font-extrabold uppercase leading-[1.03]">
           DAILY FMCG <span class="text-secondary-fixed">ESSENTIALS</span>
         </h1>
-        <p id="hero-tagline-text" class="font-body-lg text-base md:text-body-lg text-stone-100 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] font-medium mt-3 max-w-2xl leading-relaxed">
+        <p id="hero-tagline-text" class="hero-paragraph-anim font-body-lg text-base md:text-body-lg text-stone-100 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] font-medium mt-3 max-w-2xl leading-relaxed">
           Certified manufacturer-direct wholesale inventory for coastal Karnataka.
         </p>
-        <div class="mt-6">
+        <div class="hero-cta-anim mt-6">
           <a id="hero-cta-btn" class="inline-flex items-center gap-2.5 px-8 py-3.5 bg-secondary text-on-secondary rounded-full font-label-lg text-sm font-bold shadow-xl hover:shadow-2xl hover:bg-secondary/95 active:scale-95 transition-all duration-200 border border-white/20" href="#contact">
             <span id="hero-cta-label">Get Wholesale Price List</span>
             <span class="material-symbols-outlined text-[19px]">arrow_forward</span>
@@ -236,18 +231,18 @@
         </div>
       </div>
 
-      <!-- Tangible Large Product Showcase Animated Side-to-Side Slider (Dynamic CMS) -->
-      <div class="relative w-full max-w-[1440px] mx-auto overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_5%,white_95%,transparent)] my-6 md:my-8">
-        <div id="hero-products-container" class="animate-hero-products py-2 select-none">
+      <!-- Tangible Large Product Showcase Stepped Slider (Dynamic CMS) -->
+      <div class="relative w-full max-w-[1440px] mx-auto overflow-hidden my-6 md:my-8">
+        <div id="hero-products-container" class="hero-products-track py-2 select-none">
           <!-- Rendered dynamically by renderFeaturedProducts() -->
         </div>
       </div>
 
       <!-- Scroll Down Indicator with Proper Spacing from Bottom -->
       <div class="w-full flex justify-center pt-2">
-        <a class="flex flex-col items-center gap-0.5 text-stone-300 hover:text-secondary-fixed transition-colors" href="#strengths">
+        <a class="hero-scroll-indicator flex flex-col items-center gap-0.5 text-stone-300 hover:text-secondary-fixed transition-colors" href="#strengths">
           <span class="font-label-sm text-[10px] uppercase tracking-widest font-bold">Scroll Down</span>
-          <span class="material-symbols-outlined text-[20px] animate-bounce">keyboard_arrow_down</span>
+          <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
         </a>
       </div>
     </div>
@@ -313,7 +308,7 @@
   <section class="relative w-full py-20 bg-surface overflow-hidden" id="strengths">
     <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin">
       <!-- Section Header -->
-      <div class="flex flex-col items-start gap-2 mb-14">
+      <div class="strengths-header flex flex-col items-start gap-2 mb-14">
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-secondary font-label-sm text-xs font-bold uppercase tracking-wider">
           <span class="material-symbols-outlined text-[14px]">bolt</span>
           <span>Core Strengths</span>
@@ -329,7 +324,7 @@
       <!-- Editorial sequence layout with oversized architectural numerals -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-outline-variant/40">
         <!-- 01 Wide Range -->
-        <div class="flex flex-col justify-between pt-6 lg:pt-0 lg:px-6 first:pl-0">
+        <div class="strength-card flex flex-col justify-between pt-6 lg:pt-0 lg:px-6 first:pl-0">
           <div>
             <span class="block font-display-lg text-6xl lg:text-7xl font-extrabold text-secondary/30 mb-4 select-none">01</span>
             <div class="flex items-center gap-2.5 mb-2">
@@ -337,17 +332,17 @@
               <h3 class="font-headline-md text-xl text-primary font-bold">Wide Range</h3>
             </div>
             <p class="font-body-md text-on-surface-variant leading-relaxed">
-              Over 600+ high-turnover daily retail staples.
+              Over <span class="stat-counter font-bold text-primary" data-target="600" data-suffix="+">600+</span> high-turnover daily retail staples.
             </p>
           </div>
           <div class="mt-8 pt-4 border-t border-outline-variant/30 flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-secondary"></span>
-            <span class="font-label-sm text-xs text-on-surface-variant uppercase font-bold tracking-wider">100% SKU In-Stock</span>
+            <span class="font-label-sm text-xs text-on-surface-variant uppercase font-bold tracking-wider"><span class="stat-counter" data-target="100" data-suffix="%">100%</span> SKU In-Stock</span>
           </div>
         </div>
 
         <!-- 02 Competitive Prices -->
-        <div class="flex flex-col justify-between pt-6 lg:pt-0 lg:px-6">
+        <div class="strength-card flex flex-col justify-between pt-6 lg:pt-0 lg:px-6">
           <div>
             <span class="block font-display-lg text-6xl lg:text-7xl font-extrabold text-primary/25 mb-4 select-none">02</span>
             <div class="flex items-center gap-2.5 mb-2">
@@ -365,7 +360,7 @@
         </div>
 
         <!-- 03 Timely Delivery -->
-        <div class="flex flex-col justify-between pt-6 lg:pt-0 lg:px-6">
+        <div class="strength-card flex flex-col justify-between pt-6 lg:pt-0 lg:px-6">
           <div>
             <span class="block font-display-lg text-6xl lg:text-7xl font-extrabold text-secondary/30 mb-4 select-none">03</span>
             <div class="flex items-center gap-2.5 mb-2">
@@ -373,7 +368,7 @@
               <h3 class="font-headline-md text-xl text-primary font-bold">Timely Delivery</h3>
             </div>
             <p class="font-body-md text-on-surface-variant leading-relaxed">
-              Scheduled daily 24hr transit across coastal artery.
+              Scheduled daily <span class="stat-counter font-bold text-primary" data-target="24" data-suffix="hr">24hr</span> transit across coastal artery.
             </p>
           </div>
           <div class="mt-8 pt-4 border-t border-outline-variant/30 flex items-center gap-2">
@@ -383,7 +378,7 @@
         </div>
 
         <!-- 04 Customer Focus -->
-        <div class="flex flex-col justify-between pt-6 lg:pt-0 lg:px-6 last:pr-0">
+        <div class="strength-card flex flex-col justify-between pt-6 lg:pt-0 lg:px-6 last:pr-0">
           <div>
             <span class="block font-display-lg text-6xl lg:text-7xl font-extrabold text-primary/25 mb-4 select-none">04</span>
             <div class="flex items-center gap-2.5 mb-2">
@@ -409,7 +404,7 @@
   <section class="relative w-full py-20 bg-surface-container-low/70 overflow-hidden" id="brands">
     <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin">
       <!-- Section Header -->
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+      <div class="brands-section-header flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
         <div class="flex flex-col gap-2">
           <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-sm text-xs font-bold uppercase tracking-wider">
             <span class="material-symbols-outlined text-[14px]">verified</span>
@@ -442,7 +437,7 @@
   <!-- ========================================== -->
   <!-- SECTION 4: ABOUT ANFAL ENTERPRISES (FACILITY) -->
   <!-- ========================================== -->
-  <section class="relative w-full min-h-[640px] lg:min-h-[720px] py-20 md:py-28 overflow-hidden flex items-center border-y border-stone-200/40" id="facility">
+  <section class="relative w-full min-h-screen py-20 md:py-28 overflow-hidden flex items-center border-y border-stone-200/40" id="facility">
     <!-- 1. Full-Bleed Background Image (Dynamic CMS Asset) -->
     <div id="facility-bg-layer" 
          class="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-700 select-none" 
@@ -453,38 +448,38 @@
     <div class="absolute inset-0 bg-stone-950/30 pointer-events-none"></div>
 
     <!-- 3. Editorial Content Area: Cardless, Integrated with Atmosphere -->
-    <div class="relative z-10 max-w-[1440px] mx-auto w-full px-margin-mobile md:px-margin">
+    <div class="facility-content-wrap relative z-10 max-w-[1440px] mx-auto w-full px-margin-mobile md:px-margin">
       <div class="max-w-2xl py-2">
         
         <!-- Top Badges Row -->
-        <div class="flex flex-wrap items-center gap-2.5 mb-4">
+        <div class="facility-badges-anim flex flex-wrap items-center gap-2.5 mb-4">
           <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/60 border border-white/20 text-xs font-bold text-stone-200 backdrop-blur-sm shadow-md">
             <span class="material-symbols-outlined text-[15px] text-secondary">location_on</span>
             <span id="fac-public-location-pill">Coastal Karnataka • 24/7 Distribution</span>
           </div>
-          <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/10 border border-white/20 text-white font-label-sm text-[11px] font-extrabold uppercase tracking-wider backdrop-blur-sm shadow-md">
+          <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-white/10 border border-white/20 text-white font-label-sm text-[11px] font-extrabold uppercase tracking-wider backdrop-blur-sm shadow-md">
             <span class="material-symbols-outlined text-[14px] text-secondary">store</span>
             <span id="fac-public-eyebrow">COMPANY OVERVIEW</span>
           </div>
         </div>
 
         <!-- Main Bold Headline -->
-        <h2 id="fac-public-heading" class="font-headline-xl text-3xl sm:text-4xl lg:text-5xl text-white font-black uppercase tracking-tight leading-[1.08] mt-2 drop-shadow-[0_3px_12px_rgba(0,0,0,0.9)]">
+        <h2 id="fac-public-heading" class="facility-heading-anim font-headline-xl text-3xl sm:text-4xl lg:text-5xl text-white font-black uppercase tracking-tight leading-[1.08] mt-2 drop-shadow-[0_3px_12px_rgba(0,0,0,0.9)]">
           ABOUT ANFAL<br/>ENTERPRISES
         </h2>
 
         <!-- Supporting Tagline Statement -->
-        <p id="fac-public-tagline" class="font-headline-sm text-lg sm:text-xl text-secondary-fixed font-bold tracking-tight mt-3 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+        <p id="fac-public-tagline" class="facility-tagline-anim font-headline-sm text-lg sm:text-xl text-secondary-fixed font-bold tracking-tight mt-3 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
           Reliable FMCG Distribution. Built on Trust.
         </p>
 
         <!-- 4 Flat Key Information Highlights (Clean List/Grid, NO CARDS, Dynamic CMS) -->
-        <div id="fac-public-features" class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5 mt-8 pt-6 border-t border-white/20">
+        <div id="fac-public-features" class="facility-features-anim grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5 mt-8 pt-6 border-t border-white/20">
           <!-- Rendered dynamically by renderFacility() -->
         </div>
 
         <!-- Bottom Information & Subtle CTA Link -->
-        <div class="pt-6 mt-8 border-t border-white/20 flex flex-wrap items-center justify-between gap-4">
+        <div class="facility-bottom-anim pt-6 mt-8 border-t border-white/20 flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-secondary shadow-sm"></span>
             <span id="fac-public-leader-tag" class="font-label-sm text-xs text-stone-300 uppercase tracking-wider font-bold drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">COASTAL KARNATAKA DISTRIBUTION LEADER</span>
@@ -504,7 +499,7 @@
   <!-- ========================================== -->
   <section class="relative w-full py-20 bg-surface-container-low/50" id="team">
     <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin">
-      <div class="flex flex-col items-center text-center gap-2 mb-14">
+      <div class="team-section-header flex flex-col items-center text-center gap-2 mb-14">
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-secondary font-label-sm text-xs font-bold uppercase tracking-wider">
           <span class="material-symbols-outlined text-[14px]">groups</span>
           <span>Our Leadership</span>
@@ -529,7 +524,7 @@
   <!-- ========================================== -->
   <section class="relative w-full py-20 bg-surface" id="contact">
     <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin">
-      <div class="flex flex-col items-start gap-2 mb-12">
+      <div class="contact-section-header flex flex-col items-start gap-2 mb-12">
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-secondary font-label-sm text-xs font-bold uppercase tracking-wider">
           <span class="material-symbols-outlined text-[14px]">send</span>
           <span>Get In Touch</span>
@@ -543,7 +538,7 @@
       <!-- Two-Column Interactive Layout: Both Cards Same Size & Height -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
         <!-- Left Column: Direct Contact Desk Card -->
-        <div class="flex flex-col h-full">
+        <div class="contact-desk-card flex flex-col h-full">
           <div class="p-8 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col justify-between h-full gap-6">
             <div class="flex items-center justify-between pb-2 border-b border-outline-variant/20">
               <span class="font-headline-md text-xl text-primary font-bold">Direct Contact Desk</span>
@@ -552,7 +547,7 @@
             
             <div class="flex flex-col gap-3.5 flex-1 justify-around">
               <!-- Location -->
-              <div class="p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
+              <div class="contact-detail-item p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
                 <div class="w-10 h-10 rounded-lg bg-primary-fixed text-primary flex items-center justify-center shrink-0">
                   <span class="material-symbols-outlined text-[20px]">location_on</span>
                 </div>
@@ -563,7 +558,7 @@
               </div>
 
               <!-- Phone -->
-              <div class="p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
+              <div class="contact-detail-item p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
                 <div class="w-10 h-10 rounded-lg bg-secondary-fixed text-secondary flex items-center justify-center shrink-0">
                   <span class="material-symbols-outlined text-[20px]">phone_in_talk</span>
                 </div>
@@ -574,7 +569,7 @@
               </div>
 
               <!-- WhatsApp -->
-              <div class="p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
+              <div class="contact-detail-item p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
                 <div class="w-10 h-10 rounded-lg bg-primary-fixed text-primary flex items-center justify-center shrink-0">
                   <span class="material-symbols-outlined text-[20px]">chat</span>
                 </div>
@@ -585,7 +580,7 @@
               </div>
 
               <!-- Email -->
-              <div class="p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
+              <div class="contact-detail-item p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
                 <div class="w-10 h-10 rounded-lg bg-secondary-fixed text-secondary flex items-center justify-center shrink-0">
                   <span class="material-symbols-outlined text-[20px]">mail</span>
                 </div>
@@ -596,7 +591,7 @@
               </div>
 
               <!-- Hours -->
-              <div class="p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
+              <div class="contact-detail-item p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
                 <div class="w-10 h-10 rounded-lg bg-primary-fixed text-primary flex items-center justify-center shrink-0">
                   <span class="material-symbols-outlined text-[20px]">schedule</span>
                 </div>
@@ -610,35 +605,35 @@
         </div>
 
         <!-- Right Column: Wholesale Enquiry Form Card -->
-        <div class="flex flex-col h-full">
+        <div class="contact-form-card flex flex-col h-full">
           <div class="p-8 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col justify-between h-full gap-6">
-            <div>
+            <div class="enquiry-form-header">
               <h3 class="font-headline-md text-xl text-primary font-bold">Send Wholesale Enquiry</h3>
               <p class="font-body-sm text-sm text-on-surface-variant mt-1">Fill details for bulk rate sheets and immediate dispatch allocation.</p>
             </div>
 
             <form class="flex flex-col gap-4 flex-1 justify-between" id="enquiry-form">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="flex flex-col gap-1.5">
+                <div class="enquiry-field-group flex flex-col gap-1.5">
                   <label class="font-label-sm text-xs text-on-surface font-bold uppercase tracking-wider">Full Name</label>
                   <input id="enq-name" class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-on-surface text-sm placeholder:text-outline focus:outline-none transition-all" placeholder="e.g. Salim Ahmed" required="" type="text"/>
                 </div>
-                <div class="flex flex-col gap-1.5">
+                <div class="enquiry-field-group flex flex-col gap-1.5">
                   <label class="font-label-sm text-xs text-on-surface font-bold uppercase tracking-wider">Supermarket / Business Name</label>
                   <input id="enq-company" class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-on-surface text-sm placeholder:text-outline focus:outline-none transition-all" placeholder="e.g. Coastal Hypermarket" required="" type="text"/>
                 </div>
-                <div class="flex flex-col gap-1.5">
+                <div class="enquiry-field-group flex flex-col gap-1.5">
                   <label class="font-label-sm text-xs text-on-surface font-bold uppercase tracking-wider">Phone / WhatsApp Number</label>
                   <input id="enq-phone" class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-on-surface text-sm placeholder:text-outline focus:outline-none transition-all" placeholder="+91 98765 43210" required="" type="tel"/>
                 </div>
-                <div class="flex flex-col gap-1.5">
+                <div class="enquiry-field-group flex flex-col gap-1.5">
                   <label class="font-label-sm text-xs text-on-surface font-bold uppercase tracking-wider">Town / District</label>
                   <input id="enq-town" class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-on-surface text-sm placeholder:text-outline focus:outline-none transition-all" placeholder="e.g. Bhatkal / Kundapura / Kumta" required="" type="text"/>
                 </div>
               </div>
 
               <!-- Reason for Enquiry Dropdown (Replaces brands chip selector & purchase volume) -->
-              <div class="flex flex-col gap-1.5">
+              <div class="enquiry-field-group flex flex-col gap-1.5">
                 <label class="font-label-sm text-xs text-on-surface font-bold uppercase tracking-wider">Reason for Enquiry</label>
                 <select id="enq-reason" class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-on-surface text-sm focus:outline-none transition-all cursor-pointer">
                   <option value="Wholesale Supply / Bulk Purchase" selected="">Wholesale Supply / Bulk Purchase</option>
@@ -651,13 +646,13 @@
               </div>
 
               <!-- Message / Special Requirements -->
-              <div class="flex flex-col gap-1.5">
+              <div class="enquiry-field-group flex flex-col gap-1.5">
                 <label class="font-label-sm text-xs text-on-surface font-bold uppercase tracking-wider">Specific Requirements or Message (Optional)</label>
                 <textarea id="enq-message" rows="3" class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-on-surface text-sm placeholder:text-outline focus:outline-none transition-all" placeholder="Enter any specific product lines, delivery queries, or requirements..."></textarea>
               </div>
 
               <!-- Submit Button -->
-              <button id="enq-submit-btn" class="mt-2 w-full py-3.5 px-6 rounded-full bg-secondary text-on-secondary font-label-lg text-sm font-bold shadow-md hover:bg-secondary/90 active:scale-[0.99] transition-all flex items-center justify-center gap-2" type="submit">
+              <button id="enq-submit-btn" class="enquiry-submit-btn mt-2 w-full py-3.5 px-6 rounded-full bg-secondary text-on-secondary font-label-lg text-sm font-bold shadow-md hover:bg-secondary/90 active:scale-[0.99] transition-all flex items-center justify-center gap-2" type="submit">
                 <span>Submit Wholesale Enquiry</span>
                 <span class="material-symbols-outlined text-[19px]">send</span>
               </button>
@@ -676,7 +671,7 @@
       </div>
 
       <!-- Live Interactive Map Card (Leaflet Powered & CMS Synced) -->
-      <div class="mt-12 p-6 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-sm">
+      <div class="contact-map-card mt-12 p-6 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-sm">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center">
@@ -703,12 +698,12 @@
 <!-- ========================================== -->
 <!-- FOOTER: CLEAN EDITORIAL RETAIL FOOTER      -->
 <!-- ========================================== -->
-<footer class="w-full bg-surface-container-low border-t border-outline-variant/30">
-  <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin pt-14 pb-8">
+<footer id="site-footer" class="w-full bg-surface-container-low border-t border-outline-variant/30">
+  <div class="footer-content-wrap max-w-[1440px] mx-auto px-margin-mobile md:px-margin pt-14 pb-8">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 pb-10">
-      <div class="lg:col-span-4 flex flex-col gap-4">
+      <div class="footer-col-anim lg:col-span-4 flex flex-col gap-4">
         <div class="flex items-center gap-3">
-          <img alt="Anfal Enterprises" class="h-9 w-auto object-contain" src="assets/images/anfal-logo.png"/>
+          <img alt="Anfal Enterprises" class="footer-logo-img h-9 w-auto object-contain" src="assets/images/anfal-logo.png"/>
           <span class="font-headline-md text-xl text-primary font-extrabold tracking-tight">Anfal Enterprises</span>
         </div>
         <div class="flex flex-wrap gap-2">
@@ -728,31 +723,31 @@
         </div>
       </div>
 
-      <div class="lg:col-span-2 flex flex-col gap-3">
+      <div class="footer-col-anim lg:col-span-2 flex flex-col gap-3">
         <span class="font-label-md text-xs font-bold text-primary uppercase tracking-wider">Navigation</span>
         <ul class="flex flex-col gap-2 font-body-sm text-sm text-on-surface-variant">
-          <li><a class="hover:text-primary transition-colors" data-path="home" href="#home">Overview</a></li>
-          <li><a class="hover:text-primary transition-colors" data-path="strengths" href="#strengths">Core Strengths</a></li>
-          <li><a class="hover:text-primary transition-colors" data-path="brands" href="#brands">Product Portfolio</a></li>
-          <li><a class="hover:text-primary transition-colors" data-path="facility" href="#facility">About</a></li>
-          <li><a class="hover:text-primary transition-colors" data-path="team" href="#team">Executive Team</a></li>
-          <li><a class="hover:text-primary transition-colors" data-path="price-list" href="#contact">Wholesale Price List</a></li>
+          <li><a class="footer-nav-link hover:text-primary transition-colors" data-path="home" href="#home">Overview</a></li>
+          <li><a class="footer-nav-link hover:text-primary transition-colors" data-path="strengths" href="#strengths">Core Strengths</a></li>
+          <li><a class="footer-nav-link hover:text-primary transition-colors" data-path="brands" href="#brands">Product Portfolio</a></li>
+          <li><a class="footer-nav-link hover:text-primary transition-colors" data-path="facility" href="#facility">About</a></li>
+          <li><a class="footer-nav-link hover:text-primary transition-colors" data-path="team" href="#team">Executive Team</a></li>
+          <li><a class="footer-nav-link hover:text-primary transition-colors" data-path="price-list" href="#contact">Wholesale Price List</a></li>
         </ul>
       </div>
 
-      <div class="lg:col-span-3 flex flex-col gap-3">
+      <div class="footer-col-anim lg:col-span-3 flex flex-col gap-3">
         <span class="font-label-md text-xs font-bold text-primary uppercase tracking-wider">Authorized Brands</span>
         <div class="flex flex-wrap gap-1.5">
-          <span class="px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Britannia Direct</span>
-          <span class="px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Nestle Professional</span>
-          <span class="px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">ITC Foods</span>
-          <span class="px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Parle Agro</span>
-          <span class="px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Tata Consumer</span>
-          <span class="px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Hindustan Unilever</span>
+          <span class="footer-brand-chip px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Britannia Direct</span>
+          <span class="footer-brand-chip px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Nestle Professional</span>
+          <span class="footer-brand-chip px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">ITC Foods</span>
+          <span class="footer-brand-chip px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Parle Agro</span>
+          <span class="footer-brand-chip px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Tata Consumer</span>
+          <span class="footer-brand-chip px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Hindustan Unilever</span>
         </div>
       </div>
 
-      <div class="lg:col-span-3 flex flex-col gap-3">
+      <div class="footer-col-anim lg:col-span-3 flex flex-col gap-3">
         <span class="font-label-md text-xs font-bold text-primary uppercase tracking-wider">Direct Distribution Desk</span>
         <div class="flex flex-col gap-2.5 font-body-sm text-sm text-on-surface-variant">
           <div class="flex items-center gap-2">
@@ -775,7 +770,7 @@
       </div>
     </div>
 
-    <div class="pt-6 border-t border-outline-variant/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+    <div class="footer-bottom-anim pt-6 border-t border-outline-variant/20 flex flex-col sm:flex-row items-center justify-between gap-3">
       <span class="font-label-sm text-xs text-on-surface-variant">© 2025 Anfal Enterprises Wholesale Distribution. All rights reserved.</span>
       <div class="flex items-center gap-4">
         <span class="font-label-sm text-xs text-primary font-semibold">GSTIN: 29AABCA1234F1Z8</span>
@@ -795,6 +790,7 @@
   let publicLeafletMarker = null;
 
   document.addEventListener('DOMContentLoaded', () => {
+    setupThemeToggle();
     // Render all dynamic CMS sections
     renderHomeHero();
     renderFeaturedProducts();
@@ -804,6 +800,14 @@
     renderContactAndMap();
     setupWholesaleForm();
     setupNavScroll();
+    initStrengthsObserver();
+    initStatCounters();
+    initBrandsObserver();
+    initFacilityObserver();
+    initTeamObserver();
+    initContactObserver();
+    initFooterObserver();
+    initHeroParallax();
 
     // Listen for live updates from CMS across all sections
     window.addEventListener('cms:home-updated', renderHomeHero);
@@ -818,7 +822,7 @@
   });
 
   /**
-   * 1. Home Section Dynamic Binding
+   * 1. Home Section Dynamic Binding & Hero Animations
    */
   function renderHomeHero() {
     if (typeof CMS === 'undefined') return;
@@ -853,37 +857,278 @@
     if (ctaBtn && home.heroCtaLink) {
       ctaBtn.href = home.heroCtaLink;
     }
+
+    initHeroWordAnimation();
+  }
+
+  function initHeroWordAnimation() {
+    const heading = document.getElementById("hero-heading-text");
+    if (!heading) return;
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    let wordIndex = 0;
+    const baseDelay = 0.12;
+    const stagger = 0.08;
+
+    function processNode(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent;
+        const words = text.split(/(\s+)/);
+        const fragment = document.createDocumentFragment();
+
+        words.forEach(w => {
+          if (/^\s+$/.test(w)) {
+            fragment.appendChild(document.createTextNode(w));
+          } else if (w.length > 0) {
+            const wrap = document.createElement("span");
+            wrap.className = "hero-word-wrap";
+            const span = document.createElement("span");
+            span.className = "hero-word";
+            span.style.animationDelay = `${(baseDelay + wordIndex * stagger).toFixed(2)}s`;
+            span.textContent = w;
+            wrap.appendChild(span);
+            fragment.appendChild(wrap);
+            wordIndex++;
+          }
+        });
+        node.parentNode.replaceChild(fragment, node);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        if (node.classList.contains("hero-word-wrap") || node.classList.contains("hero-word")) return;
+        Array.from(node.childNodes).forEach(processNode);
+      }
+    }
+
+    Array.from(heading.childNodes).forEach(processNode);
+  }
+
+  let heroParallaxInitialized = false;
+  function initHeroParallax() {
+    if (heroParallaxInitialized) return;
+    heroParallaxInitialized = true;
+
+    const heroSection = document.getElementById("home");
+    const bgLayer = document.getElementById("hero-bg-layer");
+    const content = document.getElementById("hero-editorial-content");
+
+    if (!heroSection || !bgLayer) return;
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      bgLayer.style.transform = 'none';
+      if (content) {
+        content.style.transform = 'none';
+        content.style.opacity = '1';
+      }
+      return;
+    }
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetMouseX = 0;
+    let targetMouseY = 0;
+    let isMouseInHero = false;
+
+    heroSection.addEventListener("mouseenter", () => {
+      isMouseInHero = true;
+    });
+
+    heroSection.addEventListener("mousemove", (e) => {
+      isMouseInHero = true;
+      const rect = heroSection.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      targetMouseX = (e.clientX - centerX) / (rect.width / 2);
+      targetMouseY = (e.clientY - centerY) / (rect.height / 2);
+    }, { passive: true });
+
+    heroSection.addEventListener("mouseleave", () => {
+      isMouseInHero = false;
+      targetMouseX = 0;
+      targetMouseY = 0;
+    });
+
+    function renderParallax() {
+      const scrollY = window.scrollY || window.pageYOffset || 0;
+      const heroHeight = heroSection.offsetHeight || window.innerHeight;
+
+      if (!isMouseInHero) {
+        targetMouseX = 0;
+        targetMouseY = 0;
+      }
+
+      mouseX += (targetMouseX - mouseX) * 0.08;
+      mouseY += (targetMouseY - mouseY) * 0.08;
+
+      if (scrollY <= 0) {
+        // EXACT TOP: Reset background & content to absolute zero position
+        const bgMouseX = (mouseX * -10).toFixed(2);
+        const bgMouseY = (mouseY * -10).toFixed(2);
+        const contentMouseX = (mouseX * 8).toFixed(2);
+        const contentMouseY = (mouseY * 8).toFixed(2);
+
+        bgLayer.style.transform = `translate3d(${bgMouseX}px, ${bgMouseY}px, 0) scale(1.05)`;
+        if (content) {
+          content.style.transform = `translate3d(${contentMouseX}px, ${contentMouseY}px, 0)`;
+          content.style.opacity = '1';
+        }
+      } else if (scrollY < heroHeight + 120) {
+        // ACTIVE IN-VIEW HERO SCROLL
+        const bgScrollY = scrollY * 0.32;
+        const contentScrollY = scrollY * -0.22;
+        const contentOpacity = Math.max(0, 1 - (scrollY / (heroHeight * 0.75)));
+
+        const bgMouseX = (mouseX * -10).toFixed(2);
+        const bgMouseY = (mouseY * -10).toFixed(2);
+        const contentMouseX = (mouseX * 8).toFixed(2);
+        const contentMouseY = (mouseY * 8).toFixed(2);
+
+        const totalBgY = (bgScrollY + parseFloat(bgMouseY)).toFixed(2);
+        const totalContentY = (contentScrollY + parseFloat(contentMouseY)).toFixed(2);
+
+        bgLayer.style.transform = `translate3d(${bgMouseX}px, ${totalBgY}px, 0) scale(1.05)`;
+
+        if (content) {
+          content.style.transform = `translate3d(${contentMouseX}px, ${totalContentY}px, 0)`;
+          content.style.opacity = contentOpacity.toFixed(3);
+        }
+      } else {
+        // SCROLLED PAST HERO: Clamp smoothly without leaving intermediate stale offsets
+        const maxBgScrollY = ((heroHeight + 120) * 0.32).toFixed(2);
+        bgLayer.style.transform = `translate3d(0px, ${maxBgScrollY}px, 0) scale(1.05)`;
+        if (content) {
+          content.style.opacity = '0';
+        }
+      }
+
+      requestAnimationFrame(renderParallax);
+    }
+
+    // Direct scroll event safety reset for top-of-page return
+    window.addEventListener("scroll", () => {
+      if ((window.scrollY || window.pageYOffset || 0) <= 0) {
+        bgLayer.style.transform = "translate3d(0px, 0px, 0) scale(1.05)";
+        if (content) {
+          content.style.transform = "translate3d(0px, 0px, 0)";
+          content.style.opacity = "1";
+        }
+      }
+    }, { passive: true });
+
+    requestAnimationFrame(renderParallax);
   }
 
   /**
-   * 2. Home Featured Products Showcase Grid
+   * 2. Home Featured Products Showcase Stepped Slider
+   * Waits between intervals, moves 1 card at a time, and quickly returns to the first card at the end
    */
+  let heroSliderTimer = null;
+  let heroCurrentIndex = 0;
+  let heroSliderPaused = false;
+
+  function initHeroProductSlider() {
+    if (heroSliderTimer) clearInterval(heroSliderTimer);
+    const track = document.getElementById("hero-products-container");
+    const wrapper = track ? track.parentElement : null;
+    if (!track || !wrapper) return;
+
+    heroCurrentIndex = 0;
+    track.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+    track.style.transform = 'translateX(0px)';
+
+    const getMetrics = () => {
+      const cards = track.querySelectorAll(".hero-product-card");
+      if (!cards.length) return { maxIndex: 0, stepPx: 0 };
+      const cardWidth = cards[0].offsetWidth;
+      const gap = 20; // 1.25rem gap
+      const stepPx = cardWidth + gap;
+      const wrapperWidth = wrapper.offsetWidth;
+      const visibleCards = Math.max(1, Math.floor(wrapperWidth / stepPx));
+      const maxIndex = Math.max(0, cards.length - visibleCards);
+      return { maxIndex, stepPx, totalCards: cards.length };
+    };
+
+    const stepSlider = () => {
+      if (heroSliderPaused) return;
+      const { maxIndex, stepPx } = getMetrics();
+      if (maxIndex <= 0) return;
+
+      if (heroCurrentIndex < maxIndex) {
+        heroCurrentIndex++;
+        track.style.transition = 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1)';
+        track.style.transform = `translateX(-${heroCurrentIndex * stepPx}px)`;
+      } else {
+        // Reached the end: quickly return back to the first card
+        heroCurrentIndex = 0;
+        track.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+        track.style.transform = 'translateX(0px)';
+      }
+    };
+
+    // Auto-step: pause 2.8 seconds between each 1-card transition
+    heroSliderTimer = setInterval(stepSlider, 2800);
+
+    // Pause on hover
+    wrapper.onmouseenter = () => { heroSliderPaused = true; };
+    wrapper.onmouseleave = () => { heroSliderPaused = false; };
+
+    // Mobile touch interaction
+    let touchStartX = 0;
+    wrapper.ontouchstart = (e) => {
+      touchStartX = e.touches[0].clientX;
+      heroSliderPaused = true;
+    };
+    wrapper.ontouchend = (e) => {
+      const touchEndX = e.changedTouches[0].clientX;
+      const diff = touchStartX - touchEndX;
+      const { maxIndex, stepPx } = getMetrics();
+      if (Math.abs(diff) > 40) {
+        if (diff > 0 && heroCurrentIndex < maxIndex) {
+          heroCurrentIndex++;
+        } else if (diff < 0 && heroCurrentIndex > 0) {
+          heroCurrentIndex--;
+        } else if (diff > 0 && heroCurrentIndex >= maxIndex) {
+          heroCurrentIndex = 0;
+        }
+        track.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+        track.style.transform = `translateX(-${heroCurrentIndex * stepPx}px)`;
+      }
+      setTimeout(() => { heroSliderPaused = false; }, 2500);
+    };
+
+    // Keep position intact on viewport resize
+    window.addEventListener('resize', () => {
+      const { maxIndex, stepPx } = getMetrics();
+      if (heroCurrentIndex > maxIndex) heroCurrentIndex = maxIndex;
+      track.style.transition = 'none';
+      track.style.transform = `translateX(-${heroCurrentIndex * stepPx}px)`;
+    });
+  }
+
   function renderFeaturedProducts() {
     const container = document.getElementById("hero-products-container");
     if (!container || typeof CMS === 'undefined') return;
 
-    let products = (CMS.getFeaturedProducts() || []).filter(p => p.active !== false);
+    const products = (CMS.getFeaturedProducts() || []).filter(p => p.active !== false);
     if (!products.length) return;
 
-    // Duplicate list if short to ensure seamless continuous side-to-side glide animation
-    if (products.length < 8) {
-      products = [...products, ...products];
-    }
-
     container.innerHTML = products.map(prod => `
-      <div class="w-64 sm:w-72 shrink-0 group bg-surface-container-lowest/95 backdrop-blur-md border border-outline-variant/30 rounded-2xl p-4 shadow-sm hover:shadow-xl hover:border-secondary/40 transition-all duration-300 flex flex-col justify-between overflow-hidden">
-        <div class="w-full h-40 rounded-xl bg-surface-container-low/60 flex items-center justify-center p-3 overflow-hidden mb-3">
+      <div class="hero-product-card w-64 sm:w-72 shrink-0 group bg-stone-950/45 hover:bg-stone-950/65 backdrop-blur-xl border border-white/20 hover:border-secondary-fixed/50 rounded-2xl p-4 shadow-2xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
+        <div class="w-full h-40 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center p-3 overflow-hidden mb-3 border border-white/10">
           <img alt="${escapeHtml(prod.name)}" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" src="${escapeHtml(prod.image)}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'40\\' height=\\'40\\'><rect fill=\\'%23eee\\' width=\\'40\\' height=\\'40\\'/></svg>'"/>
         </div>
         <div class="flex items-center justify-between pt-1">
           <div class="min-w-0 pr-2">
-            <span class="block font-label-sm text-[10px] text-secondary font-bold uppercase tracking-wider truncate">${escapeHtml(prod.category || prod.brand)}</span>
-            <h3 class="font-headline-sm text-sm font-bold text-primary leading-tight truncate">${escapeHtml(prod.name)}</h3>
+            <span class="block font-label-sm text-[10px] text-secondary-fixed font-extrabold uppercase tracking-wider truncate drop-shadow-sm">${escapeHtml(prod.category || prod.brand)}</span>
+            <h3 class="font-headline-sm text-sm font-bold text-white leading-tight truncate drop-shadow-sm">${escapeHtml(prod.name)}</h3>
           </div>
-          <span class="shrink-0 font-label-sm px-2.5 py-0.5 rounded-full bg-secondary-fixed text-secondary font-bold text-[10px]">${escapeHtml(prod.badge || 'Direct')}</span>
+          <span class="shrink-0 font-label-sm px-2.5 py-0.5 rounded-full bg-secondary-fixed/20 border border-secondary-fixed/30 text-secondary-fixed font-bold text-[10px] backdrop-blur-sm">${escapeHtml(prod.badge || 'Direct')}</span>
         </div>
       </div>
     `).join("");
+
+    initHeroProductSlider();
   }
 
   /**
@@ -945,11 +1190,11 @@
     const team = (CMS.getTeam() || []).filter(t => t.active !== false);
 
     container.innerHTML = team.map(member => `
-      <div class="group bg-surface-container-lowest rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center border border-outline-variant/30">
+      <div class="team-card group bg-surface-container-lowest rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center border border-outline-variant/30">
         <div class="relative mb-5">
           <div class="w-28 h-28 rounded-full p-1 bg-gradient-to-tr from-secondary to-primary flex items-center justify-center shadow-md">
             <div class="w-full h-full rounded-full bg-surface-container-low overflow-hidden">
-              <img alt="${escapeHtml(member.name)}" class="w-full h-full object-cover" src="${escapeHtml(member.image)}" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80'"/>
+              <img alt="${escapeHtml(member.name)}" class="team-member-img w-full h-full object-cover" src="${escapeHtml(member.image)}" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80'"/>
             </div>
           </div>
           <div class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow">
@@ -966,6 +1211,10 @@
         </div>
       </div>
     `).join("");
+
+    if (typeof updateTeamObserverCards === 'function') {
+      updateTeamObserverCards();
+    }
   }
 
   /**
@@ -1073,131 +1322,110 @@
    */
   let publicBrandsExpanded = false;
 
+  function createBrandCardMarkup(brand) {
+    let logoHtml = '';
+    const nameUpper = (brand.name || '').toUpperCase();
+    const short = escapeHtml(brand.monogram || brand.name || 'B');
+
+    if (nameUpper.includes('UNILEVER') || short === 'HUL') {
+      logoHtml = `<span class="font-display-lg font-black tracking-tighter text-2xl">U</span>`;
+    } else if (nameUpper.includes('PROCTER') || short === 'P&G') {
+      logoHtml = `<span class="font-display-lg font-black italic tracking-tight text-xl">P&amp;G</span>`;
+    } else if (nameUpper.includes('NESTL') || short === 'NESTLÉ') {
+      logoHtml = `<span class="font-display-lg font-extrabold tracking-tight text-lg">Nestlé</span>`;
+    } else if (nameUpper.includes('BRITANNIA')) {
+      logoHtml = `<span class="font-display-lg font-black tracking-wider text-xs px-1 py-0.5 border border-current rounded uppercase">BRITANNIA</span>`;
+    } else if (nameUpper.includes('DABUR')) {
+      logoHtml = `<div class="flex flex-col items-center leading-none"><span class="material-symbols-outlined text-[18px]">park</span><span class="font-extrabold text-[11px] mt-0.5">Dabur</span></div>`;
+    } else if (nameUpper.includes('SAFFOLA')) {
+      logoHtml = `<div class="flex flex-col items-center leading-none"><span class="material-symbols-outlined text-[17px]">favorite</span><span class="font-extrabold text-[10px] mt-0.5">Saffola</span></div>`;
+    } else if (nameUpper.includes('ITC')) {
+      logoHtml = `<div class="flex flex-col items-center leading-none"><span class="material-symbols-outlined text-[20px]">change_history</span><span class="font-black text-[11px]">ITC</span></div>`;
+    } else if (nameUpper.includes('COLGATE')) {
+      logoHtml = `<span class="font-display-lg font-black italic tracking-tight text-base">Colgate</span>`;
+    } else {
+      logoHtml = `<span class="font-display-lg font-extrabold text-lg">${short}</span>`;
+    }
+
+    const categoryIcon = brand.icon || 'category';
+    const productsLine = Array.isArray(brand.products) ? brand.products.join(" • ") : (brand.products || "");
+
+    return `
+      <div id="brand-card-${brand.id}" 
+           class="brand-card group relative rounded-3xl overflow-hidden flex flex-col justify-between border border-black/5 hover:border-black/15 shadow-sm hover:shadow-xl transition-all duration-500 ease-out"
+           style="background: var(--card-gradient, #f8fafc);">
+        
+        <!-- Soft Ambient Top Blur Glow -->
+        <div class="absolute -top-16 -left-16 w-56 h-56 rounded-full blur-2xl pointer-events-none opacity-40 transition-opacity duration-500 group-hover:opacity-70"
+             style="background: var(--card-bg-start, #e2e8f0);"></div>
+
+        <!-- UPPER BRAND INFORMATION AREA -->
+        <div class="relative z-10 p-6 sm:p-7 pb-3 flex flex-col justify-between flex-1">
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <div class="flex items-center gap-3.5 min-w-0">
+              <div class="brand-logo-badge w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center font-display-lg shadow-sm shrink-0 border border-white/20 transition-transform duration-300 group-hover:scale-105"
+                   style="background: var(--card-logo-bg, #0a192f); color: var(--card-logo-text, #ffffff);">
+                ${logoHtml}
+              </div>
+              <div class="min-w-0">
+                <h3 class="font-headline-xl text-xl sm:text-2xl font-extrabold leading-tight tracking-tight truncate"
+                    style="color: var(--card-text, #0a192f);">
+                  ${escapeHtml(brand.name)}
+                </h3>
+              </div>
+            </div>
+
+            <a href="#contact" title="Enquire for ${escapeHtml(brand.name)}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 group-hover:translate-x-1 group-hover:scale-110 shadow-sm"
+               style="background: var(--card-btn-bg, rgba(0,0,0,0.06)); color: var(--card-btn-text, #0a192f);">
+              <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+            </a>
+          </div>
+
+          <div class="space-y-1.5 mt-1.5 mb-2">
+            <div class="inline-flex items-center gap-1.5 font-label-sm text-[11px] font-extrabold uppercase tracking-wider"
+                 style="color: var(--card-category-color, #c51d24);">
+              <span class="material-symbols-outlined text-[15px]">${escapeHtml(categoryIcon)}</span>
+              <span>${escapeHtml(brand.category)}</span>
+            </div>
+            <p class="font-body-md text-xs sm:text-sm font-semibold leading-relaxed"
+               style="color: var(--card-subtext, #475569);">
+              ${escapeHtml(productsLine)}
+            </p>
+          </div>
+        </div>
+
+        <!-- FULL BLEED PRODUCT IMAGE WITH DYNAMIC SOFT BLURRED TRANSITION -->
+        <div class="brand-image-bleed relative w-full h-44 sm:h-52 overflow-hidden mt-auto">
+          <img src="${escapeHtml(brand.image || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&auto=format&fit=crop&q=80')}"
+               alt="${escapeHtml(brand.name)} Wholesale Products"
+               loading="lazy"
+               class="brand-product-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"/>
+
+          <div class="absolute inset-0 pointer-events-none transition-opacity duration-300"
+               style="background: linear-gradient(180deg, var(--card-bg-mid, rgba(248,250,252,0.95)) 0%, rgba(var(--card-rgb, 248,250,252), 0.45) 25%, transparent 70%);"></div>
+          
+          <div class="absolute top-0 left-0 right-0 h-10 pointer-events-none backdrop-blur-[2px]"
+               style="background: linear-gradient(180deg, var(--card-bg-mid, #f8fafc) 0%, transparent 100%);"></div>
+        </div>
+      </div>
+    `;
+  }
+
   function renderPublicBrands() {
     const container = document.getElementById('brand-cards-container');
     const toggleContainer = document.getElementById('brands-toggle-container');
     if (!container || typeof CMS === 'undefined') return;
 
     const allBrands = (CMS.getBrands() || []).filter(b => b.active !== false);
-    const visibleBrands = publicBrandsExpanded ? allBrands : allBrands.slice(0, 6);
+    const initialBrands = allBrands.slice(0, 6);
 
-    container.innerHTML = visibleBrands.map((brand) => {
-      let logoHtml = '';
-      const nameUpper = (brand.name || '').toUpperCase();
-      const short = escapeHtml(brand.monogram || brand.name || 'B');
+    // Initial render of the first 6 cards
+    container.innerHTML = initialBrands.map(createBrandCardMarkup).join('');
+    publicBrandsExpanded = false;
 
-      if (nameUpper.includes('UNILEVER') || short === 'HUL') {
-        logoHtml = `<span class="font-display-lg font-black tracking-tighter text-2xl">U</span>`;
-      } else if (nameUpper.includes('PROCTER') || short === 'P&G') {
-        logoHtml = `<span class="font-display-lg font-black italic tracking-tight text-xl">P&amp;G</span>`;
-      } else if (nameUpper.includes('NESTL') || short === 'NESTLÉ') {
-        logoHtml = `<span class="font-display-lg font-extrabold tracking-tight text-lg">Nestlé</span>`;
-      } else if (nameUpper.includes('BRITANNIA')) {
-        logoHtml = `<span class="font-display-lg font-black tracking-wider text-xs px-1 py-0.5 border border-current rounded uppercase">BRITANNIA</span>`;
-      } else if (nameUpper.includes('DABUR')) {
-        logoHtml = `<div class="flex flex-col items-center leading-none"><span class="material-symbols-outlined text-[18px]">park</span><span class="font-extrabold text-[11px] mt-0.5">Dabur</span></div>`;
-      } else if (nameUpper.includes('SAFFOLA')) {
-        logoHtml = `<div class="flex flex-col items-center leading-none"><span class="material-symbols-outlined text-[17px]">favorite</span><span class="font-extrabold text-[10px] mt-0.5">Saffola</span></div>`;
-      } else if (nameUpper.includes('ITC')) {
-        logoHtml = `<div class="flex flex-col items-center leading-none"><span class="material-symbols-outlined text-[20px]">change_history</span><span class="font-black text-[11px]">ITC</span></div>`;
-      } else if (nameUpper.includes('COLGATE')) {
-        logoHtml = `<span class="font-display-lg font-black italic tracking-tight text-base">Colgate</span>`;
-      } else {
-        logoHtml = `<span class="font-display-lg font-extrabold text-lg">${short}</span>`;
-      }
-
-      const categoryIcon = brand.icon || 'category';
-      const productsLine = Array.isArray(brand.products) ? brand.products.join(" • ") : (brand.products || "");
-
-      return `
-        <div id="brand-card-${brand.id}" 
-             class="brand-card group relative rounded-3xl overflow-hidden flex flex-col justify-between border border-black/5 hover:border-black/15 shadow-sm hover:shadow-xl transition-all duration-500 ease-out"
-             style="background: var(--card-gradient, #f8fafc);">
-          
-          <!-- Soft Ambient Top Blur Glow -->
-          <div class="absolute -top-16 -left-16 w-56 h-56 rounded-full blur-2xl pointer-events-none opacity-40 transition-opacity duration-500 group-hover:opacity-70"
-               style="background: var(--card-bg-start, #e2e8f0);"></div>
-
-          <!-- UPPER BRAND INFORMATION AREA -->
-          <div class="relative z-10 p-6 sm:p-7 pb-3 flex flex-col justify-between flex-1">
-            <div class="flex items-start justify-between gap-3 mb-3">
-              <div class="flex items-center gap-3.5 min-w-0">
-                <div class="brand-logo-badge w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center font-display-lg shadow-sm shrink-0 border border-white/20 transition-transform duration-300 group-hover:scale-105"
-                     style="background: var(--card-logo-bg, #0a192f); color: var(--card-logo-text, #ffffff);">
-                  ${logoHtml}
-                </div>
-                <div class="min-w-0">
-                  <h3 class="font-headline-xl text-xl sm:text-2xl font-extrabold leading-tight tracking-tight truncate"
-                      style="color: var(--card-text, #0a192f);">
-                    ${escapeHtml(brand.name)}
-                  </h3>
-                </div>
-              </div>
-
-              <a href="#contact" title="Enquire for ${escapeHtml(brand.name)}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 group-hover:translate-x-1 group-hover:scale-110 shadow-sm"
-                 style="background: var(--card-btn-bg, rgba(0,0,0,0.06)); color: var(--card-btn-text, #0a192f);">
-                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-              </a>
-            </div>
-
-            <div class="space-y-1.5 mt-1.5 mb-2">
-              <div class="inline-flex items-center gap-1.5 font-label-sm text-[11px] font-extrabold uppercase tracking-wider"
-                   style="color: var(--card-category-color, #c51d24);">
-                <span class="material-symbols-outlined text-[15px]">${escapeHtml(categoryIcon)}</span>
-                <span>${escapeHtml(brand.category)}</span>
-              </div>
-              <p class="font-body-md text-xs sm:text-sm font-semibold leading-relaxed"
-                 style="color: var(--card-subtext, #475569);">
-                ${escapeHtml(productsLine)}
-              </p>
-            </div>
-          </div>
-
-          <!-- FULL BLEED PRODUCT IMAGE WITH DYNAMIC SOFT BLURRED TRANSITION -->
-          <div class="brand-image-bleed relative w-full h-44 sm:h-52 overflow-hidden mt-auto">
-            <img src="${escapeHtml(brand.image || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&auto=format&fit=crop&q=80')}"
-                 alt="${escapeHtml(brand.name)} Wholesale Products"
-                 loading="lazy"
-                 class="brand-product-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"/>
-
-            <div class="absolute inset-0 pointer-events-none transition-opacity duration-300"
-                 style="background: linear-gradient(180deg, var(--card-bg-mid, rgba(248,250,252,0.95)) 0%, rgba(var(--card-rgb, 248,250,252), 0.45) 25%, transparent 70%);"></div>
-            
-            <div class="absolute top-0 left-0 right-0 h-10 pointer-events-none backdrop-blur-[2px]"
-                 style="background: linear-gradient(180deg, var(--card-bg-mid, #f8fafc) 0%, transparent 100%);"></div>
-          </div>
-        </div>
-      `;
-    }).join('');
-
-    // Render View More button if more than 6 brands exist
-    if (toggleContainer) {
-      if (allBrands.length > 6) {
-        toggleContainer.innerHTML = `
-          <button id="brands-toggle-btn" class="inline-flex items-center gap-2.5 px-8 py-3.5 bg-surface-container-lowest text-primary hover:text-secondary border border-outline-variant/60 hover:border-secondary rounded-full font-label-lg text-sm font-bold shadow-sm hover:shadow-md transition-all duration-200">
-            <span>${publicBrandsExpanded ? 'Show Less Brands' : `View More Brands (${allBrands.length - 6} more)`}</span>
-            <span class="material-symbols-outlined text-[20px] transition-transform duration-300 ${publicBrandsExpanded ? 'rotate-180' : ''}">expand_more</span>
-          </button>
-        `;
-        const toggleBtn = document.getElementById('brands-toggle-btn');
-        if (toggleBtn) {
-          toggleBtn.onclick = () => {
-            publicBrandsExpanded = !publicBrandsExpanded;
-            renderPublicBrands();
-            if (!publicBrandsExpanded) {
-              const brandsEl = document.getElementById('brands');
-              if (brandsEl) brandsEl.scrollIntoView({ behavior: 'smooth' });
-            }
-          };
-        }
-      } else {
-        toggleContainer.innerHTML = '';
-      }
-    }
-
-    // Apply Dynamic Color Extraction for each visible card
+    // Apply color extraction for initial cards
     if (typeof ColorExtractor !== 'undefined') {
-      visibleBrands.forEach(brand => {
+      initialBrands.forEach(brand => {
         const cardEl = document.getElementById(`brand-card-${brand.id}`);
         if (cardEl && brand.image) {
           ColorExtractor.extract(brand.image).then(palette => {
@@ -1205,6 +1433,80 @@
           });
         }
       });
+    }
+
+    // Render View More / Show Less Toggle Button with Smart Incremental Reveal
+    if (toggleContainer) {
+      if (allBrands.length > 6) {
+        const remainingCount = allBrands.length - 6;
+        toggleContainer.innerHTML = `
+          <button id="brands-toggle-btn" class="inline-flex items-center gap-2.5 px-8 py-3.5 bg-surface-container-lowest text-primary hover:text-secondary border border-outline-variant/60 hover:border-secondary rounded-full font-label-lg text-sm font-bold shadow-sm hover:shadow-md transition-all duration-200">
+            <span id="brands-toggle-label">View More Brands (${remainingCount} more)</span>
+            <span id="brands-toggle-icon" class="material-symbols-outlined text-[20px] transition-transform duration-300">expand_more</span>
+          </button>
+        `;
+
+        const toggleBtn = document.getElementById('brands-toggle-btn');
+        const toggleLabel = document.getElementById('brands-toggle-label');
+        const toggleIcon = document.getElementById('brands-toggle-icon');
+
+        if (toggleBtn) {
+          toggleBtn.onclick = () => {
+            if (!publicBrandsExpanded) {
+              // EXPAND: Append ONLY the newly revealed cards
+              publicBrandsExpanded = true;
+              const extraBrands = allBrands.slice(6);
+              const extraMarkup = extraBrands.map(createBrandCardMarkup).join('');
+              container.insertAdjacentHTML('beforeend', extraMarkup);
+
+              // Apply color extraction only to newly appended cards
+              if (typeof ColorExtractor !== 'undefined') {
+                extraBrands.forEach(brand => {
+                  const cardEl = document.getElementById(`brand-card-${brand.id}`);
+                  if (cardEl && brand.image) {
+                    ColorExtractor.extract(brand.image).then(palette => {
+                      ColorExtractor.applyToElement(cardEl, palette);
+                    });
+                  }
+                });
+              }
+
+              // Update Toggle Button State
+              if (toggleLabel) toggleLabel.textContent = 'Show Less Brands';
+              if (toggleIcon) toggleIcon.classList.add('rotate-180');
+
+              // Animate ONLY newly added cards (staggered from index 0 of the new batch)
+              if (typeof animateNewlyAddedBrandCards === 'function') {
+                animateNewlyAddedBrandCards();
+              }
+            } else {
+              // COLLAPSE: Remove ONLY the extra cards (index >= 6), keep cards 1..6 untouched & visible
+              publicBrandsExpanded = false;
+              const cards = container.querySelectorAll('.brand-card');
+              cards.forEach((card, index) => {
+                if (index >= 6) {
+                  card.remove();
+                }
+              });
+
+              // Update Toggle Button State
+              if (toggleLabel) toggleLabel.textContent = `View More Brands (${remainingCount} more)`;
+              if (toggleIcon) toggleIcon.classList.remove('rotate-180');
+
+              // Smoothly scroll back if user is further down without resetting animation
+              const brandsEl = document.getElementById('brands');
+              if (brandsEl) {
+                const rect = brandsEl.getBoundingClientRect();
+                if (rect.top < 0) {
+                  brandsEl.scrollIntoView({ behavior: 'smooth' });
+                }
+              }
+            }
+          };
+        }
+      } else {
+        toggleContainer.innerHTML = '';
+      }
     }
   }
 
@@ -1231,13 +1533,35 @@
       form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const name = document.getElementById('enq-name').value;
-        const company = document.getElementById('enq-company').value;
-        const phone = document.getElementById('enq-phone').value;
-        const town = document.getElementById('enq-town').value;
+        const nameInput = document.getElementById('enq-name');
+        const companyInput = document.getElementById('enq-company');
+        const phoneInput = document.getElementById('enq-phone');
+        const townInput = document.getElementById('enq-town');
         const reasonSelect = document.getElementById('enq-reason');
+        const messageInput = document.getElementById('enq-message');
+
+        const name = nameInput ? nameInput.value.trim() : '';
+        const company = companyInput ? companyInput.value.trim() : '';
+        const phone = phoneInput ? phoneInput.value.trim() : '';
+        const town = townInput ? townInput.value.trim() : '';
         const reason = reasonSelect ? reasonSelect.value : "Wholesale Supply / Bulk Purchase";
-        const userMsg = document.getElementById('enq-message').value;
+        const userMsg = messageInput ? messageInput.value.trim() : '';
+
+        // Validation check with error horizontal shake (450ms)
+        let hasError = false;
+        [nameInput, companyInput, phoneInput, townInput].forEach(input => {
+          if (input && !input.value.trim()) {
+            hasError = true;
+            input.classList.remove('field-error-shake');
+            void input.offsetWidth; // Trigger reflow
+            input.classList.add('field-error-shake');
+            setTimeout(() => {
+              input.classList.remove('field-error-shake');
+            }, 450);
+          }
+        });
+
+        if (hasError) return;
 
         const messageContent = `[Town: ${town}] [Reason: ${reason}] ${userMsg ? 'Note: ' + userMsg : ''}`;
 
@@ -1258,9 +1582,13 @@
         renderEnquiryReasons();
         if (successBox) {
           successBox.classList.remove('hidden');
+          successBox.classList.remove('enquiry-success-animated');
+          void successBox.offsetWidth; // Trigger reflow
+          successBox.classList.add('enquiry-success-animated');
           successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
           setTimeout(() => {
             successBox.classList.add('hidden');
+            successBox.classList.remove('enquiry-success-animated');
           }, 8000);
         }
       });
@@ -1268,32 +1596,808 @@
   }
 
   /**
-   * 8. Navigation Active State on Scroll
+   * 8. Navigation Active State on Scroll with Smooth Sliding Pill
    */
   function setupNavScroll() {
-    const sections = document.querySelectorAll('section[id]');
+    const nav = document.getElementById('desktop-nav');
+    const pill = document.getElementById('desktop-nav-pill');
     const navLinks = document.querySelectorAll('#desktop-nav .nav-item');
+    const sections = document.querySelectorAll('main section[id]');
+    let activePath = '';
 
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 120;
-        if (window.scrollY >= sectionTop) {
-          current = section.getAttribute('id');
+    function updatePillPosition(targetLink) {
+      if (!nav || !pill || !targetLink) return;
+      const navRect = nav.getBoundingClientRect();
+      const linkRect = targetLink.getBoundingClientRect();
+
+      const x = Math.round(linkRect.left - navRect.left);
+      const y = Math.round(linkRect.top - navRect.top);
+      const w = Math.round(linkRect.width);
+      const h = Math.round(linkRect.height);
+
+      pill.style.setProperty('--pill-x', `${x}px`);
+      pill.style.setProperty('--pill-y', `${y}px`);
+      pill.style.setProperty('--pill-w', `${w}px`);
+      pill.style.setProperty('--pill-h', `${h}px`);
+      pill.classList.add('is-active');
+    }
+
+    function setActiveLink(path) {
+      if (path === activePath && pill && pill.classList.contains('is-active')) return;
+      activePath = path;
+
+      let matchedLink = null;
+      navLinks.forEach(link => {
+        const linkPath = link.getAttribute('data-path');
+        if (linkPath === path) {
+          link.classList.add('is-active');
+          link.setAttribute('aria-current', 'page');
+          matchedLink = link;
+        } else {
+          link.classList.remove('is-active');
+          link.removeAttribute('aria-current');
         }
       });
 
-      navLinks.forEach(link => {
+      if (matchedLink) {
+        updatePillPosition(matchedLink);
+      }
+    }
+
+    function onScroll() {
+      let current = '';
+      const scrollPos = window.scrollY || window.pageYOffset || 0;
+
+      if (scrollPos < 80) {
+        current = 'home';
+      } else {
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop - 140;
+          if (scrollPos >= sectionTop) {
+            current = section.getAttribute('id');
+          }
+        });
+      }
+
+      if (current) {
+        setActiveLink(current);
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', () => {
+      const activeItem = document.querySelector('#desktop-nav .nav-item.is-active') || document.querySelector('#desktop-nav .nav-item');
+      if (activeItem) updatePillPosition(activeItem);
+    }, { passive: true });
+
+    // Direct click handler for immediate responsive glide
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
         const path = link.getAttribute('data-path');
-        if (path === current) {
-          link.classList.add('bg-primary', 'text-on-primary', 'shadow-sm', 'font-bold');
-          link.classList.remove('text-on-surface-variant');
-        } else {
-          link.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm', 'font-bold');
-          link.classList.add('text-on-surface-variant');
-        }
+        if (path) setActiveLink(path);
       });
     });
+
+    // Initial positioning on page load
+    setTimeout(() => {
+      onScroll();
+    }, 60);
+
+    // Shrink header on scroll
+    const headerEl = document.querySelector('header');
+    if (headerEl) {
+      window.addEventListener('scroll', () => {
+        if ((window.scrollY || window.pageYOffset || 0) > 40) {
+          headerEl.classList.add('scrolled');
+        } else {
+          headerEl.classList.remove('scrolled');
+        }
+      }, { passive: true });
+    }
+  }
+
+  /**
+   * 9. Core Strengths Staggered Entrance on Scroll & Reversible Scroll Response
+   */
+  function initStrengthsObserver() {
+    const strengthsSection = document.getElementById('strengths');
+    const headerEl = document.querySelector('.strengths-header');
+    const strengthCards = document.querySelectorAll('.strength-card');
+    const statEls = document.querySelectorAll('.stat-counter');
+    if (!strengthsSection) return;
+
+    let headerVisible = false;
+    let cardsVisible = false;
+    let cardTimeouts = [];
+
+    const runStatCounter = (el) => {
+      const target = parseInt(el.getAttribute('data-target'), 10);
+      const prefix = el.getAttribute('data-prefix') || '';
+      const suffix = el.getAttribute('data-suffix') || '';
+      if (isNaN(target)) return;
+
+      const duration = 1800;
+      const startTime = performance.now();
+
+      const updateCount = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease-out cubic: 1 - (1 - t)^3
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const currentVal = Math.floor(easeOut * target);
+        el.textContent = `${prefix}${currentVal}${suffix}`;
+
+        if (progress < 1) {
+          requestAnimationFrame(updateCount);
+        } else {
+          el.textContent = `${prefix}${target}${suffix}`;
+        }
+      };
+
+      requestAnimationFrame(updateCount);
+    };
+
+    // Header Observer: triggers when header enters viewport
+    if (headerEl) {
+      const headerObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (!headerVisible) {
+              headerVisible = true;
+              headerEl.classList.add('is-visible');
+            }
+          } else if (entry.boundingClientRect.top > 0) {
+            headerVisible = false;
+            headerEl.classList.remove('is-visible');
+          }
+        });
+      }, { threshold: 0.25, rootMargin: '0px 0px -50px 0px' });
+      headerObserver.observe(headerEl);
+    }
+
+    // Cards Grid Observer: triggers when cards are comfortably in viewport
+    const cardsContainer = document.querySelector('#strengths .grid') || strengthsSection;
+    const cardsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!cardsVisible) {
+            cardsVisible = true;
+            cardTimeouts.forEach(t => clearTimeout(t));
+            cardTimeouts = [];
+            strengthCards.forEach((card, index) => {
+              const timeout = setTimeout(() => {
+                card.classList.add('is-visible');
+              }, index * 180);
+              cardTimeouts.push(timeout);
+            });
+            statEls.forEach(runStatCounter);
+          }
+        } else if (entry.boundingClientRect.top > 0) {
+          cardsVisible = false;
+          cardTimeouts.forEach(t => clearTimeout(t));
+          cardTimeouts = [];
+          strengthCards.forEach(card => card.classList.remove('is-visible'));
+          statEls.forEach(el => {
+            const prefix = el.getAttribute('data-prefix') || '';
+            const suffix = el.getAttribute('data-suffix') || '';
+            el.textContent = `${prefix}0${suffix}`;
+          });
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    cardsObserver.observe(cardsContainer);
+  }
+
+  function initStatCounters() {
+    // Handled cohesively inside initStrengthsObserver for synchronized section reveal
+  }
+
+  /**
+   * 11. Verified FMCG Brands Staggered Entrance, Parallax & Reversible Scroll Response
+   */
+  let updateBrandsObserverCards = null;
+
+  function initBrandsObserver() {
+    const brandsSection = document.getElementById('brands');
+    const headerEl = document.querySelector('.brands-section-header');
+    if (!brandsSection) return;
+
+    let headerVisible = false;
+    let cardsVisible = false;
+    let cardTimeouts = [];
+
+    // 1. Header Observer: Trigger when header enters viewport
+    if (headerEl) {
+      const headerObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (!headerVisible) {
+              headerVisible = true;
+              headerEl.classList.add('is-visible');
+            }
+          } else if (entry.boundingClientRect.top > 0) {
+            headerVisible = false;
+            headerEl.classList.remove('is-visible');
+          }
+        });
+      }, { threshold: 0.25, rootMargin: '0px 0px -50px 0px' });
+      headerObserver.observe(headerEl);
+    }
+
+    // 2. Animate newly added brand cards when "See More" is clicked
+    animateNewlyAddedBrandCards = () => {
+      const unrevealedCards = document.querySelectorAll('#brand-cards-container .brand-card:not(.is-visible)');
+      if (!unrevealedCards.length) return;
+
+      if (cardsVisible) {
+        // Stagger ONLY the new cards, starting at 0ms for the first new card
+        unrevealedCards.forEach((card, newIndex) => {
+          const timeout = setTimeout(() => {
+            card.classList.add('is-visible');
+          }, newIndex * 200);
+          cardTimeouts.push(timeout);
+        });
+      }
+    };
+
+    // Trigger initial reveal of unrevealed cards when section scrolls into view
+    const triggerCardsReveal = () => {
+      const unrevealedCards = document.querySelectorAll('#brand-cards-container .brand-card:not(.is-visible)');
+      cardTimeouts.forEach(t => clearTimeout(t));
+      cardTimeouts = [];
+      unrevealedCards.forEach((card, index) => {
+        const timeout = setTimeout(() => {
+          card.classList.add('is-visible');
+        }, index * 200); // 200ms deliberate stagger
+        cardTimeouts.push(timeout);
+      });
+    };
+
+    const resetCardsReveal = () => {
+      const brandCards = document.querySelectorAll('#brand-cards-container .brand-card');
+      cardTimeouts.forEach(t => clearTimeout(t));
+      cardTimeouts = [];
+      brandCards.forEach(card => {
+        card.classList.remove('is-visible');
+        card.style.setProperty('--brand-parallax-y', '0px');
+      });
+    };
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!cardsVisible) {
+            cardsVisible = true;
+            triggerCardsReveal();
+          }
+        } else if (entry.boundingClientRect.top > 0) {
+          // Reversible when scrolling back up above the section
+          cardsVisible = false;
+          resetCardsReveal();
+        }
+      });
+    }, { threshold: 0.22, rootMargin: '0px 0px -60px 0px' });
+
+    sectionObserver.observe(brandsSection);
+
+    // 3. Subtle Scroll Parallax (Max 20-30px, differential column speeds)
+    let parallaxTicking = false;
+    const isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!isReducedMotion) {
+      window.addEventListener('scroll', () => {
+        if (parallaxTicking) return;
+        parallaxTicking = true;
+        requestAnimationFrame(() => {
+          parallaxTicking = false;
+          if (!cardsVisible) return;
+
+          const rect = brandsSection.getBoundingClientRect();
+          const windowH = window.innerHeight;
+          // Check if section is currently active across viewport
+          if (rect.top < windowH && rect.bottom > 0) {
+            const progress = (windowH - rect.top) / (windowH + rect.height);
+            const centeredProgress = Math.max(-1, Math.min(1, (progress - 0.5) * 2));
+            const brandCards = document.querySelectorAll('#brand-cards-container .brand-card');
+
+            brandCards.forEach((card, index) => {
+              // Alternate subtle shift across 3-column grid (-14px, +18px, -10px)
+              const col = index % 3;
+              let factor = 0;
+              if (col === 0) factor = -14;
+              else if (col === 1) factor = 18;
+              else factor = -10;
+
+              const offsetY = Math.round(centeredProgress * factor);
+              card.style.setProperty('--brand-parallax-y', `${offsetY}px`);
+            });
+          }
+        });
+      }, { passive: true });
+    }
+  }
+
+  /**
+   * 12. About / Facility Section Entrance, Reveal & Parallax
+   */
+  function initFacilityObserver() {
+    const facilitySection = document.getElementById('facility');
+    if (!facilitySection) return;
+
+    let isFacilityVisible = false;
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!isFacilityVisible) {
+            isFacilityVisible = true;
+            facilitySection.classList.add('is-visible');
+          }
+        } else if (entry.boundingClientRect.top > 0) {
+          // Reversible when scrolling back up above the section
+          isFacilityVisible = false;
+          facilitySection.classList.remove('is-visible');
+          facilitySection.style.setProperty('--fac-image-parallax-y', '0px');
+          facilitySection.style.setProperty('--fac-text-parallax-y', '0px');
+        }
+      });
+    }, { threshold: 0.22, rootMargin: '0px 0px -50px 0px' });
+
+    sectionObserver.observe(facilitySection);
+
+    // Subtle scroll parallax (Image: ~20-30px, Text: ~10-15px)
+    let parallaxTicking = false;
+    const isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!isReducedMotion) {
+      window.addEventListener('scroll', () => {
+        if (parallaxTicking) return;
+        parallaxTicking = true;
+        requestAnimationFrame(() => {
+          parallaxTicking = false;
+          if (!isFacilityVisible) return;
+
+          const rect = facilitySection.getBoundingClientRect();
+          const windowH = window.innerHeight;
+          if (rect.top < windowH && rect.bottom > 0) {
+            // Check screen width: reduce/disable parallax on mobile
+            const isMobile = window.innerWidth < 768;
+            if (isMobile) {
+              facilitySection.style.setProperty('--fac-image-parallax-y', '0px');
+              facilitySection.style.setProperty('--fac-text-parallax-y', '0px');
+              return;
+            }
+
+            const progress = (windowH - rect.top) / (windowH + rect.height);
+            const centeredProgress = Math.max(-1, Math.min(1, (progress - 0.5) * 2));
+
+            // Image moves ~24px, Text moves ~12px in opposite subtle direction for depth
+            const imageOffset = Math.round(centeredProgress * 24);
+            const textOffset = Math.round(centeredProgress * -12);
+
+            facilitySection.style.setProperty('--fac-image-parallax-y', `${imageOffset}px`);
+            facilitySection.style.setProperty('--fac-text-parallax-y', `${textOffset}px`);
+          }
+        });
+      }, { passive: true });
+    }
+  }
+
+  /**
+   * 13. Team / Leadership Section Sequential Entrance, Reveal & Parallax
+   */
+  let updateTeamObserverCards = null;
+
+  function initTeamObserver() {
+    const teamSection = document.getElementById('team');
+    const headerEl = document.querySelector('.team-section-header');
+    if (!teamSection) return;
+
+    let headerVisible = false;
+    let cardsVisible = false;
+    let cardTimeouts = [];
+
+    // 1. Header Observer: Trigger when heading enters viewport
+    if (headerEl) {
+      const headerObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (!headerVisible) {
+              headerVisible = true;
+              headerEl.classList.add('is-visible');
+            }
+          } else if (entry.boundingClientRect.top > 0) {
+            headerVisible = false;
+            headerEl.classList.remove('is-visible');
+          }
+        });
+      }, { threshold: 0.25, rootMargin: '0px 0px -50px 0px' });
+      headerObserver.observe(headerEl);
+    }
+
+    // 2. Team Cards Reveal: Trigger when ~20-30% of section has entered viewport
+    const triggerCardsReveal = () => {
+      const teamCards = document.querySelectorAll('#team-cards-container .team-card:not(.is-visible)');
+      cardTimeouts.forEach(t => clearTimeout(t));
+      cardTimeouts = [];
+      teamCards.forEach((card, index) => {
+        const timeout = setTimeout(() => {
+          card.classList.add('is-visible');
+        }, index * 220); // 220ms deliberate stagger
+        cardTimeouts.push(timeout);
+      });
+    };
+
+    const resetCardsReveal = () => {
+      const teamCards = document.querySelectorAll('#team-cards-container .team-card');
+      cardTimeouts.forEach(t => clearTimeout(t));
+      cardTimeouts = [];
+      teamCards.forEach(card => {
+        card.classList.remove('is-visible');
+        card.style.setProperty('--team-parallax-y', '0px');
+      });
+    };
+
+    updateTeamObserverCards = () => {
+      if (cardsVisible) {
+        triggerCardsReveal();
+      }
+    };
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!cardsVisible) {
+            cardsVisible = true;
+            triggerCardsReveal();
+          }
+        } else if (entry.boundingClientRect.top > 0) {
+          cardsVisible = false;
+          resetCardsReveal();
+        }
+      });
+    }, { threshold: 0.22, rootMargin: '0px 0px -50px 0px' });
+
+    sectionObserver.observe(teamSection);
+
+    // 3. Subtle Scroll Parallax (Max 20-30px, differential column speeds)
+    let parallaxTicking = false;
+    const isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!isReducedMotion) {
+      window.addEventListener('scroll', () => {
+        if (parallaxTicking) return;
+        parallaxTicking = true;
+        requestAnimationFrame(() => {
+          parallaxTicking = false;
+          if (!cardsVisible) return;
+
+          const rect = teamSection.getBoundingClientRect();
+          const windowH = window.innerHeight;
+          if (rect.top < windowH && rect.bottom > 0) {
+            const isMobile = window.innerWidth < 768;
+            const teamCards = document.querySelectorAll('#team-cards-container .team-card');
+            if (isMobile) {
+              teamCards.forEach(card => card.style.setProperty('--team-parallax-y', '0px'));
+              return;
+            }
+
+            const progress = (windowH - rect.top) / (windowH + rect.height);
+            const centeredProgress = Math.max(-1, Math.min(1, (progress - 0.5) * 2));
+
+            teamCards.forEach((card, index) => {
+              // Alternate subtle shift across 4-column grid (-12px, +16px, -8px, +14px)
+              const col = index % 4;
+              let factor = 0;
+              if (col === 0) factor = -12;
+              else if (col === 1) factor = 16;
+              else if (col === 2) factor = -8;
+              else factor = 14;
+
+              const offsetY = Math.round(centeredProgress * factor);
+              card.style.setProperty('--team-parallax-y', `${offsetY}px`);
+            });
+          }
+        });
+      }, { passive: true });
+    }
+  }
+
+  /**
+   * 14. Contact / Location Section Sequential Entrance, Map Reveal & Parallax
+   */
+  function initContactObserver() {
+    const contactSection = document.getElementById('contact');
+    const headerEl = document.querySelector('.contact-section-header');
+    if (!contactSection) return;
+
+    let isContactVisible = false;
+    let detailTimeouts = [];
+    let formFieldTimeouts = [];
+    let submitBtnTimeout = null;
+    let markerTimeout = null;
+
+    const triggerDetailsReveal = () => {
+      // 1. Reveal Contact Desk items
+      const detailItems = document.querySelectorAll('.contact-detail-item');
+      detailTimeouts.forEach(t => clearTimeout(t));
+      detailTimeouts = [];
+      detailItems.forEach((item, index) => {
+        const timeout = setTimeout(() => {
+          item.classList.add('is-visible');
+        }, index * 200); // 200ms deliberate stagger
+        detailTimeouts.push(timeout);
+      });
+
+      // 2. Sequential reveal of Enquiry Form fields (150ms stagger, 800ms duration)
+      const formFields = document.querySelectorAll('.enquiry-field-group');
+      formFieldTimeouts.forEach(t => clearTimeout(t));
+      formFieldTimeouts = [];
+      formFields.forEach((field, index) => {
+        const timeout = setTimeout(() => {
+          field.classList.add('is-visible');
+        }, index * 150); // 150ms stagger
+        formFieldTimeouts.push(timeout);
+      });
+
+      // 3. Submit button reveal (enters after fields ~ 6 * 150 = 900ms + 150ms = ~1050ms)
+      const submitBtn = document.querySelector('.enquiry-submit-btn');
+      if (submitBtn) {
+        if (submitBtnTimeout) clearTimeout(submitBtnTimeout);
+        submitBtnTimeout = setTimeout(() => {
+          submitBtn.classList.add('is-visible');
+        }, formFields.length * 150 + 150);
+      }
+
+      // 4. Marker pulse animation after map finishes revealing (~1400ms)
+      if (markerTimeout) clearTimeout(markerTimeout);
+      markerTimeout = setTimeout(() => {
+        const markerIcons = document.querySelectorAll('.leaflet-marker-icon');
+        markerIcons.forEach(icon => {
+          icon.classList.remove('marker-pulsing');
+          void icon.offsetWidth; // Trigger reflow
+          icon.classList.add('marker-pulsing');
+        });
+      }, 1400);
+    };
+
+    const resetDetailsReveal = () => {
+      detailTimeouts.forEach(t => clearTimeout(t));
+      detailTimeouts = [];
+      formFieldTimeouts.forEach(t => clearTimeout(t));
+      formFieldTimeouts = [];
+      if (submitBtnTimeout) clearTimeout(submitBtnTimeout);
+      if (markerTimeout) clearTimeout(markerTimeout);
+
+      const detailItems = document.querySelectorAll('.contact-detail-item');
+      detailItems.forEach(item => item.classList.remove('is-visible'));
+
+      const formFields = document.querySelectorAll('.enquiry-field-group');
+      formFields.forEach(field => field.classList.remove('is-visible'));
+
+      const submitBtn = document.querySelector('.enquiry-submit-btn');
+      if (submitBtn) submitBtn.classList.remove('is-visible');
+
+      contactSection.style.setProperty('--contact-content-parallax-y', '0px');
+      contactSection.style.setProperty('--contact-map-parallax-y', '0px');
+    };
+
+    // 1. Header Observer: Trigger when heading enters viewport
+    if (headerEl) {
+      const headerObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            headerEl.classList.add('is-visible');
+          } else if (entry.boundingClientRect.top > 0) {
+            headerEl.classList.remove('is-visible');
+          }
+        });
+      }, { threshold: 0.25, rootMargin: '0px 0px -50px 0px' });
+      headerObserver.observe(headerEl);
+    }
+
+    // 2. Section Observer: Trigger content & map reveal
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!isContactVisible) {
+            isContactVisible = true;
+            contactSection.classList.add('is-visible');
+            triggerDetailsReveal();
+          }
+        } else if (entry.boundingClientRect.top > 0) {
+          isContactVisible = false;
+          contactSection.classList.remove('is-visible');
+          resetDetailsReveal();
+        }
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -50px 0px' });
+
+    sectionObserver.observe(contactSection);
+
+    // 3. Subtle Scroll Parallax (Map: max 20px, Content: max 10px)
+    let parallaxTicking = false;
+    const isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!isReducedMotion) {
+      window.addEventListener('scroll', () => {
+        if (parallaxTicking) return;
+        parallaxTicking = true;
+        requestAnimationFrame(() => {
+          parallaxTicking = false;
+          if (!isContactVisible) return;
+
+          const rect = contactSection.getBoundingClientRect();
+          const windowH = window.innerHeight;
+          if (rect.top < windowH && rect.bottom > 0) {
+            const isMobile = window.innerWidth < 768;
+            if (isMobile) {
+              contactSection.style.setProperty('--contact-content-parallax-y', '0px');
+              contactSection.style.setProperty('--contact-map-parallax-y', '0px');
+              return;
+            }
+
+            const progress = (windowH - rect.top) / (windowH + rect.height);
+            const centeredProgress = Math.max(-1, Math.min(1, (progress - 0.5) * 2));
+
+            // Map moves ~18px, Content moves ~-9px
+            const mapOffset = Math.round(centeredProgress * 18);
+            const contentOffset = Math.round(centeredProgress * -9);
+
+            contactSection.style.setProperty('--contact-map-parallax-y', `${mapOffset}px`);
+            contactSection.style.setProperty('--contact-content-parallax-y', `${contentOffset}px`);
+          }
+        });
+      }, { passive: true });
+    }
+  }
+
+  /**
+   * 15. Footer Section Sequential Entrance, Brand Chips Reveal & Subtle Parallax
+   */
+  function initFooterObserver() {
+    const footerEl = document.getElementById('site-footer') || document.querySelector('footer');
+    if (!footerEl) return;
+
+    let isFooterVisible = false;
+    let colTimeouts = [];
+    let chipTimeouts = [];
+
+    const triggerFooterReveal = () => {
+      // 1. Reveal Footer Columns with 200ms stagger
+      const cols = footerEl.querySelectorAll('.footer-col-anim');
+      colTimeouts.forEach(t => clearTimeout(t));
+      colTimeouts = [];
+      cols.forEach((col, index) => {
+        const timeout = setTimeout(() => {
+          col.classList.add('is-visible');
+        }, index * 200);
+        colTimeouts.push(timeout);
+      });
+
+      // 2. Reveal Authorized Brand Chips with 180ms stagger
+      const chips = footerEl.querySelectorAll('.footer-brand-chip');
+      chipTimeouts.forEach(t => clearTimeout(t));
+      chipTimeouts = [];
+      chips.forEach((chip, index) => {
+        const timeout = setTimeout(() => {
+          chip.classList.add('is-visible');
+        }, 400 + index * 180);
+        chipTimeouts.push(timeout);
+      });
+    };
+
+    const resetFooterReveal = () => {
+      colTimeouts.forEach(t => clearTimeout(t));
+      colTimeouts = [];
+      chipTimeouts.forEach(t => clearTimeout(t));
+      chipTimeouts = [];
+
+      const cols = footerEl.querySelectorAll('.footer-col-anim');
+      cols.forEach(col => col.classList.remove('is-visible'));
+
+      const chips = footerEl.querySelectorAll('.footer-brand-chip');
+      chips.forEach(chip => chip.classList.remove('is-visible'));
+
+      footerEl.style.setProperty('--footer-parallax-y', '0px');
+    };
+
+    const footerObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (!isFooterVisible) {
+            isFooterVisible = true;
+            footerEl.classList.add('is-visible');
+            triggerFooterReveal();
+          }
+        } else if (entry.boundingClientRect.top > 0) {
+          isFooterVisible = false;
+          footerEl.classList.remove('is-visible');
+          resetFooterReveal();
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    footerObserver.observe(footerEl);
+
+    // Subtle scroll parallax across 500-700px (max 10-15px)
+    let parallaxTicking = false;
+    const isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!isReducedMotion) {
+      window.addEventListener('scroll', () => {
+        if (parallaxTicking) return;
+        parallaxTicking = true;
+        requestAnimationFrame(() => {
+          parallaxTicking = false;
+          if (!isFooterVisible) return;
+
+          const rect = footerEl.getBoundingClientRect();
+          const windowH = window.innerHeight;
+          if (rect.top < windowH && rect.bottom > 0) {
+            const isMobile = window.innerWidth < 768;
+            if (isMobile) {
+              footerEl.style.setProperty('--footer-parallax-y', '0px');
+              return;
+            }
+
+            const progress = (windowH - rect.top) / (windowH + rect.height);
+            const centeredProgress = Math.max(-1, Math.min(1, (progress - 0.5) * 2));
+
+            // Max 10-12px imperceptible subtle lift
+            const footerOffset = Math.round(centeredProgress * -10);
+            footerEl.style.setProperty('--footer-parallax-y', `${footerOffset}px`);
+          }
+        });
+      }, { passive: true });
+    }
+  }
+
+  /**
+   * 0. Theme Toggle Controller
+   */
+  function setupThemeToggle() {
+    const toggleBtn = document.getElementById('theme-toggle-btn');
+    const toggleIcon = document.getElementById('theme-toggle-icon');
+
+    const getPreferredTheme = () => {
+      const stored = localStorage.getItem('anfal_theme');
+      if (stored === 'dark' || stored === 'light') return stored;
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+
+    const applyTheme = (theme) => {
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.documentElement.classList.add('dark');
+        if (toggleIcon) toggleIcon.textContent = 'light_mode';
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        document.documentElement.classList.remove('dark');
+        if (toggleIcon) toggleIcon.textContent = 'dark_mode';
+      }
+    };
+
+    // Sync button icon with initial theme
+    applyTheme(getPreferredTheme());
+
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('anfal_theme')) {
+          applyTheme(e.matches ? 'dark' : 'light');
+        }
+      });
+    }
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('anfal_theme', next);
+        applyTheme(next);
+      });
+    }
   }
 
   function escapeHtml(str) {

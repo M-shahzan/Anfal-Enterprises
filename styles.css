@@ -60,6 +60,159 @@
 }
 
 /* ==========================================================================
+   DARK THEME OVERRIDE (Lighter, Elegant Slate Palette)
+   ========================================================================== */
+html[data-theme="dark"] {
+  --bg-canvas: #1E2433;
+  --bg-card: #283144;
+  --bg-subtle: #313C52;
+  --bg-alt: #3B4863;
+
+  --color-navy: #FFFFFF;
+  --color-navy-dark: #F1F5F9;
+  --color-navy-light: #F8FAFC;
+
+  --color-charcoal: #E2E8F0;
+  --color-charcoal-muted: #94A3B8;
+
+  --color-gray: rgba(255, 255, 255, 0.12);
+  --color-gray-dark: rgba(255, 255, 255, 0.20);
+
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.20);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.30);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+/* Smooth Theme Transitions using existing --trans-smooth */
+html, body, header, nav, section, div, button, a, span, p, h1, h2, h3, h4, input, select, textarea {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 0.45s;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dark Mode Comprehensive Surface Overrides */
+html[data-theme="dark"] body,
+html[data-theme="dark"] main,
+html[data-theme="dark"] .bg-surface {
+  background-color: var(--bg-canvas) !important;
+  color: var(--color-navy) !important;
+}
+
+html[data-theme="dark"] .bg-surface-container-lowest,
+html[data-theme="dark"] .bg-white {
+  background-color: var(--bg-card) !important;
+  color: var(--color-navy) !important;
+}
+
+html[data-theme="dark"] .bg-surface-container-low,
+html[data-theme="dark"] .bg-warm-white {
+  background-color: var(--bg-subtle) !important;
+}
+
+html[data-theme="dark"] .bg-surface-container {
+  background-color: var(--bg-alt) !important;
+}
+
+html[data-theme="dark"] .text-primary,
+html[data-theme="dark"] .text-on-surface {
+  color: var(--color-navy) !important;
+}
+
+html[data-theme="dark"] .text-on-surface-variant,
+html[data-theme="dark"] .text-charcoal-muted {
+  color: var(--color-charcoal-muted) !important;
+}
+
+/* Header Base & Matte Glass Effect */
+header {
+  background-color: rgba(248, 250, 252, 0.35) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-bottom: none !important;
+}
+
+header.scrolled {
+  background-color: rgba(248, 250, 252, 0.45) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: none !important;
+  box-shadow: 0 4px 20px rgba(10, 25, 47, 0.05) !important;
+}
+
+#desktop-nav {
+  background-color: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  box-shadow: 0 2px 10px rgba(10, 25, 47, 0.04);
+}
+
+#theme-toggle-btn {
+  background-color: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+html[data-theme="dark"] header {
+  background-color: rgba(30, 36, 51, 0.35) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-bottom: none !important;
+}
+
+html[data-theme="dark"] header.scrolled {
+  background-color: rgba(30, 36, 51, 0.48) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: none !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+html[data-theme="dark"] #desktop-nav {
+  background-color: rgba(40, 49, 68, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="dark"] #theme-toggle-btn {
+  background-color: rgba(40, 49, 68, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+html[data-theme="dark"] #desktop-nav .nav-item {
+  color: var(--color-charcoal-muted);
+}
+
+html[data-theme="dark"] #desktop-nav .nav-item.bg-primary {
+  background-color: #FFFFFF !important;
+  color: #1E2433 !important;
+}
+
+html[data-theme="dark"] .border-outline-variant\/40,
+html[data-theme="dark"] .border-outline-variant\/30,
+html[data-theme="dark"] .border-outline-variant\/20,
+html[data-theme="dark"] .border-outline-variant {
+  border-color: var(--color-gray) !important;
+}
+
+html[data-theme="dark"] .divide-outline-variant\/40 > * + * {
+  border-color: var(--color-gray) !important;
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {
+  background-color: var(--bg-subtle) !important;
+  color: var(--color-navy) !important;
+  border-color: var(--color-gray) !important;
+}
+
+/* ==========================================================================
    RESET & FOUNDATION
    ========================================================================== */
 *, *::before, *::after {
@@ -2506,8 +2659,801 @@ body.site-body {
 }
 
 /* ==========================================================================
+   INTERACTIVE ENHANCEMENTS & ANIMATIONS
+   ========================================================================== */
+
+/* 1. Hero Editorial Word-by-Word Rise Animation */
+@keyframes hero-word-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(115%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+.hero-word-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: 1.15;
+}
+
+.hero-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(115%);
+  animation: hero-word-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* Hero Badge, Paragraph & CTA Staggered Entrances */
+.hero-badge-anim {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: hero-fade-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards;
+  will-change: transform, opacity;
+}
+
+.hero-paragraph-anim {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: hero-fade-up 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+  will-change: transform, opacity;
+}
+
+.hero-cta-anim {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: hero-fade-up 1.0s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes hero-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero CTA Interactive Hover & Active State */
+#hero-cta-btn {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease !important;
+  will-change: transform, box-shadow;
+}
+
+#hero-cta-btn:hover {
+  transform: translateY(-2px) scale(1.035) !important;
+  box-shadow: 0 14px 32px rgba(197, 29, 36, 0.38) !important;
+}
+
+#hero-cta-btn:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+/* Hero Background & Content Parallax Layers */
+#hero-bg-layer {
+  transition: background-image 0.5s ease !important;
+  will-change: transform;
+  transform-origin: center center;
+}
+
+#hero-editorial-content {
+  will-change: transform, opacity;
+}
+
+/* Hero Scroll Down Indicator Floating Motion */
+@keyframes hero-scroll-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+.hero-scroll-indicator {
+  animation: hero-scroll-float 2.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* 2. Core Strengths Section Entrance & Feature Hover */
+.strengths-header {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1), transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.strengths-header.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.strength-card {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1), transform 1.0s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.strength-card.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Feature Item Subtle Hover Lift & Scale */
+.strength-card:hover {
+  transform: translateY(-5px) scale(1.015) !important;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* 3. Marquee Continuous Auto-Scrolling Loops */
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee,
+.brands-marquee-container {
+  display: flex !important;
+  width: max-content !important;
+  animation: marquee-scroll 24s linear infinite !important;
+  will-change: transform;
+}
+
+.animate-marquee:hover,
+.brands-marquee-container:hover {
+  animation-play-state: paused !important;
+}
+
+/* 4. Button Arrow Motion on Hover */
+.btn-arrow-slide .material-symbols-outlined,
+.btn-arrow-slide .touch-arrow,
+a .material-symbols-outlined,
+button .material-symbols-outlined {
+  display: inline-block;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: transform;
+}
+
+a:hover .material-symbols-outlined:not(.no-slide),
+button:hover .material-symbols-outlined:not(.no-slide),
+a:hover .touch-arrow,
+button:hover .touch-arrow {
+  transform: translateX(6px) !important;
+}
+
+/* 5. Sticky Nav Smooth Transition & Shrink on Scroll */
+header,
+.site-header-sticky,
+.floating-nav-container {
+  transition: all var(--trans-smooth), background-color var(--trans-smooth), backdrop-filter var(--trans-smooth), box-shadow var(--trans-smooth) !important;
+}
+
+header > div,
+.site-header-sticky > div,
+.floating-nav-container > div {
+  transition: height var(--trans-smooth), padding var(--trans-smooth) !important;
+}
+
+header.scrolled,
+.site-header-sticky.scrolled,
+.floating-nav-container.scrolled {
+  box-shadow: 0 4px 20px rgba(10, 25, 47, 0.08) !important;
+}
+
+header.scrolled > div,
+.site-header-sticky.scrolled > div,
+.floating-nav-container.scrolled > div {
+  height: 3.75rem !important;
+}
+
+/* ==========================================================================
+   HEADER: SMOOTH SLIDING ACTIVE PILL INDICATOR
+   ========================================================================== */
+#desktop-nav {
+  position: relative;
+}
+
+.nav-indicator-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--color-navy);
+  border-radius: 9999px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transform: translate3d(var(--pill-x, 0px), var(--pill-y, 0px), 0);
+  width: var(--pill-w, 0px);
+  height: var(--pill-h, 0px);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+              width 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+              height 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.4s ease;
+  will-change: transform, width, height;
+}
+
+.nav-indicator-pill.is-active {
+  opacity: 1;
+}
+
+#desktop-nav .nav-item {
+  position: relative;
+  z-index: 2;
+  color: var(--color-charcoal-muted);
+  font-weight: 700;
+  transition: color 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+#desktop-nav .nav-item.is-active {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+#desktop-nav .nav-item:hover:not(.is-active) {
+  color: var(--color-navy);
+}
+
+html[data-theme="dark"] #desktop-nav .nav-item.is-active {
+  color: #0A192F !important;
+}
+
+/* 6. Stepped Products Track */
+.hero-products-track {
+  display: flex;
+  gap: 1.25rem;
+  width: max-content;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* ==========================================================================
+   VERIFIED FMCG BRANDS SECTION SCROLL ANIMATIONS
+   ========================================================================== */
+
+/* 1. Section Heading Entrance */
+.brands-section-header {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1), transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.brands-section-header.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 2. Brand Cards Reveal & Parallax */
+.brand-card {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.0s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.4s ease;
+  will-change: opacity, transform;
+}
+
+.brand-card.is-visible {
+  opacity: 1 !important;
+  transform: translateY(var(--brand-parallax-y, 0px)) !important;
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.4s ease !important;
+}
+
+/* 3. Brand Logo / Name Separate Reveal */
+.brand-card .brand-logo-badge,
+.brand-card h3 {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, 
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+  will-change: opacity, transform;
+}
+
+.brand-card.is-visible .brand-logo-badge,
+.brand-card.is-visible h3 {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 4. Existing Product Image Slow Reveal & Hover Scale */
+.brand-card .brand-product-img {
+  transform: scale(1.07);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: transform;
+}
+
+.brand-card.is-visible .brand-product-img {
+  transform: scale(1.0);
+}
+
+/* 6. Card Desktop Hover Interaction */
+.brand-card.is-visible:hover {
+  transform: translateY(calc(var(--brand-parallax-y, 0px) - 8px)) !important;
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.14), 0 10px 15px -5px rgba(0, 0, 0, 0.05) !important;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.brand-card.is-visible:hover .brand-product-img {
+  transform: scale(1.03) !important;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* ==========================================================================
+   ABOUT ANFAL ENTERPRISES / FACILITY SECTION SCROLL ANIMATIONS
+   ========================================================================== */
+
+/* 1. Full-Bleed Background Image Slow Uncover & Scale Reveal */
+#facility-bg-layer {
+  transform: scale(1.06) translateY(var(--fac-image-parallax-y, 0px));
+  clip-path: inset(3% 3% 3% 3% round 16px);
+  transition: clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, clip-path;
+}
+
+#facility.is-visible #facility-bg-layer {
+  transform: scale(1.0) translateY(var(--fac-image-parallax-y, 0px));
+  clip-path: inset(0% 0% 0% 0% round 0px);
+}
+
+/* 2. Facility Content Wrapper Parallax */
+.facility-content-wrap {
+  transform: translateY(var(--fac-text-parallax-y, 0px));
+  will-change: transform;
+}
+
+/* 3. Facility Top Badges Row */
+.facility-badges-anim {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, 
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+  will-change: opacity, transform;
+}
+
+#facility.is-visible .facility-badges-anim {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 4. Facility Main Heading */
+.facility-heading-anim {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1) 0.22s, 
+              transform 1.0s cubic-bezier(0.16, 1, 0.3, 1) 0.22s;
+  will-change: opacity, transform;
+}
+
+#facility.is-visible .facility-heading-anim {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 5. Facility Tagline */
+.facility-tagline-anim {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.38s, 
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.38s;
+  will-change: opacity, transform;
+}
+
+#facility.is-visible .facility-tagline-anim {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 6. Facility Feature Items Grid */
+.facility-features-anim {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.55s, 
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.55s;
+  will-change: opacity, transform;
+}
+
+#facility.is-visible .facility-features-anim {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 7. Facility Bottom Row & CTA */
+.facility-bottom-anim {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.75s, 
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.75s;
+  will-change: opacity, transform;
+}
+
+#facility.is-visible .facility-bottom-anim {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* ==========================================================================
+   TEAM / LEADERSHIP SECTION SCROLL ANIMATIONS
+   ========================================================================== */
+
+/* 1. Team Section Heading Entrance */
+.team-section-header {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1), transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.team-section-header.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 2. Team Member Card Reveal & Scroll Parallax */
+.team-card {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.4s ease;
+  will-change: opacity, transform;
+}
+
+.team-card.is-visible {
+  opacity: 1 !important;
+  transform: translateY(var(--team-parallax-y, 0px)) !important;
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.4s ease !important;
+}
+
+/* 3. Existing Team Member Photo Subtle Reveal */
+.team-card .team-member-img {
+  transform: scale(1.04);
+  opacity: 0.85;
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: transform, opacity;
+}
+
+.team-card.is-visible .team-member-img {
+  transform: scale(1.0);
+  opacity: 1 !important;
+}
+
+/* 4. Desktop Hover Interaction */
+.team-card.is-visible:hover {
+  transform: translateY(calc(var(--team-parallax-y, 0px) - 6px)) !important;
+  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.12), 0 10px 15px -5px rgba(0, 0, 0, 0.04) !important;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.team-card.is-visible:hover .team-member-img {
+  transform: scale(1.03) !important;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* ==========================================================================
+   CONTACT / LOCATION SECTION SCROLL ANIMATIONS
+   ========================================================================== */
+
+/* 1. Contact Section Heading Entrance */
+.contact-section-header {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1), transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.contact-section-header.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 2. Contact Content Cards & Parallax */
+.contact-desk-card,
+.contact-form-card {
+  transform: translateY(var(--contact-content-parallax-y, 0px));
+  will-change: transform;
+}
+
+/* 3. Existing Contact Detail Items Sequential Reveal */
+.contact-detail-item {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.contact-detail-item.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 4. Existing Contact Form & Buttons Reveal */
+.contact-form-card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, 
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+  will-change: opacity, transform;
+}
+
+#contact.is-visible .contact-form-card {
+  opacity: 1 !important;
+  transform: translateY(var(--contact-content-parallax-y, 0px)) !important;
+}
+
+/* ==========================================================================
+   WHOLESALE ENQUIRY / CONTACT FORM SCROLL & INTERACTION ANIMATIONS
+   ========================================================================== */
+
+/* 1. Form Card Heading Entrance (1000ms, translateY 40px -> 0) */
+.enquiry-form-header {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+#contact.is-visible .enquiry-form-header {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 2. Sequential Form Fields Entrance (800ms, translateY 20px -> 0, staggered) */
+.enquiry-field-group {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.enquiry-field-group.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 3. Input, Select & Textarea Focus Transitions (400-500ms, subtle scale 1.005) */
+#enquiry-form input,
+#enquiry-form select,
+#enquiry-form textarea {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+#enquiry-form input:focus,
+#enquiry-form select:focus,
+#enquiry-form textarea:focus {
+  transform: scale(1.005);
+}
+
+/* 4. Submit Button Entrance & Hover Transitions (900ms reveal, 500ms hover) */
+.enquiry-submit-btn {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: opacity, transform;
+}
+
+.enquiry-submit-btn.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.enquiry-submit-btn.is-visible:hover {
+  transform: scale(1.015) translateY(-1px) !important;
+  box-shadow: 0 10px 25px -5px rgba(197, 29, 36, 0.35) !important;
+}
+
+.enquiry-submit-btn:active {
+  transform: scale(0.99) !important;
+}
+
+/* 5. Feedback State Animations (Success: upward 800ms, Error: horizontal shake 450ms) */
+@keyframes enquiry-success-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.enquiry-success-animated {
+  animation: enquiry-success-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes enquiry-field-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+.field-error-shake {
+  animation: enquiry-field-shake 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  border-color: #ef4444 !important;
+}
+
+/* 6. Mobile Responsiveness */
+@media (max-width: 767px) {
+  .enquiry-form-header {
+    transform: translateY(20px);
+  }
+  .enquiry-field-group {
+    transform: translateY(12px);
+  }
+  .enquiry-submit-btn {
+    transform: translateY(12px);
+  }
+  #enquiry-form input:focus,
+  #enquiry-form select:focus,
+  #enquiry-form textarea:focus {
+    transform: none;
+  }
+}
+
+/* 5. Existing Map Slow Uncover & Scale Reveal */
+.contact-map-card {
+  opacity: 0;
+  transform: translateY(var(--contact-map-parallax-y, 0px));
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, 
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+#contact.is-visible .contact-map-card {
+  opacity: 1 !important;
+}
+
+#public-live-map {
+  transform: scale(1.03);
+  clip-path: inset(3% 3% 3% 3% round 14px);
+  transition: clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, clip-path;
+}
+
+#contact.is-visible #public-live-map {
+  transform: scale(1.0);
+  clip-path: inset(0% 0% 0% 0% round 0px);
+}
+
+/* 6. Existing Map Location Marker Subtle Pulse */
+@keyframes marker-pulse-gentle {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.18); filter: drop-shadow(0 4px 10px rgba(197, 29, 36, 0.45)); }
+  100% { transform: scale(1); }
+}
+
+.leaflet-marker-icon.marker-pulsing {
+  animation: marker-pulse-gentle 1.2s cubic-bezier(0.16, 1, 0.3, 1) 2;
+}
+
+/* ==========================================================================
+   FOOTER SECTION SCROLL & INTERACTION ANIMATIONS
+   ========================================================================== */
+
+/* 1. Overall Footer Surface & Subtle Parallax */
+footer {
+  will-change: opacity, transform;
+}
+
+.footer-content-wrap {
+  transform: translateY(var(--footer-parallax-y, 0px));
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* 2. Sequential Footer Content Groups Entrance (1000ms, translateY 25px -> 0, ~200ms stagger) */
+.footer-col-anim {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.footer-col-anim.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 3. Existing Brand Logo & Brand Tags Subtle Reveal */
+.footer-logo-img {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, 
+              transform 1.0s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+  will-change: opacity, transform;
+}
+
+footer.is-visible .footer-logo-img {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.footer-brand-chip {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.footer-brand-chip.is-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 4. Existing Links Hover Interaction (450ms, translateX 4-6px) */
+.footer-nav-link {
+  display: inline-block;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), 
+              color 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.footer-nav-link:hover {
+  transform: translateX(5px);
+}
+
+/* 5. Footer Bottom Bar Entrance (1000ms, 20px) */
+.footer-bottom-anim {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1) 0.7s, 
+              transform 1.0s cubic-bezier(0.16, 1, 0.3, 1) 0.7s;
+  will-change: opacity, transform;
+}
+
+footer.is-visible .footer-bottom-anim {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 6. Mobile Responsiveness */
+@media (max-width: 767px) {
+  .footer-col-anim {
+    transform: translateY(14px);
+  }
+  .footer-bottom-anim {
+    transform: translateY(12px);
+  }
+  .footer-content-wrap {
+    transform: none !important;
+  }
+}
+
+/* ==========================================================================
    ACCESSIBILITY: REDUCED MOTION
-   ========================================================================= */
+   ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -2516,8 +3462,66 @@ body.site-body {
     scroll-behavior: auto !important;
   }
 
-  .hero-laser-line,
-  .story-traveling-line {
-    width: 100px !important;
+  .hero-word {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .hero-word-wrap {
+    overflow: visible !important;
+  }
+  .hero-badge-anim,
+  .hero-paragraph-anim,
+  .hero-cta-anim,
+  .hero-scroll-indicator,
+  .hero-anim-item,
+  .strengths-header,
+  .strength-card,
+  .brands-section-header,
+  .brand-card,
+  .brand-card .brand-logo-badge,
+  .brand-card h3,
+  .brand-card .brand-product-img,
+  #facility-bg-layer,
+  .facility-content-wrap,
+  .facility-badges-anim,
+  .facility-heading-anim,
+  .facility-tagline-anim,
+  .facility-features-anim,
+  .facility-bottom-anim,
+  .team-section-header,
+  .team-card,
+  .team-card .team-member-img,
+  .contact-section-header,
+  .contact-desk-card,
+  .contact-form-card,
+  .contact-detail-item,
+  .enquiry-form-header,
+  .enquiry-field-group,
+  .enquiry-submit-btn,
+  #enquiry-form input,
+  #enquiry-form select,
+  #enquiry-form textarea,
+  #enquiry-success,
+  .enquiry-success-animated,
+  .field-error-shake,
+  .contact-map-card,
+  #public-live-map,
+  .leaflet-marker-icon,
+  footer,
+  .footer-content-wrap,
+  .footer-col-anim,
+  .footer-logo-img,
+  .footer-brand-chip,
+  .footer-nav-link,
+  .footer-bottom-anim,
+  .animate-marquee,
+  .brands-marquee-container {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    animation: none !important;
+    transition: none !important;
+    width: auto !important;
   }
 }
