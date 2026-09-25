@@ -1,55 +1,69 @@
 /**
- * ANFAL ENTERPRISES - Main Client Application Logic
- * Supports scrollable sections, dynamic CMS data binding, Team rendering,
- * Brand portfolio rendering, in-page and modal enquiry forms.
+ * ANFAL ENTERPRISES — Wholesale FMCG Distribution Hub
+ * Client Application Logic & Dynamic CMS Synchronization
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  initApp();
+  initAnfalApp();
 });
 
-function initApp() {
+function initAnfalApp() {
   renderCompanyData();
+  renderSiteImages();
+  renderPillars();
   renderBrands();
-  renderTeamSection();
-  setupEnquiryForms();
+  renderTeam();
+  setupWholesaleForm();
   setupNavigation();
-  setupEventListeners();
-  updateCurrentYear();
+  setupBrandSlider();
+  setupCMSListeners();
 }
 
 /**
- * Render Company Details into the website sections
+ * 1. Render Company Metadata across DOM
  */
 function renderCompanyData() {
   const data = CMS.getCompanyData();
   if (!data) return;
 
-  // Header & Top Bar
-  setElementText("top-bar-phone", data.phone);
-  setElementText("top-bar-email", data.email);
-
-  // Hero Section
-  setElementText("hero-tagline", data.subtitle || "WHOLESALE FMCG DISTRIBUTOR");
-  setElementText("hero-location-text", data.locationShort || "BHATKAL, KARNATAKA");
-  setElementText("about-statement", data.aboutStatement || "Reliable FMCG Distribution. Built on Trust.");
-  setElementText("about-statement-2", data.aboutStatement || "Reliable FMCG Distribution. Built on Trust.");
-  
-  if (data.heroText) {
-    const heroDescEl = document.getElementById("hero-desc-text");
-    if (heroDescEl) {
-      heroDescEl.innerHTML = `<strong class="brand-anfal">ANFAL</strong> <strong class="brand-enterprises">ENTERPRISES</strong> is the premier wholesale FMCG distribution house based in ${escapeHtml(data.locationShort || "Bhatkal, Karnataka")}. Supplying verified, high-velocity consumer goods to supermarkets, retailers, and commercial businesses with speed and volume pricing.<br>Partnering directly with leading manufacturing conglomerates to guarantee uninterrupted stock availability and transparent B2B wholesale rates.`;
-    }
+  // Overview / Hero
+  const heroSub = document.getElementById("hero-subtitle");
+  if (heroSub && data.heroText) {
+    heroSub.innerHTML = escapeHtml(data.heroText).replace(/\. /g, ".<br/>");
   }
 
-  // Address & Proprietor Badges
-  setElementText("contact-address-text", data.address || "N.H. 66, Nawayath Colony, Bhatkal");
-  setElementText("contact-proprietor-name", data.proprietor || "Mr. Imtiyaz Hussain");
+  const activeSkus = document.getElementById("hero-active-skus");
+  if (activeSkus && data.activeSkus) {
+    activeSkus.textContent = data.activeSkus;
+  }
 
-  // Contact Section Hub
-  setElementText("contact-full-address", data.address || "N.H. 66, Nawayath Colony, Bhatkal, Karnataka – 581320, India");
-  setElementText("contact-operating-hours", data.operatingHours || "Monday – Saturday: 9:00 AM – 8:00 PM");
+  const dispatchSla = document.getElementById("hero-dispatch-sla");
+  if (dispatchSla && data.dispatchSla) {
+    dispatchSla.textContent = data.dispatchSla;
+  }
 
+  // About Section
+  const aboutTitle = document.getElementById("about-statement-title");
+  if (aboutTitle && data.aboutStatement) {
+    aboutTitle.innerHTML = `ANFAL ENTERPRISES.<br/><span class="text-secondary">${escapeHtml(data.aboutStatement)}</span><span class="text-white">.</span>`;
+  }
+
+  const aboutDesc = document.getElementById("about-narrative-text");
+  if (aboutDesc && data.aboutDescription) {
+    aboutDesc.textContent = data.aboutDescription;
+  }
+
+  const gpsCoords = document.getElementById("about-gps-coords");
+  if (gpsCoords && data.gpsCoordinates) {
+    gpsCoords.textContent = data.gpsCoordinates;
+  }
+
+  const locationTag = document.getElementById("about-location-tag");
+  if (locationTag && data.locationShort) {
+    locationTag.textContent = `${data.locationShort} Coastal Bypass Corridor`;
+  }
+
+  // Connect Section Contact Links
   const phoneLink = document.getElementById("contact-phone-link");
   if (phoneLink && data.phone) {
     phoneLink.textContent = data.phone;
@@ -68,71 +82,106 @@ function renderCompanyData() {
     emailLink.href = `mailto:${data.email}?subject=${encodeURIComponent("Wholesale FMCG Enquiry - Anfal Enterprises")}`;
   }
 
-  // Quick Action Buttons
-  const btnQuickCall = document.getElementById("btn-quick-call");
-  if (btnQuickCall && data.phone) {
-    btnQuickCall.href = `tel:${cleanPhone(data.phone)}`;
+  const addressText = document.getElementById("contact-address-text");
+  if (addressText && data.address) {
+    addressText.textContent = data.address;
   }
 
-  const btnQuickWhatsapp = document.getElementById("btn-quick-whatsapp");
-  if (btnQuickWhatsapp && data.whatsapp) {
-    btnQuickWhatsapp.href = `https://wa.me/${cleanPhone(data.whatsapp)}?text=${encodeURIComponent("Hello Anfal Enterprises, I have a wholesale enquiry")}`;
-  }
-
-  const btnGetDirections = document.getElementById("btn-get-directions");
-  if (btnGetDirections) {
-    btnGetDirections.href = data.directionsUrl || "https://maps.app.goo.gl/Vvbhyn822UTp8xpi7";
-  }
-
-  const btnEmailUs = document.getElementById("btn-email-us");
-  if (btnEmailUs && data.email) {
-    btnEmailUs.href = `mailto:${data.email}?subject=${encodeURIComponent("Wholesale FMCG Enquiry - Anfal Enterprises")}`;
-  }
-
-  // Maps Iframe
-  const mapFrame = document.getElementById("google-maps-frame");
-  if (mapFrame && data.googleMapsUrl) {
-    mapFrame.src = data.googleMapsUrl;
+  const hoursText = document.getElementById("contact-hours-text");
+  if (hoursText && data.operatingHours) {
+    hoursText.textContent = `OPERATING HOURS: ${data.operatingHours}`;
   }
 }
 
 /**
- * Render the Verified Brands
+ * 2. Render Typographic Why Us Pillars from CMS
+ */
+function renderPillars() {
+  const container = document.getElementById("pillars-container");
+  if (!container) return;
+
+  const pillars = CMS.getPillars();
+  if (!pillars || !pillars.length) return;
+
+  container.innerHTML = pillars.map((pillar, index) => {
+    const serial = String(index + 1).padStart(2, "0");
+    const tag = pillar.tag || "STAPLES";
+    return `
+      <div class="py-8 group cursor-pointer transition-all duration-300 hover:pl-4">
+        <div class="flex items-baseline justify-between mb-2">
+          <span class="font-display text-xs font-mono text-secondary font-bold">${serial} / ${escapeHtml(tag)}</span>
+          <span class="text-xs font-display uppercase tracking-widest text-charcoal-muted group-hover:text-primary transition-colors">${escapeHtml(pillar.actionLabel || "VIEW DETAILS →")}</span>
+        </div>
+        <h3 class="font-display text-2xl sm:text-4xl font-extrabold text-primary group-hover:text-secondary transition-colors duration-200">
+          ${escapeHtml(pillar.title)}
+        </h3>
+        <p class="mt-2 text-sm sm:text-base text-charcoal-muted max-w-xl group-hover:text-charcoal transition-colors leading-relaxed">
+          ${escapeHtml(pillar.description)}
+        </p>
+      </div>
+    `;
+  }).join("");
+}
+
+/**
+ * 3. Render Verified FMCG Brand Panels from CMS
  */
 function renderBrands() {
-  const container = document.getElementById("brands-grid");
-  if (!container) return;
+  const track = document.getElementById("brands-track");
+  if (!track) return;
 
-  const brands = CMS.getBrands();
-  const activeBrands = brands.filter(b => b.active !== false);
+  const brands = CMS.getBrands() || [];
+  const activeBrands = brands.filter(b => b.active !== false).sort((a, b) => (a.order || 0) - (b.order || 0));
 
-  // Dynamically update Hero Stat Counter for Brands
-  const brandsCountEl = document.getElementById("hero-brands-count");
-  if (brandsCountEl) {
-    brandsCountEl.textContent = `${activeBrands.length}+`;
+  const badge = document.getElementById("brands-count-badge");
+  if (badge) {
+    badge.textContent = `${activeBrands.length} AUTHORIZED PILLARS`;
   }
 
-  container.innerHTML = activeBrands.map(brand => {
-    let logoContent = "";
-    if (brand.imageUrl) {
-      logoContent = `<img src="${escapeHtml(brand.imageUrl)}" alt="${escapeHtml(brand.name)}" style="max-height: 44px; max-width: 140px; object-fit: contain;">`;
-    } else if (brand.logoSvg) {
-      logoContent = brand.logoSvg;
+  const totalCount = String(activeBrands.length).padStart(2, "0");
+
+  track.innerHTML = activeBrands.map((brand, index) => {
+    const serial = String(index + 1).padStart(2, "0");
+    const category = brand.category || "FMCG GOODS";
+    const line = brand.productLine || brand.description || "";
+    
+    // Brand display visual: logo image if provided, otherwise heavy architectural typography
+    let brandVisualHtml = "";
+    if (brand.logoUrl || brand.imageUrl) {
+      const src = brand.logoUrl || brand.imageUrl;
+      brandVisualHtml = `
+        <div class="flex items-center gap-3">
+          <img src="${escapeHtml(src)}" alt="${escapeHtml(brand.name)} Logo" class="h-10 max-w-[140px] object-contain">
+          <span class="font-display font-black text-2xl text-primary tracking-tighter group-hover:text-secondary transition-colors">
+            ${escapeHtml(brand.shortName || brand.name)}
+          </span>
+        </div>
+      `;
     } else {
-      logoContent = `<span style="font-family: var(--font-heading); font-weight: 900; font-size: 1.2rem; color: ${brand.color || '#0F1B2E'};">${escapeHtml(brand.shortName || brand.name)}</span>`;
+      brandVisualHtml = `
+        <span class="font-display font-black text-3xl sm:text-4xl text-primary tracking-tighter group-hover:text-secondary transition-colors">
+          ${escapeHtml(brand.shortName || brand.name)}
+        </span>
+      `;
     }
 
     return `
-      <div class="brand-showcase-card">
-        <div class="brand-card-top">
-          <div class="brand-logo-holder">
-            ${logoContent}
+      <div class="w-[300px] sm:w-[340px] flex-shrink-0 bg-warm-white border border-hairline-dark p-6 flex flex-col justify-between h-[380px] snap-start group hover:border-primary transition-all duration-300 shadow-sm hover:shadow-md">
+        <div>
+          <div class="flex items-center justify-between border-b border-hairline pb-3 mb-6">
+            <span class="font-mono text-xs text-secondary font-bold">${serial} / ${totalCount}</span>
+            <span class="text-[11px] font-mono uppercase tracking-wider text-charcoal-muted truncate max-w-[170px]">${escapeHtml(category)}</span>
           </div>
-          <span class="brand-cat-pill">${escapeHtml(brand.shortName || 'FMCG')}</span>
+          <div class="h-20 flex items-center mb-6">
+            ${brandVisualHtml}
+          </div>
+          <p class="text-xs font-mono uppercase tracking-wider text-charcoal-muted leading-relaxed min-h-[36px]">
+            ${escapeHtml(line)}
+          </p>
         </div>
-        <div class="brand-card-bottom">
-          <h3 class="brand-card-name">${escapeHtml(brand.name)}</h3>
-          <p class="brand-card-desc">${escapeHtml(brand.description || brand.category)}</p>
+        <div class="pt-4 border-t border-hairline flex items-center justify-between text-xs font-display font-bold uppercase tracking-wider text-primary">
+          <span>AUTHORIZED</span>
+          <span class="text-secondary font-mono text-xs">VERIFIED</span>
         </div>
       </div>
     `;
@@ -140,193 +189,297 @@ function renderBrands() {
 }
 
 /**
- * Render Leadership & Management Team
+ * 4. Render Leadership Section from CMS
  */
-function renderTeamSection() {
-  const container = document.getElementById("team-cards-container");
+function renderTeam() {
+  const container = document.getElementById("leadership-container");
   if (!container) return;
 
-  const team = CMS.getTeam();
-  if (!team || team.length === 0) return;
+  const team = CMS.getTeam() || [];
+  if (!team.length) return;
 
-  const iconsMap = {
-    shield: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
-    settings: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
-    "trending-up": `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
-    zap: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`
-  };
+  const founder = team[0];
+  const others = team.slice(1);
 
-  container.innerHTML = team.map((member, index) => {
-    const iconSvg = iconsMap[member.avatarIcon] || iconsMap.shield;
-    const phoneClean = cleanPhone(member.phone);
-    return `
-      <div class="team-member-card">
-        <div class="team-avatar-icon">
-          ${iconSvg}
-        </div>
-        <span class="team-role-badge">${escapeHtml(member.role)}</span>
-        <h3 class="team-member-name">${escapeHtml(member.name)}</h3>
-        <p class="team-category-text">${escapeHtml(member.category)}</p>
-        
-        <div class="team-phone-badge">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <a href="tel:${phoneClean}" class="team-phone-link">${escapeHtml(member.phone)}</a>
-        </div>
-
-        <p class="team-bio-text">${escapeHtml(member.bio)}</p>
-
-        <div class="team-actions-row">
-          <a href="tel:${phoneClean}" class="team-contact-btn" title="Call ${escapeHtml(member.name)}">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <span>Call</span>
-          </a>
-          <a href="https://wa.me/${phoneClean}?text=${encodeURIComponent('Hello ' + member.name + ', I would like to connect regarding wholesale FMCG.')}" target="_blank" rel="noopener" class="team-whatsapp-btn" title="WhatsApp">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-            <span>WhatsApp</span>
-          </a>
+  const dominantCardHtml = `
+    <!-- Dominant Portrait Frame (Founder & CEO) -->
+    <div class="lg:col-span-7 bg-white border border-hairline-dark p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center shadow-sm">
+      <div class="w-full md:w-1/2 aspect-[4/5] bg-primary relative overflow-hidden flex-shrink-0">
+        <img 
+          src="${escapeHtml(founder.avatarUrl || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800')}" 
+          alt="${escapeHtml(founder.name)}" 
+          class="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
+        >
+        <div class="absolute top-3 left-3 bg-secondary text-white text-[10px] font-display font-bold px-2 py-0.5 uppercase tracking-widest">
+          ${escapeHtml(founder.boardRole || "BOARD CHAIR")}
         </div>
       </div>
-    `;
-  }).join("");
+      <div class="flex flex-col justify-between h-full w-full py-2">
+        <div>
+          <span class="text-[11px] font-mono text-secondary uppercase font-bold tracking-widest">EXECUTIVE VISION</span>
+          <h3 class="font-display text-2xl sm:text-3xl font-black text-primary uppercase tracking-tight mt-1 mb-2">
+            ${escapeHtml(founder.name)}
+          </h3>
+          <p class="font-display text-xs uppercase tracking-widest text-charcoal-muted font-bold mb-4">
+            ${escapeHtml(founder.role)}
+          </p>
+          <p class="text-xs sm:text-sm text-charcoal-muted leading-relaxed">
+            ${escapeHtml(founder.bio || "Steering commercial operations and highway distribution strategy across coastal Karnataka.")}
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-hairline flex items-center justify-between text-xs font-mono text-charcoal-muted">
+          <span>ANFAL ENTERPRISES</span>
+          <span class="text-primary font-bold">BHATKAL HQ</span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const offsetCardsHtml = `
+    <!-- Offset Staggered Management Cards -->
+    <div class="lg:col-span-5 flex flex-col gap-4">
+      ${others.map((member, idx) => {
+        const serial = String(idx + 2).padStart(2, "0");
+        return `
+          <div class="bg-white border border-hairline-dark p-5 flex items-center gap-5 hover:border-primary transition-all duration-300 shadow-sm">
+            <div class="w-16 h-16 bg-primary flex-shrink-0 overflow-hidden">
+              <img 
+                src="${escapeHtml(member.avatarUrl || 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400')}" 
+                alt="${escapeHtml(member.name)}" 
+                class="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all"
+              >
+            </div>
+            <div class="flex-grow">
+              <div class="flex items-center justify-between">
+                <h4 class="font-display text-sm font-bold text-primary uppercase">${escapeHtml(member.name)}</h4>
+                <span class="text-[10px] font-mono text-secondary uppercase font-bold">${serial}</span>
+              </div>
+              <p class="text-xs font-display text-charcoal-muted uppercase tracking-wider font-semibold">${escapeHtml(member.role)}</p>
+              <p class="text-[11px] text-charcoal-muted mt-1 font-mono">${escapeHtml(member.category || member.boardRole || "")}</p>
+            </div>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+
+  container.innerHTML = dominantCardHtml + offsetCardsHtml;
 }
 
 /**
- * Setup Both In-Page & Modal Enquiry Forms
+ * 5. Handle Wholesale Intake Form Submissions
  */
-/**
- * Setup In-Page Wholesale Enquiry Form
- */
-function setupEnquiryForms() {
-  const inpageForm = document.getElementById("inpage-enquiry-form");
-  if (inpageForm) {
-    inpageForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const name = document.getElementById("inpage-name").value.trim();
-      const company = document.getElementById("inpage-company").value.trim();
-      const phone = document.getElementById("inpage-phone").value.trim();
-      const brandInterest = document.getElementById("inpage-brand-interest").value;
-      const message = document.getElementById("inpage-message").value.trim();
+function setupWholesaleForm() {
+  const form = document.getElementById("wholesale-form");
+  if (!form) return;
 
-      if (!name || !phone || !message) {
-        showToast("Please fill in your Name, Phone/WhatsApp, and Requirements.", "warning");
-        return;
-      }
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-      const fullMessage = `[Brand Interest: ${brandInterest}] - ${message}`;
+    const name = document.getElementById("form-name")?.value.trim() || "";
+    const store = document.getElementById("form-store")?.value.trim() || "";
+    const phone = document.getElementById("form-phone")?.value.trim() || "";
+    const town = document.getElementById("form-town")?.value.trim() || "";
+    const message = document.getElementById("form-message")?.value.trim() || "";
 
-      CMS.addEnquiry({
-        name,
-        company: company || "Retail Store",
-        phone,
-        message: fullMessage
-      });
+    // Collect checked brands
+    const checkedBrandEls = form.querySelectorAll('input[name="brands"]:checked');
+    const selectedBrands = Array.from(checkedBrandEls).map(el => el.value);
 
-      showToast("Thank you! Your wholesale enquiry has been submitted. Our sales team will reach out shortly.");
-      inpageForm.reset();
+    let fullMessage = `Location/Town: ${town}`;
+    if (selectedBrands.length > 0) {
+      fullMessage += ` | Requested Brands: ${selectedBrands.join(", ")}`;
+    }
+    if (message) {
+      fullMessage += ` | Details: ${message}`;
+    }
+
+    const newEnquiry = CMS.addEnquiry({
+      name,
+      company: store,
+      phone,
+      message: fullMessage
     });
-  }
+
+    if (newEnquiry) {
+      showToast("Wholesale registration submitted! Our commercial desk will reach you within 4 hours.", "success");
+      form.reset();
+    } else {
+      showToast("Failed to submit enquiry. Please call our direct desk.", "error");
+    }
+  });
 }
 
 /**
- * Setup Navigation, Mobile Drawer & Scroll Spy
+ * 6. Brand Slider Horizontal Navigation
+ */
+function setupBrandSlider() {
+  const track = document.getElementById("brands-track");
+  const prevBtn = document.getElementById("brand-prev");
+  const nextBtn = document.getElementById("brand-next");
+
+  if (!track || !prevBtn || !nextBtn) return;
+
+  const scrollAmount = 360;
+
+  prevBtn.addEventListener("click", () => {
+    track.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+  });
+
+  nextBtn.addEventListener("click", () => {
+    track.scrollBy({ left: scrollAmount, behavior: "smooth" });
+  });
+}
+
+/**
+ * 7. Active Navigation Highlighting & Mobile Drawer
  */
 function setupNavigation() {
-  const toggleBtn = document.getElementById("mobile-menu-toggle");
-  const drawer = document.getElementById("mobile-drawer");
-  const mobileLinks = document.querySelectorAll(".mobile-nav-link");
+  // Mobile drawer toggle
+  const mobileBtn = document.getElementById("mobile-menu-btn");
+  const mobileDrawer = document.getElementById("mobile-drawer");
 
-  if (toggleBtn && drawer) {
-    toggleBtn.addEventListener("click", () => {
-      drawer.classList.toggle("open");
+  if (mobileBtn && mobileDrawer) {
+    mobileBtn.addEventListener("click", () => {
+      mobileDrawer.classList.toggle("hidden");
     });
 
-    mobileLinks.forEach(link => {
+    // Close drawer when clicking links
+    mobileDrawer.querySelectorAll("a").forEach(link => {
       link.addEventListener("click", () => {
-        drawer.classList.remove("open");
+        mobileDrawer.classList.add("hidden");
       });
     });
   }
 
-  // Scroll Spy for desktop nav active states
-  const sections = document.querySelectorAll("section[id]");
-  const navLinks = document.querySelectorAll(".navbar-links .nav-link");
+  // Active section scroll indicator
+  const sections = document.querySelectorAll("main section[id]");
+  const navLinks = document.querySelectorAll("#nav-menu-links a.nav-link");
 
-  window.addEventListener("scroll", () => {
-    let current = "";
-    const scrollPos = window.scrollY + 120;
+  if (sections.length && navLinks.length) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute("id");
+          navLinks.forEach(link => {
+            const target = link.getAttribute("data-target");
+            const indicator = link.querySelector(".nav-indicator");
+            if (target === id) {
+              link.classList.remove("text-charcoal-muted");
+              link.classList.add("text-primary");
+              if (indicator) {
+                indicator.classList.remove("scale-x-0");
+                indicator.classList.add("scale-x-100");
+              }
+            } else {
+              link.classList.remove("text-primary");
+              link.classList.add("text-charcoal-muted");
+              if (indicator) {
+                indicator.classList.remove("scale-x-100");
+                indicator.classList.add("scale-x-0");
+              }
+            }
+          });
+        }
+      });
+    }, { threshold: 0.35 });
 
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-      if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-        current = section.getAttribute("id");
-      }
-    });
-
-    navLinks.forEach(link => {
-      link.classList.remove("active");
-      if (link.getAttribute("href") === `#${current}`) {
-        link.classList.add("active");
-      }
-    });
-  });
+    sections.forEach(section => observer.observe(section));
+  }
 }
 
-function setupEventListeners() {
-  window.addEventListener("cms:company-updated", () => renderCompanyData());
-  window.addEventListener("cms:brands-updated", () => renderBrands());
-  window.addEventListener("cms:team-updated", () => renderTeamSection());
+/**
+ * 1b. Render Dynamic Site Images from CMS
+ */
+function renderSiteImages() {
+  if (typeof CMS === 'undefined') return;
+  const images = CMS.getSiteImages();
+  if (!images) return;
 
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      const modal = document.getElementById("enquiry-modal");
-      if (modal) modal.classList.remove("open");
-      const drawer = document.getElementById("mobile-drawer");
-      if (drawer) drawer.classList.remove("open");
+  // Facility / About Background
+  const facilityBg = document.getElementById("facility-bg-layer");
+  if (facilityBg && images.facilityBg) {
+    facilityBg.style.backgroundImage = `url('${images.facilityBg}')`;
+  }
+
+  // Hero Background
+  const heroBg = document.getElementById("hero-bg-layer");
+  if (heroBg && images.heroBg) {
+    heroBg.style.backgroundImage = `url('${images.heroBg}')`;
+  }
+
+  // Brand Logos
+  const navLogo = document.getElementById("site-nav-logo");
+  if (navLogo && images.logo) {
+    navLogo.src = images.logo;
+  }
+
+  // Map Background
+  const mapBg = document.getElementById("contact-map-bg");
+  if (mapBg && images.mapBg) {
+    mapBg.style.backgroundImage = `url('${images.mapBg}')`;
+  }
+
+  // Hero Tangible Products
+  for (let i = 1; i <= 4; i++) {
+    const prodImg = document.getElementById(`hero-prod-img-${i}`);
+    if (prodImg && images[`heroProduct${i}`]) {
+      prodImg.src = images[`heroProduct${i}`];
     }
-  });
-}
-
-function updateCurrentYear() {
-  const yearEl = document.getElementById("current-year");
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
   }
 }
 
+/**
+ * 8. Real-time Live Updates when CMS changes
+ */
+function setupCMSListeners() {
+  window.addEventListener("cms:company-updated", () => renderCompanyData());
+  window.addEventListener("cms:site-images-updated", () => renderSiteImages());
+  window.addEventListener("cms:brands-updated", () => renderBrands());
+  window.addEventListener("cms:team-updated", () => renderTeam());
+}
+
+/**
+ * Visual Toast Notification
+ */
 function showToast(message, type = "success") {
-  let toast = document.getElementById("app-toast");
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.id = "app-toast";
-    toast.className = "toast-notice";
-    document.body.appendChild(toast);
-  }
+  const container = document.getElementById("toast-container");
+  if (!container) return;
 
-  toast.innerHTML = `<span>${escapeHtml(message)}</span>`;
-  toast.classList.add("show");
+  const toast = document.createElement("div");
+  const bgColor = type === "success" ? "bg-primary text-white border-secondary" : "bg-secondary text-white border-white";
+  
+  toast.className = `${bgColor} border-l-4 px-6 py-4 shadow-xl text-xs font-display uppercase tracking-wider font-bold transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto flex items-center gap-3`;
+  toast.innerHTML = `
+    <span class="material-symbols-outlined text-sm">${type === "success" ? "check_circle" : "error"}</span>
+    <span>${escapeHtml(message)}</span>
+  `;
 
+  container.appendChild(toast);
+
+  // Animate in
+  requestAnimationFrame(() => {
+    toast.classList.remove("translate-y-2", "opacity-0");
+  });
+
+  // Remove after 4.5s
   setTimeout(() => {
-    toast.classList.remove("show");
+    toast.classList.add("translate-y-2", "opacity-0");
+    setTimeout(() => toast.remove(), 300);
   }, 4500);
 }
 
-function setElementText(id, text) {
-  const el = document.getElementById(id);
-  if (el && text) el.textContent = text;
-}
-
-function cleanPhone(phone) {
-  if (!phone) return "";
-  return phone.replace(/[^0-9+]/g, '');
-}
-
+/**
+ * Helpers
+ */
 function escapeHtml(str) {
   if (!str) return "";
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function cleanPhone(num) {
+  if (!num) return "";
+  return num.replace(/[^0-9]/g, "");
 }

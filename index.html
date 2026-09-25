@@ -1,701 +1,1310 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="web_standard" name="shell-type"/>
+  <title>Anfal Enterprises | Authorized FMCG Distributor & Direct Wholesale Hub</title>
+  <meta name="description" content="Certified manufacturer-direct wholesale FMCG inventory for coastal Karnataka. 600+ verified daily staples with zero-delay delivery."/>
   
-  <!-- Primary SEO Meta Tags -->
-  <title>ANFAL ENTERPRISES | Wholesale FMCG Distributor | Bhatkal, Karnataka</title>
-  <meta name="description" content="ANFAL ENTERPRISES is an established Wholesale FMCG Distributor based on N.H. 66, Bhatkal, Karnataka. Supplying HUL, P&G, Nestlé, Dabur, ITC & Britannia to retailers. Wide Range, Competitive Prices, Timely Delivery, Customer Focus.">
-  <meta name="keywords" content="Anfal Enterprises, FMCG Distributor Bhatkal, Wholesale FMCG Karnataka, HUL Bhatkal, P&G distributor, Nestle wholesale, Dabur Bhatkal, ITC distributor, Britannia wholesale, N.H. 66 Nawayath Colony">
-  <meta name="author" content="ANFAL ENTERPRISES">
-  <meta name="robots" content="index, follow">
-  
-  <!-- Open Graph / Social Meta -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="ANFAL ENTERPRISES | Wholesale FMCG Distributor">
-  <meta property="og:description" content="Built on Trust, Range & Reliability. Premier FMCG Wholesale Distributor in Bhatkal, Karnataka.">
-  <meta property="og:image" content="assets/images/anfal-building.jpg">
-  
-  <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0D14'/><path d='M6 10h3l3 12h12l2-8H11' stroke='%23D32F2F' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/><circle cx='14' cy='25' r='2' fill='%23FFFFFF'/><circle cx='22' cy='25' r='2' fill='%23FFFFFF'/></svg>">
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 
-  <!-- Google Fonts & Stylesheet -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <!-- Leaflet Live Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; scroll-behavior: smooth; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+    .animate-marquee { display: flex; width: max-content; animation: marquee 32s linear infinite; }
+    .animate-marquee:hover { animation-play-state: paused; }
+
+    /* Hero Products Side-to-Side Glide Animation */
+    @keyframes hero-side-glide {
+      0% { transform: translateX(0%); }
+      50% { transform: translateX(calc(-100% + 100vw - 48px)); }
+      100% { transform: translateX(0%); }
+    }
+    .animate-hero-products {
+      display: flex;
+      gap: 1.25rem;
+      width: max-content;
+      animation: hero-side-glide 22s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    .animate-hero-products:hover {
+      animation-play-state: paused;
+    }
+
+    /* Dynamic Brand Card Theming */
+    .brand-card {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease-out, border-color 0.3s ease;
+    }
+    .brand-card:hover {
+      transform: translateY(-4px);
+    }
+  </style>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0a192f",
+            "primary-container": "#0f2442",
+            "primary-fixed": "#d6e3ff",
+            "primary-fixed-dim": "#b0c8f5",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#d6e3ff",
+            "on-primary-fixed": "#001b3e",
+            "on-primary-fixed-variant": "#003268",
+
+            "secondary": "#c51d24",
+            "secondary-container": "#d9252d",
+            "secondary-fixed": "#ffdad6",
+            "secondary-fixed-dim": "#ffb4ab",
+            "on-secondary": "#ffffff",
+            "on-secondary-container": "#ffffff",
+            "on-secondary-fixed": "#410002",
+            "on-secondary-fixed-variant": "#93000a",
+
+            "tertiary": "#0f1f38",
+            "tertiary-container": "#1b2d4b",
+            "tertiary-fixed": "#e0e7ff",
+            "tertiary-fixed-dim": "#b4c5ff",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-container": "#ffffff",
+            "on-tertiary-fixed": "#00184a",
+            "on-tertiary-fixed-variant": "#22355c",
+
+            "surface": "#f8fafc",
+            "surface-dim": "#e2e8f0",
+            "surface-bright": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f1f5f9",
+            "surface-container": "#e2e8f0",
+            "surface-container-high": "#cbd5e1",
+            "surface-container-highest": "#94a3b8",
+            "surface-variant": "#f1f5f9",
+            "surface-tint": "#0a192f",
+
+            "on-surface": "#0a192f",
+            "on-surface-variant": "#475569",
+            "inverse-surface": "#0a192f",
+            "inverse-on-surface": "#f1f5f9",
+            "inverse-primary": "#b0c8f5",
+
+            "outline": "#94a3b8",
+            "outline-variant": "#e2e8f0",
+            "background": "#f8fafc",
+            "on-background": "#0a192f",
+
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "on-error-container": "#93000a"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "3xl": "1.5rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "gutter-mobile": "0.75rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "gutter": "1.25rem",
+            "space-sm": "0.5rem",
+            "margin": "2rem",
+            "space-xl": "2.5rem",
+            "space-xs": "0.25rem",
+            "margin-mobile": "1rem"
+          },
+          fontFamily: {
+            "headline-sm": ["Epilogue", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-md": ["Epilogue", "sans-serif"],
+            "headline-xl": ["Epilogue", "sans-serif"],
+            "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-xl-mobile": ["Epilogue", "sans-serif"],
+            "label-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-lg-mobile": ["Epilogue", "sans-serif"],
+            "headline-lg": ["Epilogue", "sans-serif"],
+            "display-lg": ["Epilogue", "sans-serif"],
+            "display-lg-mobile": ["Epilogue", "sans-serif"]
+          },
+          fontSize: {
+            "headline-sm": ["18px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "body-md": ["15px", { lineHeight: "22px", letterSpacing: "0em", fontWeight: "400" }],
+            "headline-md": ["22px", { lineHeight: "28px", letterSpacing: "-0.015em", fontWeight: "600" }],
+            "headline-xl": ["40px", { lineHeight: "48px", letterSpacing: "-0.025em", fontWeight: "700" }],
+            "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.04em", fontWeight: "800" }],
+            "body-lg": ["18px", { lineHeight: "28px", letterSpacing: "-0.005em", fontWeight: "400" }],
+            "headline-xl-mobile": ["28px", { lineHeight: "34px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "label-lg": ["15px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "700" }],
+            "body-sm": ["13px", { lineHeight: "18px", letterSpacing: "0.005em", fontWeight: "400" }],
+            "label-md": ["13px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "700" }],
+            "headline-lg-mobile": ["24px", { lineHeight: "30px", letterSpacing: "-0.015em", fontWeight: "700" }],
+            "headline-lg": ["32px", { lineHeight: "38px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "display-lg": ["56px", { lineHeight: "62px", letterSpacing: "-0.03em", fontWeight: "800" }],
+            "display-lg-mobile": ["38px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "800" }]
+          }
+        }
+      }
+    };
+  </script>
 </head>
-<body class="scrollable-site-body">
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased selection:bg-secondary selection:text-on-secondary">
 
-  <!-- Fixed Background Texture / Visual Scrim -->
-  <div class="site-bg-overlay"></div>
-
-  <!-- Top Announcement Strip -->
-  <div class="top-announcement-bar">
-    <div class="container announcement-inner">
-      <div class="announcement-left">
-        <span class="pulse-indicator"></span>
-        <span class="announcement-text">Official FMCG Wholesale Distribution Hub • Bhatkal, Karnataka</span>
-      </div>
-      <div class="announcement-right">
-        <a href="tel:+919845012345" class="top-contact-link">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <span id="top-bar-phone">+91 98450 12345</span>
-        </a>
-        <span class="bar-separator">|</span>
-        <a href="mailto:info@anfalenterprises.com" class="top-contact-link">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <span id="top-bar-email">info@anfalenterprises.com</span>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Sticky Main Navigation Header -->
-  <header class="main-navbar" id="site-header">
-    <div class="container navbar-inner">
-      
-      <!-- Brand Logo -->
-      <a href="#hero" class="navbar-brand">
-        <img src="assets/images/anfal-logo.png" alt="ANFAL ENTERPRISES Logo" class="brand-logo-img">
+<!-- 1. Header / Navigation: Translucent, ultra-minimal, refined luxury retail feel -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/35 backdrop-blur-md border-b border-outline-variant/20 transition-all duration-300">
+  <div class="h-20 max-w-[1440px] mx-auto px-margin-mobile md:px-margin flex items-center justify-between gap-gutter">
+    <div class="flex items-center gap-space-md">
+      <a href="#home" class="flex items-center gap-3 select-none group">
+        <img id="site-nav-logo" alt="Anfal Logo" class="h-10 w-auto object-contain drop-shadow-sm group-hover:scale-105 transition-transform" src="assets/images/anfal-logo.png"/>
+        <div class="flex flex-col justify-center leading-none">
+          <span class="font-display-lg text-[22px] font-black text-secondary tracking-tight">ANFAL</span>
+          <span class="font-headline-sm text-[10px] font-extrabold text-primary tracking-[0.24em] uppercase mt-0.5">ENTERPRISES</span>
+        </div>
       </a>
+    </div>
+    
+    <nav class="hidden lg:flex items-center gap-1 bg-surface-container-lowest/80 backdrop-blur-lg border border-outline-variant/40 p-1.5 rounded-full shadow-sm" id="desktop-nav">
+      <a aria-current="page" class="nav-item px-space-md py-1.5 transition-all text-on-primary font-bold bg-primary text-[13px] rounded-full shadow-sm" data-path="home" href="#home">Overview</a>
+      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-on-surface-variant hover:text-primary transition-colors text-[13px]" data-path="strengths" href="#strengths">Strengths</a>
+      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-on-surface-variant hover:text-primary transition-colors text-[13px]" data-path="brands" href="#brands">Brands</a>
+      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-on-surface-variant hover:text-primary transition-colors text-[13px]" data-path="facility" href="#facility">About</a>
+      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-on-surface-variant hover:text-primary transition-colors text-[13px]" data-path="team" href="#team">Team</a>
+      <a class="nav-item px-space-md py-1.5 rounded-full font-label-md text-on-surface-variant hover:text-primary transition-colors text-[13px]" data-path="contact" href="#contact">Contact</a>
+    </nav>
+    
+    <div class="flex items-center gap-space-md">
+      <a class="inline-flex items-center justify-center gap-space-xs px-6 py-2.5 bg-secondary text-on-secondary rounded-full font-label-lg text-sm font-bold shadow-md hover:bg-secondary/90 active:scale-95 transition-all duration-150" data-path="price-list" href="#contact">
+        <span>Get Price List</span>
+        <span class="material-symbols-outlined text-[17px]">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+</header>
 
-      <!-- Desktop Nav Links -->
-      <nav class="navbar-links" id="navbar-menu">
-        <a href="#hero" class="nav-link active">Home</a>
-        <a href="#features" class="nav-link">Why Choose Us</a>
-        <a href="#brands" class="nav-link">Brands</a>
-        <a href="#about" class="nav-link">About Us</a>
-        <a href="#team" class="nav-link">Our Team</a>
-        <a href="#contact" class="nav-link">Contact &amp; Enquiry</a>
-      </nav>
-
-      <!-- Header CTA Action -->
-      <div class="navbar-actions">
-        <a href="#contact" class="btn-nav-contact">Contact Us</a>
-
-        <!-- Mobile Hamburger Button -->
-        <button type="button" class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation Menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+<main class="w-full pt-0 bg-surface min-h-screen">
+  <!-- ========================================== -->
+  <!-- SECTION 1: HERO / FMCG PRODUCTS (Fits to top behind transparent header) -->
+  <!-- ========================================== -->
+  <section class="relative w-full min-h-screen flex flex-col justify-between overflow-hidden bg-surface pt-24 md:pt-28 pb-10 md:pb-14 text-on-surface" id="home">
+    <!-- Edge-to-edge realistic grocery supermarket aisle photograph (Dynamic CMS) -->
+    <div id="hero-bg-layer" class="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-500" style="background-image: url('assets/images/facility-full.jpg');"></div>
+    <!-- Subtle rich overlay that keeps aisle shelves, lighting and depth vivid while ensuring text legibility -->
+    <div class="absolute inset-0 bg-gradient-to-b from-stone-950/80 via-stone-900/55 to-surface pointer-events-none"></div>
+    
+    <div class="relative z-20 max-w-[1440px] mx-auto w-full px-margin-mobile md:px-margin flex-1 flex flex-col justify-between">
+      <!-- Editorial Display Typography & CTA -->
+      <div class="flex flex-col items-center text-center max-w-4xl mx-auto pt-2 md:pt-4">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-stone-900/80 backdrop-blur-md border border-white/20 shadow-md mb-4">
+          <span class="w-2.5 h-2.5 rounded-full bg-secondary-fixed animate-pulse"></span>
+          <span id="hero-badge-text" class="font-label-sm text-[11px] tracking-widest uppercase text-white font-extrabold">Direct Wholesale Distribution</span>
+        </div>
+        <h1 id="hero-heading-text" class="font-display-lg text-display-lg-mobile md:text-display-lg text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.8)] tracking-tight font-extrabold uppercase leading-[1.03]">
+          DAILY FMCG <span class="text-secondary-fixed">ESSENTIALS</span>
+        </h1>
+        <p id="hero-tagline-text" class="font-body-lg text-base md:text-body-lg text-stone-100 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] font-medium mt-3 max-w-2xl leading-relaxed">
+          Certified manufacturer-direct wholesale inventory for coastal Karnataka.
+        </p>
+        <div class="mt-6">
+          <a id="hero-cta-btn" class="inline-flex items-center gap-2.5 px-8 py-3.5 bg-secondary text-on-secondary rounded-full font-label-lg text-sm font-bold shadow-xl hover:shadow-2xl hover:bg-secondary/95 active:scale-95 transition-all duration-200 border border-white/20" href="#contact">
+            <span id="hero-cta-label">Get Wholesale Price List</span>
+            <span class="material-symbols-outlined text-[19px]">arrow_forward</span>
+          </a>
+        </div>
       </div>
 
-    </div>
-  </header>
+      <!-- Tangible Large Product Showcase Animated Side-to-Side Slider (Dynamic CMS) -->
+      <div class="relative w-full max-w-[1440px] mx-auto overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_5%,white_95%,transparent)] my-6 md:my-8">
+        <div id="hero-products-container" class="animate-hero-products py-2 select-none">
+          <!-- Rendered dynamically by renderFeaturedProducts() -->
+        </div>
+      </div>
 
-  <!-- Mobile Dropdown Navigation -->
-  <div class="mobile-drawer" id="mobile-drawer">
-    <nav class="mobile-nav-links">
-      <a href="#hero" class="mobile-nav-link">Home</a>
-      <a href="#features" class="mobile-nav-link">Why Choose Us</a>
-      <a href="#brands" class="mobile-nav-link">Brands</a>
-      <a href="#about" class="mobile-nav-link">About Anfal</a>
-      <a href="#team" class="mobile-nav-link">Leadership Team</a>
-      <a href="#contact" class="mobile-nav-link">Contact &amp; Wholesale Enquiry</a>
-    </nav>
+      <!-- Scroll Down Indicator with Proper Spacing from Bottom -->
+      <div class="w-full flex justify-center pt-2">
+        <a class="flex flex-col items-center gap-0.5 text-stone-300 hover:text-secondary-fixed transition-colors" href="#strengths">
+          <span class="font-label-sm text-[10px] uppercase tracking-widest font-bold">Scroll Down</span>
+          <span class="material-symbols-outlined text-[20px] animate-bounce">keyboard_arrow_down</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Auto-Scrolling Horizontal Marquee/Ticker Strip of Product Categories -->
+  <div class="w-full bg-surface-container-low border-y border-outline-variant/30 py-3.5 overflow-hidden">
+    <div class="animate-marquee items-center gap-6 select-none">
+      <!-- Marquee Group 1 -->
+      <div class="flex items-center gap-6">
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary text-label-md font-bold shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[17px] text-secondary">restaurant</span> Food &amp; Staples
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary text-label-md font-bold shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[17px] text-primary">face_4</span> Personal Care
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary text-label-md font-bold shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[17px] text-secondary">cleaning_services</span> Home Care
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary text-label-md font-bold shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[17px] text-primary">cookie</span> Confectionery &amp; Biscuits
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary text-label-md font-bold shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[17px] text-secondary">local_drink</span> Dairy Products
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary text-label-md font-bold shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[17px] text-primary">emoji_food_beverage</span> Beverages &amp; Juices
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary text-label-md font-bold shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[17px] text-secondary">lunch_dining</span> Spices &amp; Edibles
+        </span>
+      </div>
+      <!-- Marquee Group 2 -->
+      <div class="flex items-center gap-6">
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary text-label-md font-bold shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[17px] text-secondary">restaurant</span> Food &amp; Staples
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary text-label-md font-bold shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[17px] text-primary">face_4</span> Personal Care
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary text-label-md font-bold shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[17px] text-secondary">cleaning_services</span> Home Care
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary text-label-md font-bold shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[17px] text-primary">cookie</span> Confectionery &amp; Biscuits
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary text-label-md font-bold shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[17px] text-secondary">local_drink</span> Dairy Products
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary text-label-md font-bold shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[17px] text-primary">emoji_food_beverage</span> Beverages &amp; Juices
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-lowest text-primary text-label-md font-bold shadow-sm border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[17px] text-secondary">lunch_dining</span> Spices &amp; Edibles
+        </span>
+      </div>
+    </div>
   </div>
 
-  <main>
-    
-    <!-- =========================================================================
-         1. HERO SECTION
-         ========================================================================= -->
-    <section class="hero-section" id="hero">
-      <div class="hero-bg-media" id="hero-backdrop"></div>
-      <div class="hero-scrim-gradient"></div>
-
-      <div class="container hero-content-grid">
-        <div class="hero-main-column">
-          
-          <div class="identity-badge">
-            <span class="badge-dot"></span>
-            <span class="badge-text" id="hero-tagline">WHOLESALE FMCG DISTRIBUTOR</span>
-            <span class="badge-divider">•</span>
-            <span class="badge-loc" id="hero-location-text">BHATKAL, KARNATAKA</span>
-          </div>
-
-          <h1 class="hero-headline">
-            TRUST. RANGE. <span class="highlight">RELIABILITY.</span>
-          </h1>
-
-          <p class="hero-subheadline" id="about-statement">
-            Reliable FMCG Distribution. Built on Trust.
-          </p>
-
-          <p class="hero-paragraph" id="hero-desc-text">
-            <strong class="brand-anfal">ANFAL</strong> <strong class="brand-enterprises">ENTERPRISES</strong> is the premier wholesale FMCG distribution house based on N.H. 66, Bhatkal, Karnataka. Supplying verified, high-velocity consumer goods to supermarkets, retailers, and commercial businesses with speed and volume pricing.<br>Partnering directly with leading manufacturing conglomerates to guarantee uninterrupted stock availability and transparent B2B wholesale rates.
-          </p>
-
-          <!-- Action Buttons -->
-          <div class="hero-cta-group">
-            <a href="#contact" class="btn-hero-primary">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              <span>Get Wholesale Price List</span>
-            </a>
-
-            <a href="#brands" class="btn-hero-secondary">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-              <span>Explore Verified Brands</span>
-            </a>
-          </div>
-
-          <!-- Quick Business Highlights Strip -->
-          <div class="hero-quick-meta-strip">
-            <div class="quick-meta-item">
-              <span class="meta-label">Facility Location</span>
-              <span class="meta-val" id="contact-address-text">N.H. 66, Nawayath Colony, Bhatkal</span>
-            </div>
-            <div class="quick-meta-item">
-              <span class="meta-label">Proprietor</span>
-              <span class="meta-val" id="contact-proprietor-name">Mr. Imtiyaz Hussain</span>
-            </div>
-            <div class="quick-meta-actions">
-              <a href="https://maps.app.goo.gl/Vvbhyn822UTp8xpi7" target="_blank" rel="noopener" class="link-btn" id="btn-get-directions">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-                Directions
-              </a>
-              <a href="mailto:info@anfalenterprises.com" class="link-btn" id="btn-email-us">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                Email
-              </a>
-            </div>
-          </div>
-
+  <!-- ========================================== -->
+  <!-- SECTION 2: WHY CHOOSE US (CORE STRENGTHS)   -->
+  <!-- ========================================== -->
+  <section class="relative w-full py-20 bg-surface overflow-hidden" id="strengths">
+    <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin">
+      <!-- Section Header -->
+      <div class="flex flex-col items-start gap-2 mb-14">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-secondary font-label-sm text-xs font-bold uppercase tracking-wider">
+          <span class="material-symbols-outlined text-[14px]">bolt</span>
+          <span>Core Strengths</span>
         </div>
+        <h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-primary font-extrabold uppercase tracking-tight">
+          Why Choose Anfal Enterprises
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+          Engineered for fast-paced retail fulfillment with zero stock-out tolerance.
+        </p>
       </div>
 
-      <!-- Trust Metrics Bar -->
-      <div class="hero-stats-band">
-        <div class="container stats-band-inner">
-          <div class="stat-cell">
-            <span class="stat-number" id="hero-brands-count">6+</span>
-            <span class="stat-label">Global FMCG Brands</span>
-          </div>
-          <div class="stat-cell">
-            <span class="stat-number">100%</span>
-            <span class="stat-label">Genuine Direct Stock</span>
-          </div>
-          <div class="stat-cell">
-            <span class="stat-number">N.H. 66</span>
-            <span class="stat-label">Prime Highway Logistics Hub</span>
-          </div>
-          <div class="stat-cell">
-            <span class="stat-number">B2B</span>
-            <span class="stat-label">Bulk Wholesale Pricing</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- =========================================================================
-         2. CORE PILLARS / WHY CHOOSE US (From User's Monolith Sign Image)
-         ========================================================================= -->
-    <section class="section-container section-features" id="features">
-      <div class="container">
-        
-        <div class="section-header-block text-center">
-          <span class="section-sub-badge">CORE STRENGTHS</span>
-          <h2 class="section-title">WHY CHOOSE ANFAL ENTERPRISES</h2>
-          <p class="section-desc">
-            Built on foundational distribution principles designed to empower retail merchants, supermarkets, and commercial partners across coastal Karnataka.
-          </p>
-        </div>
-
-        <!-- 4 Monolithic Feature Cards (Wide Range, Competitive Prices, Timely Delivery, Customer Focus) -->
-        <div class="pillars-monolith-grid" id="pillars-container">
-          
-          <!-- Pillar 1: Wide Range -->
-          <div class="pillar-card">
-            <div class="pillar-card-inner">
-              <div class="pillar-icon-box">
-                <!-- Shopping Cart Icon -->
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="9" cy="21" r="1"></circle>
-                  <circle cx="20" cy="21" r="1"></circle>
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                </svg>
-              </div>
-              <h3 class="pillar-title">WIDE RANGE</h3>
-              <p class="pillar-text">
-                Comprehensive inventory of fast-moving consumer products spanning food &amp; nutrition, home hygiene, personal care, and confectionery essentials from leading market brands.
-              </p>
-              <div class="pillar-bottom-indicator"></div>
-            </div>
-          </div>
-
-          <!-- Pillar 2: Competitive Prices -->
-          <div class="pillar-card">
-            <div class="pillar-card-inner">
-              <div class="pillar-icon-box">
-                <!-- Price Tag Icon -->
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-                  <line x1="7" y1="7" x2="7.01" y2="7"></line>
-                </svg>
-              </div>
-              <h3 class="pillar-title">COMPETITIVE PRICES</h3>
-              <p class="pillar-text">
-                Direct authorized distributor margins with structured tiered wholesale price slabs that provide retail store owners maximum profitability and competitive edge.
-              </p>
-              <div class="pillar-bottom-indicator"></div>
-            </div>
-          </div>
-
-          <!-- Pillar 3: Timely Delivery -->
-          <div class="pillar-card">
-            <div class="pillar-card-inner">
-              <div class="pillar-icon-box">
-                <!-- Delivery Truck Icon -->
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="1" y="3" width="15" height="13"></rect>
-                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                  <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                  <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                </svg>
-              </div>
-              <h3 class="pillar-title">TIMELY DELIVERY</h3>
-              <p class="pillar-text">
-                Reliable supply chain logistics and dedicated vehicle dispatch servicing Bhatkal, Kundapura, Honnavar, and adjoining coastal regions to keep shelves fully stocked.
-              </p>
-              <div class="pillar-bottom-indicator"></div>
-            </div>
-          </div>
-
-          <!-- Pillar 4: Customer Focus -->
-          <div class="pillar-card">
-            <div class="pillar-card-inner">
-              <div class="pillar-icon-box">
-                <!-- Users / People Icon -->
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
-              </div>
-              <h3 class="pillar-title">CUSTOMER FOCUS</h3>
-              <p class="pillar-text">
-                Dedicated relationship managers, transparent computerized billing, flexible ordering channels, and personalized support for wholesale business partners.
-              </p>
-              <div class="pillar-bottom-indicator"></div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- =========================================================================
-         3. BRANDS PORTFOLIO SECTION (6 Verified Conglomerates)
-         ========================================================================= -->
-    <section class="section-container section-brands" id="brands">
-      <div class="container">
-        
-        <div class="brands-section-header">
+      <!-- Editorial sequence layout with oversized architectural numerals -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-outline-variant/40">
+        <!-- 01 Wide Range -->
+        <div class="flex flex-col justify-between pt-6 lg:pt-0 lg:px-6 first:pl-0">
           <div>
-            <span class="section-sub-badge">VERIFIED BRANDS</span>
-            <h2 class="section-title">VERIFIED FMCG BRANDS WE DISTRIBUTE</h2>
-            <p class="section-desc">
-              Authoritative supply lines direct from India’s leading FMCG multinational corporations.
+            <span class="block font-display-lg text-6xl lg:text-7xl font-extrabold text-secondary/30 mb-4 select-none">01</span>
+            <div class="flex items-center gap-2.5 mb-2">
+              <span class="material-symbols-outlined text-secondary text-[22px]">category</span>
+              <h3 class="font-headline-md text-xl text-primary font-bold">Wide Range</h3>
+            </div>
+            <p class="font-body-md text-on-surface-variant leading-relaxed">
+              Over 600+ high-turnover daily retail staples.
             </p>
           </div>
-          <a href="#contact" class="btn-outline-primary">
-            <span>Request Full Catalog</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <div class="mt-8 pt-4 border-t border-outline-variant/30 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-secondary"></span>
+            <span class="font-label-sm text-xs text-on-surface-variant uppercase font-bold tracking-wider">100% SKU In-Stock</span>
+          </div>
+        </div>
+
+        <!-- 02 Competitive Prices -->
+        <div class="flex flex-col justify-between pt-6 lg:pt-0 lg:px-6">
+          <div>
+            <span class="block font-display-lg text-6xl lg:text-7xl font-extrabold text-primary/25 mb-4 select-none">02</span>
+            <div class="flex items-center gap-2.5 mb-2">
+              <span class="material-symbols-outlined text-primary text-[22px]">payments</span>
+              <h3 class="font-headline-md text-xl text-primary font-bold">Competitive Prices</h3>
+            </div>
+            <p class="font-body-md text-on-surface-variant leading-relaxed">
+              Direct enterprise factory slabs safeguarding retail margins.
+            </p>
+          </div>
+          <div class="mt-8 pt-4 border-t border-outline-variant/30 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            <span class="font-label-sm text-xs text-on-surface-variant uppercase font-bold tracking-wider">Direct Manufacturer Rate</span>
+          </div>
+        </div>
+
+        <!-- 03 Timely Delivery -->
+        <div class="flex flex-col justify-between pt-6 lg:pt-0 lg:px-6">
+          <div>
+            <span class="block font-display-lg text-6xl lg:text-7xl font-extrabold text-secondary/30 mb-4 select-none">03</span>
+            <div class="flex items-center gap-2.5 mb-2">
+              <span class="material-symbols-outlined text-secondary text-[22px]">speed</span>
+              <h3 class="font-headline-md text-xl text-primary font-bold">Timely Delivery</h3>
+            </div>
+            <p class="font-body-md text-on-surface-variant leading-relaxed">
+              Scheduled daily 24hr transit across coastal artery.
+            </p>
+          </div>
+          <div class="mt-8 pt-4 border-t border-outline-variant/30 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-secondary"></span>
+            <span class="font-label-sm text-xs text-on-surface-variant uppercase font-bold tracking-wider">Same-Day Dispatch</span>
+          </div>
+        </div>
+
+        <!-- 04 Customer Focus -->
+        <div class="flex flex-col justify-between pt-6 lg:pt-0 lg:px-6 last:pr-0">
+          <div>
+            <span class="block font-display-lg text-6xl lg:text-7xl font-extrabold text-primary/25 mb-4 select-none">04</span>
+            <div class="flex items-center gap-2.5 mb-2">
+              <span class="material-symbols-outlined text-primary text-[22px]">support_agent</span>
+              <h3 class="font-headline-md text-xl text-primary font-bold">Customer Focus</h3>
+            </div>
+            <p class="font-body-md text-on-surface-variant leading-relaxed">
+              Dedicated desk, rapid invoicing, immediate credit clearance.
+            </p>
+          </div>
+          <div class="mt-8 pt-4 border-t border-outline-variant/30 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            <span class="font-label-sm text-xs text-on-surface-variant uppercase font-bold tracking-wider">Dedicated Account Lead</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION 3: VERIFIED BRANDS (FULL BLEED + ATMOSPHERIC TRANSITION) -->
+  <!-- ========================================== -->
+  <section class="relative w-full py-20 bg-surface-container-low/70 overflow-hidden" id="brands">
+    <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin">
+      <!-- Section Header -->
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+        <div class="flex flex-col gap-2">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-sm text-xs font-bold uppercase tracking-wider">
+            <span class="material-symbols-outlined text-[14px]">verified</span>
+            <span>Our Brands</span>
+          </div>
+          <h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-primary font-extrabold uppercase tracking-tight leading-tight">
+            VERIFIED FMCG BRANDS <br/>
+            <span class="text-on-surface-variant font-normal text-2xl md:text-3xl">WE DISTRIBUTE</span>
+          </h2>
+          <p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+            Global and trusted FMCG brands delivered to your business through Anfal Enterprises.
+          </p>
+        </div>
+        <a class="inline-flex items-center gap-2 px-6 py-2.5 bg-secondary text-on-secondary rounded-full font-label-lg text-sm font-bold shadow hover:bg-secondary/90 transition-all self-start sm:self-auto" href="#contact">
+          <span>Request Full Catalog</span>
+          <span class="material-symbols-outlined text-[17px]">arrow_forward</span>
+        </a>
+      </div>
+
+      <!-- Full-Bleed Dynamic Image-Aware Brand Cards Grid -->
+      <div id="brand-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered dynamically by renderPublicBrands() with dynamic ColorExtractor -->
+      </div>
+
+      <!-- View More Brands Toggle Container -->
+      <div id="brands-toggle-container" class="mt-12 flex justify-center"></div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION 4: ABOUT ANFAL ENTERPRISES (FACILITY) -->
+  <!-- ========================================== -->
+  <section class="relative w-full min-h-[640px] lg:min-h-[720px] py-20 md:py-28 overflow-hidden flex items-center border-y border-stone-200/40" id="facility">
+    <!-- 1. Full-Bleed Background Image (Dynamic CMS Asset) -->
+    <div id="facility-bg-layer" 
+         class="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-700 select-none" 
+         style="background-image: url('assets/images/facility-full.jpg');"></div>
+
+    <!-- 2. Dark Shadow-like Textured Backdrop Overlay for Crystal-Clear Text Readability (NO CARDS) -->
+    <div class="absolute inset-0 bg-gradient-to-r from-stone-950/95 via-stone-950/80 to-transparent lg:w-[65%] pointer-events-none"></div>
+    <div class="absolute inset-0 bg-stone-950/30 pointer-events-none"></div>
+
+    <!-- 3. Editorial Content Area: Cardless, Integrated with Atmosphere -->
+    <div class="relative z-10 max-w-[1440px] mx-auto w-full px-margin-mobile md:px-margin">
+      <div class="max-w-2xl py-2">
+        
+        <!-- Top Badges Row -->
+        <div class="flex flex-wrap items-center gap-2.5 mb-4">
+          <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/60 border border-white/20 text-xs font-bold text-stone-200 backdrop-blur-sm shadow-md">
+            <span class="material-symbols-outlined text-[15px] text-secondary">location_on</span>
+            <span id="fac-public-location-pill">Coastal Karnataka • 24/7 Distribution</span>
+          </div>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white/10 border border-white/20 text-white font-label-sm text-[11px] font-extrabold uppercase tracking-wider backdrop-blur-sm shadow-md">
+            <span class="material-symbols-outlined text-[14px] text-secondary">store</span>
+            <span id="fac-public-eyebrow">COMPANY OVERVIEW</span>
+          </div>
+        </div>
+
+        <!-- Main Bold Headline -->
+        <h2 id="fac-public-heading" class="font-headline-xl text-3xl sm:text-4xl lg:text-5xl text-white font-black uppercase tracking-tight leading-[1.08] mt-2 drop-shadow-[0_3px_12px_rgba(0,0,0,0.9)]">
+          ABOUT ANFAL<br/>ENTERPRISES
+        </h2>
+
+        <!-- Supporting Tagline Statement -->
+        <p id="fac-public-tagline" class="font-headline-sm text-lg sm:text-xl text-secondary-fixed font-bold tracking-tight mt-3 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+          Reliable FMCG Distribution. Built on Trust.
+        </p>
+
+        <!-- 4 Flat Key Information Highlights (Clean List/Grid, NO CARDS, Dynamic CMS) -->
+        <div id="fac-public-features" class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5 mt-8 pt-6 border-t border-white/20">
+          <!-- Rendered dynamically by renderFacility() -->
+        </div>
+
+        <!-- Bottom Information & Subtle CTA Link -->
+        <div class="pt-6 mt-8 border-t border-white/20 flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-secondary shadow-sm"></span>
+            <span id="fac-public-leader-tag" class="font-label-sm text-xs text-stone-300 uppercase tracking-wider font-bold drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">COASTAL KARNATAKA DISTRIBUTION LEADER</span>
+          </div>
+          <a id="fac-public-cta-btn" class="inline-flex items-center gap-1.5 font-label-md text-sm text-secondary-fixed hover:text-white font-bold transition-colors group drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]" href="#contact">
+            <span id="fac-public-cta-text">Schedule Facility Inspection</span>
+            <span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
           </a>
         </div>
 
-        <div class="brands-grid-layout" id="brands-grid">
-          <!-- Dynamically populated by app.js from CMS Data -->
-        </div>
-
       </div>
-    </section>
+    </div>
+  </section>
 
-
-    <!-- =========================================================================
-         4. ABOUT US & DETAIL ABOUT ANFAL ENTERPRISES
-         ========================================================================= -->
-    <section class="section-container section-about" id="about">
-      <div class="container">
-        
-        <div class="about-split-grid">
-          
-          <!-- Left Column: Story & Operational Highlights -->
-          <div class="about-text-column">
-            <span class="section-sub-badge">COMPANY OVERVIEW</span>
-            <h2 class="section-title">ABOUT ANFAL ENTERPRISES</h2>
-            <h3 class="about-highlight-subtitle" id="about-statement-2">
-              Reliable FMCG Distribution. Built on Trust.
-            </h3>
-            
-            <div class="about-body-text" id="about-description-full">
-              <p>
-                <strong>ANFAL ENTERPRISES</strong> was established to bridge consumer demand with seamless wholesale fulfillment across Bhatkal and the coastal belt of Karnataka. Situated strategically on <strong>National Highway 66 (N.H. 66) in Nawayath Colony</strong>, our facility serves as a vital logistics node connecting national FMCG conglomerates with local retail stores, regional supermarkets, and institutional merchants.
-              </p>
-              <p>
-                Under the leadership of <strong>Mr. Imtiyaz Hussain</strong>, our company upholds strict benchmarks for product authenticity, temperature-controlled inventory preservation, and rapid order turnaround. We ensure that our retail clients benefit from stable supply, wholesale rate transparency, and verified branded goods with full GST compliance.
-              </p>
-            </div>
-
-            <!-- Key Operational Checkmarks -->
-            <div class="about-highlights-list">
-              <div class="highlight-item">
-                <div class="highlight-icon">✓</div>
-                <div>
-                  <strong>High-Capacity Warehousing:</strong>
-                  <span>Spacious depot equipped for secure bulk storage and systematic FIFO rotation.</span>
-                </div>
-              </div>
-              <div class="highlight-item">
-                <div class="highlight-icon">✓</div>
-                <div>
-                  <strong>Strategic Highway Connectivity:</strong>
-                  <span>Direct N.H. 66 location enabling fast dispatch and regional vehicle accessibility.</span>
-                </div>
-              </div>
-              <div class="highlight-item">
-                <div class="highlight-icon">✓</div>
-                <div>
-                  <strong>100% Genuine Manufacturer Sourcing:</strong>
-                  <span>Zero counterfeit risk with verifiable batches directly from FMCG principals.</span>
-                </div>
-              </div>
-              <div class="highlight-item">
-                <div class="highlight-icon">✓</div>
-                <div>
-                  <strong>Transparent B2B Billing:</strong>
-                  <span>Detailed GST invoices, clear payment terms, and volume rebate structures.</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Right Column: Facility Visual Card & Core Facts -->
-          <div class="about-visual-column">
-            <div class="facility-showcase-card">
-              <div class="facility-img-wrap">
-                <img src="assets/images/anfal-building.jpg" alt="ANFAL ENTERPRISES Facility at Nawayath Colony Bhatkal" class="facility-img" id="about-facility-image">
-                <div class="facility-overlay-badge">
-                  <span class="facility-tag">OFFICIAL FACILITY</span>
-                  <span class="facility-loc">N.H. 66, Nawayath Colony, Bhatkal</span>
-                </div>
-              </div>
-
-              <div class="facility-card-footer">
-                <div class="facility-detail-row">
-                  <span class="f-label">Entity Name</span>
-                  <span class="f-val">ANFAL ENTERPRISES</span>
-                </div>
-                <div class="facility-detail-row">
-                  <span class="f-label">Key Focus</span>
-                  <span class="f-val">Wholesale FMCG &amp; Packaged Goods</span>
-                </div>
-                <div class="facility-detail-row">
-                  <span class="f-label">Service Area</span>
-                  <span class="f-val">Bhatkal, Kundapura, Honnavar &amp; Coastal Dist.</span>
-                </div>
-                <div class="facility-detail-row">
-                  <span class="f-label">Proprietor</span>
-                  <span class="f-val">Mr. Imtiyaz Hussain</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
+  <!-- ========================================== -->
+  <!-- SECTION 5: LEADERSHIP TEAM                 -->
+  <!-- ========================================== -->
+  <section class="relative w-full py-20 bg-surface-container-low/50" id="team">
+    <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin">
+      <div class="flex flex-col items-center text-center gap-2 mb-14">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-secondary font-label-sm text-xs font-bold uppercase tracking-wider">
+          <span class="material-symbols-outlined text-[14px]">groups</span>
+          <span>Our Leadership</span>
         </div>
-
-      </div>
-    </section>
-
-
-    <!-- =========================================================================
-         5. LEADERSHIP & TEAM SECTION (About Us Team)
-         ========================================================================= -->
-    <section class="section-container section-team" id="team">
-      <div class="container">
-        
-        <div class="section-header-block text-center">
-          <span class="section-sub-badge">OUR LEADERSHIP</span>
-          <h2 class="section-title">LEADERSHIP &amp; MANAGEMENT TEAM</h2>
-          <p class="section-desc">
-            Experienced professionals driving distribution excellence, warehouse logistics, and dedicated client relationships.
-          </p>
-        </div>
-
-        <!-- 4 Team Roles: CEO, General Manager, Sales Manager, Sales & Marketing -->
-        <div class="team-cards-grid" id="team-cards-container">
-          <!-- Dynamically populated from CMS Data -->
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- =========================================================================
-         6. CONTACT & WHOLESALE ENQUIRY (Full Contact Page at End)
-         ========================================================================= -->
-    <section class="section-container section-contact" id="contact">
-      <div class="container">
-        
-        <div class="section-header-block text-center">
-          <span class="section-sub-badge">GET IN TOUCH</span>
-          <h2 class="section-title">CONNECT WITH ANFAL ENTERPRISES</h2>
-          <p class="section-desc">
-            Whether you run a supermarket, grocery store, or institutional canteen, connect with our wholesale team today.
-          </p>
-        </div>
-
-        <div class="contact-main-grid">
-          
-          <!-- Left: Contact Details Cards & Operational Hours -->
-          <div class="contact-info-column">
-            
-            <div class="contact-card-box">
-              <div class="form-card-header">
-                <h3 class="form-card-title">Direct Contact Desk</h3>
-                <p class="form-card-sub">Reach our wholesale facility and sales office directly for supply queries.</p>
-              </div>
-
-              <div class="contact-info-list">
-                <div class="contact-info-row">
-                <div class="contact-icon-bubble">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                </div>
-                <div class="contact-text-content">
-                  <span class="contact-label">Facility &amp; Warehouse Address</span>
-                  <p class="contact-value" id="contact-full-address">
-                    N.H. 66, Nawayath Colony, Bhatkal, Karnataka – 581320, India
-                  </p>
-                  <a href="https://maps.app.goo.gl/Vvbhyn822UTp8xpi7" target="_blank" rel="noopener" class="contact-inline-link">
-                    Open in Google Maps →
-                  </a>
-                </div>
-              </div>
-
-              <div class="contact-info-row">
-                <div class="contact-icon-bubble">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                </div>
-                <div class="contact-text-content">
-                  <span class="contact-label">Direct Calling Line</span>
-                  <a href="tel:+919845012345" class="contact-value link-highlight" id="contact-phone-link">+91 98450 12345</a>
-                  <span class="contact-sub">Available Mon–Sat during operating hours</span>
-                </div>
-              </div>
-
-              <div class="contact-info-row">
-                <div class="contact-icon-bubble">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                </div>
-                <div class="contact-text-content">
-                  <span class="contact-label">WhatsApp Wholesale Desk</span>
-                  <a href="https://wa.me/919845012345" target="_blank" rel="noopener" class="contact-value link-highlight" id="contact-whatsapp-link">+91 98450 12345</a>
-                  <span class="contact-sub">Instant chat for catalog &amp; availability</span>
-                </div>
-              </div>
-
-              <div class="contact-info-row">
-                <div class="contact-icon-bubble">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                </div>
-                <div class="contact-text-content">
-                  <span class="contact-label">Official Email</span>
-                  <a href="mailto:info@anfalenterprises.com" class="contact-value link-highlight" id="contact-email-link">info@anfalenterprises.com</a>
-                  <span class="contact-sub">For formal quotations &amp; vendor queries</span>
-                </div>
-              </div>
-
-              <div class="contact-info-row">
-                <div class="contact-icon-bubble">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                </div>
-                <div class="contact-text-content">
-                  <span class="contact-label">Working Hours</span>
-                  <p class="contact-value" id="contact-operating-hours">Monday – Saturday: 9:00 AM – 8:00 PM</p>
-                  <span class="contact-sub">Sunday: Closed for maintenance</span>
-                </div>
-              </div>
-
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Right: Interactive In-Page Wholesale Enquiry Form -->
-          <div class="contact-form-column">
-            
-            <div class="contact-form-card">
-              <div class="form-card-header">
-                <h3 class="form-card-title">Send Wholesale Enquiry</h3>
-                <p class="form-card-sub">Submit your store requirements to receive customized distributor pricing.</p>
-              </div>
-
-              <form id="inpage-enquiry-form" class="wholesale-form" novalidate>
-                <div class="form-row-2">
-                  <div class="form-group">
-                    <label class="form-label" for="inpage-name">Full Name *</label>
-                    <input type="text" id="inpage-name" class="form-input" placeholder="e.g. Rahil Merchant" required>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label" for="inpage-company">Store / Supermarket Name</label>
-                    <input type="text" id="inpage-company" class="form-input" placeholder="e.g. City Supermarket">
-                  </div>
-                </div>
-
-                <div class="form-row-2">
-                  <div class="form-group">
-                    <label class="form-label" for="inpage-phone">Phone / WhatsApp Number *</label>
-                    <input type="tel" id="inpage-phone" class="form-input" placeholder="+91 98450 00000" required>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label" for="inpage-brand-interest">Brands of Interest</label>
-                    <select id="inpage-brand-interest" class="form-input form-select">
-                      <option value="All Brands">All 6 Verified Brands</option>
-                      <option value="Hindustan Unilever">Hindustan Unilever (HUL)</option>
-                      <option value="P&G">Procter &amp; Gamble (P&amp;G)</option>
-                      <option value="Nestlé">Nestlé Foods &amp; Nutrition</option>
-                      <option value="Dabur">Dabur Health &amp; Personal Care</option>
-                      <option value="ITC">ITC Foods &amp; Staples</option>
-                      <option value="Britannia">Britannia Bakery &amp; Dairy</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label" for="inpage-message">Product Requirements &amp; Estimated Volume *</label>
-                  <textarea id="inpage-message" class="form-textarea" placeholder="Describe the categories, items, or weekly volume you need..." required rows="2"></textarea>
-                </div>
-
-                <button type="submit" class="btn-submit-full" id="btn-submit-inpage">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                  <span>Submit Wholesale Enquiry</span>
-                </button>
-
-                <p class="form-disclaimer">
-                  🔒 We respect your business privacy. Your enquiry is forwarded directly to the wholesale sales desk.
-                </p>
-              </form>
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- Embedded Interactive Google Map -->
-        <div class="map-embed-container">
-          <div class="map-frame-header">
-            <div class="map-title-row">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              <strong>Facility Location Map</strong>
-              <span class="map-badge">N.H. 66, Bhatkal</span>
-            </div>
-            <a href="https://maps.app.goo.gl/Vvbhyn822UTp8xpi7" target="_blank" rel="noopener" class="map-external-btn">
-              Get Driving Directions ↗
-            </a>
-          </div>
-          <iframe 
-            id="google-maps-frame"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3871.2568341932706!2d74.5403539!3d14.0027796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbc431ca824eaed%3A0x1cfc394b49cd1e5f!2sAnfal%20hyper%20market!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin" 
-            width="100%" 
-            height="360" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade"
-            title="ANFAL ENTERPRISES Location Map">
-          </iframe>
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-
-  <!-- =========================================================================
-       7. RICH FOOTER
-       ========================================================================= -->
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      
-      <div class="footer-col brand-col">
-        <img src="assets/images/anfal-logo.png" alt="ANFAL ENTERPRISES" class="footer-logo">
-        <p class="footer-bio">
-          ANFAL ENTERPRISES is an established FMCG wholesaler and distributor in Bhatkal, Karnataka. Built on Trust, Range, and Reliability.
+        <h2 class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-primary font-extrabold uppercase tracking-tight">
+          Leadership &amp; Management Team
+        </h2>
+        <p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+          Experienced enterprise professionals driving dependable distribution excellence.
         </p>
-        <div class="footer-proprietor-badge">
-          <span>Proprietor: <strong>Mr. Imtiyaz Hussain</strong></span>
+      </div>
+
+      <!-- 4-Column Card Grid with Framed Portraits (Dynamic CMS) -->
+      <div id="team-cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Rendered dynamically by renderTeam() -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SECTION 6: CONTACT & DIRECT ENQUIRY         -->
+  <!-- ========================================== -->
+  <section class="relative w-full py-20 bg-surface" id="contact">
+    <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin">
+      <div class="flex flex-col items-start gap-2 mb-12">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-secondary font-label-sm text-xs font-bold uppercase tracking-wider">
+          <span class="material-symbols-outlined text-[14px]">send</span>
+          <span>Get In Touch</span>
+        </div>
+        <h2 id="contact-public-heading" class="font-headline-xl text-headline-xl-mobile md:text-headline-xl text-primary font-extrabold uppercase tracking-tight">
+          Connect With Anfal Enterprises
+        </h2>
+        <p id="contact-public-subtitle" class="font-body-md text-body-md text-on-surface-variant">Rapid quote generation and customized bulk delivery scheduling.</p>
+      </div>
+
+      <!-- Two-Column Interactive Layout: Both Cards Same Size & Height -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+        <!-- Left Column: Direct Contact Desk Card -->
+        <div class="flex flex-col h-full">
+          <div class="p-8 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col justify-between h-full gap-6">
+            <div class="flex items-center justify-between pb-2 border-b border-outline-variant/20">
+              <span class="font-headline-md text-xl text-primary font-bold">Direct Contact Desk</span>
+              <span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
+            </div>
+            
+            <div class="flex flex-col gap-3.5 flex-1 justify-around">
+              <!-- Location -->
+              <div class="p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
+                <div class="w-10 h-10 rounded-lg bg-primary-fixed text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">location_on</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-xs text-on-surface-variant uppercase font-bold">Facility Depot Address</span>
+                  <span id="contact-public-address" class="font-body-md text-sm text-on-surface font-semibold mt-0.5">National Highway 66, Near Coastal Bypass, Bhatkal 581320</span>
+                </div>
+              </div>
+
+              <!-- Phone -->
+              <div class="p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
+                <div class="w-10 h-10 rounded-lg bg-secondary-fixed text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">phone_in_talk</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-xs text-on-surface-variant uppercase font-bold">Direct Desk Line</span>
+                  <a id="contact-public-phone-link" class="font-body-md text-sm text-on-surface font-semibold hover:text-secondary mt-0.5" href="tel:+918385226700"><span id="contact-public-phone">+91 (08385) 226700 / 226701</span></a>
+                </div>
+              </div>
+
+              <!-- WhatsApp -->
+              <div class="p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
+                <div class="w-10 h-10 rounded-lg bg-primary-fixed text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">chat</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-xs text-on-surface-variant uppercase font-bold">WhatsApp Priority Desk</span>
+                  <a id="contact-public-wa-link" class="font-body-md text-sm text-on-surface font-semibold hover:text-primary mt-0.5" href="https://wa.me/919448123456"><span id="contact-public-wa">+91 94481 23456 (Instant Catalog)</span></a>
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
+                <div class="w-10 h-10 rounded-lg bg-secondary-fixed text-secondary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">mail</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-xs text-on-surface-variant uppercase font-bold">Wholesale Orders &amp; Billing</span>
+                  <a id="contact-public-email-link" class="font-body-md text-sm text-on-surface font-semibold hover:text-secondary mt-0.5" href="mailto:info@anfalenterprises.com"><span id="contact-public-email">info@anfalenterprises.com</span></a>
+                </div>
+              </div>
+
+              <!-- Hours -->
+              <div class="p-3.5 rounded-xl bg-surface-container-low flex items-start gap-3">
+                <div class="w-10 h-10 rounded-lg bg-primary-fixed text-primary flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">schedule</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-xs text-on-surface-variant uppercase font-bold">Warehouse Dispatch Timings</span>
+                  <span id="contact-public-hours" class="font-body-md text-sm text-on-surface font-semibold mt-0.5">Mon - Sat: 08:30 - 19:30 IST</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Wholesale Enquiry Form Card -->
+        <div class="flex flex-col h-full">
+          <div class="p-8 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col justify-between h-full gap-6">
+            <div>
+              <h3 class="font-headline-md text-xl text-primary font-bold">Send Wholesale Enquiry</h3>
+              <p class="font-body-sm text-sm text-on-surface-variant mt-1">Fill details for bulk rate sheets and immediate dispatch allocation.</p>
+            </div>
+
+            <form class="flex flex-col gap-4 flex-1 justify-between" id="enquiry-form">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-1.5">
+                  <label class="font-label-sm text-xs text-on-surface font-bold uppercase tracking-wider">Full Name</label>
+                  <input id="enq-name" class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-on-surface text-sm placeholder:text-outline focus:outline-none transition-all" placeholder="e.g. Salim Ahmed" required="" type="text"/>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <label class="font-label-sm text-xs text-on-surface font-bold uppercase tracking-wider">Supermarket / Business Name</label>
+                  <input id="enq-company" class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-on-surface text-sm placeholder:text-outline focus:outline-none transition-all" placeholder="e.g. Coastal Hypermarket" required="" type="text"/>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <label class="font-label-sm text-xs text-on-surface font-bold uppercase tracking-wider">Phone / WhatsApp Number</label>
+                  <input id="enq-phone" class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-on-surface text-sm placeholder:text-outline focus:outline-none transition-all" placeholder="+91 98765 43210" required="" type="tel"/>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <label class="font-label-sm text-xs text-on-surface font-bold uppercase tracking-wider">Town / District</label>
+                  <input id="enq-town" class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-on-surface text-sm placeholder:text-outline focus:outline-none transition-all" placeholder="e.g. Bhatkal / Kundapura / Kumta" required="" type="text"/>
+                </div>
+              </div>
+
+              <!-- Reason for Enquiry Dropdown (Replaces brands chip selector & purchase volume) -->
+              <div class="flex flex-col gap-1.5">
+                <label class="font-label-sm text-xs text-on-surface font-bold uppercase tracking-wider">Reason for Enquiry</label>
+                <select id="enq-reason" class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-on-surface text-sm focus:outline-none transition-all cursor-pointer">
+                  <option value="Wholesale Supply / Bulk Purchase" selected="">Wholesale Supply / Bulk Purchase</option>
+                  <option value="Brands &amp; Product Distribution">Brands &amp; Product Distribution</option>
+                  <option value="Retailer Partnership">Retailer Partnership</option>
+                  <option value="Depot Logistics &amp; Transportation">Depot Logistics &amp; Transportation</option>
+                  <option value="Institutional &amp; Enterprise Supply">Institutional &amp; Enterprise Supply</option>
+                  <option value="General Inquiry">General Inquiry</option>
+                </select>
+              </div>
+
+              <!-- Message / Special Requirements -->
+              <div class="flex flex-col gap-1.5">
+                <label class="font-label-sm text-xs text-on-surface font-bold uppercase tracking-wider">Specific Requirements or Message (Optional)</label>
+                <textarea id="enq-message" rows="3" class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-on-surface text-sm placeholder:text-outline focus:outline-none transition-all" placeholder="Enter any specific product lines, delivery queries, or requirements..."></textarea>
+              </div>
+
+              <!-- Submit Button -->
+              <button id="enq-submit-btn" class="mt-2 w-full py-3.5 px-6 rounded-full bg-secondary text-on-secondary font-label-lg text-sm font-bold shadow-md hover:bg-secondary/90 active:scale-[0.99] transition-all flex items-center justify-center gap-2" type="submit">
+                <span>Submit Wholesale Enquiry</span>
+                <span class="material-symbols-outlined text-[19px]">send</span>
+              </button>
+            </form>
+
+            <!-- Success Alert Modal / Notification -->
+            <div id="enquiry-success" class="hidden p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-start gap-3">
+              <span class="material-symbols-outlined text-emerald-600 shrink-0">check_circle</span>
+              <div class="flex flex-col text-sm">
+                <span class="font-bold">Wholesale Enquiry Logged Successfully!</span>
+                <span class="text-xs text-emerald-700 mt-0.5">Thank you! Anfal Enterprises wholesale desk will contact you shortly with price slabs.</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="footer-col">
-        <h4 class="footer-col-title">Core FMCG Brands</h4>
-        <ul class="footer-links-list">
-          <li><a href="#brands">Hindustan Unilever (HUL)</a></li>
-          <li><a href="#brands">Procter &amp; Gamble (P&amp;G)</a></li>
-          <li><a href="#brands">Nestlé Foods</a></li>
-          <li><a href="#brands">Dabur Health Care</a></li>
-          <li><a href="#brands">ITC Consumer Goods</a></li>
-          <li><a href="#brands">Britannia Bakery &amp; Dairy</a></li>
+      <!-- Live Interactive Map Card (Leaflet Powered & CMS Synced) -->
+      <div class="mt-12 p-6 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">explore</span>
+            </div>
+            <div class="flex flex-col">
+              <span id="contact-map-title" class="font-headline-sm text-base text-primary font-bold">Hub Transit Position</span>
+              <span id="contact-map-coords-text" class="font-body-sm text-xs text-on-surface-variant">Coordinates: 13.9872° N, 74.5539° E | Bhatkal NH 66 Corridor</span>
+            </div>
+          </div>
+          <a id="contact-map-dir-link" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-primary font-label-md text-xs font-bold transition-colors max-w-fit" href="https://maps.google.com/?q=13.9872,74.5539" rel="noopener noreferrer" target="_blank">
+            <span>Get Driving Directions</span>
+            <span class="material-symbols-outlined text-[16px]">directions</span>
+          </a>
+        </div>
+        
+        <!-- Interactive Leaflet Live Map -->
+        <div id="public-live-map" class="w-full h-80 rounded-xl overflow-hidden relative border border-outline-variant/20 shadow-inner z-10 bg-slate-100"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ========================================== -->
+<!-- FOOTER: CLEAN EDITORIAL RETAIL FOOTER      -->
+<!-- ========================================== -->
+<footer class="w-full bg-surface-container-low border-t border-outline-variant/30">
+  <div class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin pt-14 pb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 pb-10">
+      <div class="lg:col-span-4 flex flex-col gap-4">
+        <div class="flex items-center gap-3">
+          <img alt="Anfal Enterprises" class="h-9 w-auto object-contain" src="assets/images/anfal-logo.png"/>
+          <span class="font-headline-md text-xl text-primary font-extrabold tracking-tight">Anfal Enterprises</span>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-lowest text-primary rounded-full font-label-sm text-xs border border-outline-variant/20 shadow-sm">
+            <span class="material-symbols-outlined text-[14px] text-primary">verified</span>FMCG Wholesale Hub
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-lowest text-secondary rounded-full font-label-sm text-xs border border-outline-variant/20 shadow-sm">
+            <span class="material-symbols-outlined text-[14px] text-secondary">local_shipping</span>Direct Depot Fleet
+          </span>
+        </div>
+        <div class="inline-flex items-center gap-3 p-3 bg-surface-container-lowest rounded-xl max-w-fit border border-outline-variant/20 shadow-sm">
+          <span class="material-symbols-outlined text-secondary text-[22px]">alt_route</span>
+          <div class="flex flex-col">
+            <span class="font-label-sm text-xs text-secondary font-bold uppercase tracking-wider">Highway NH 66 Transit Axis</span>
+            <span class="font-body-sm text-xs text-on-surface-variant">Zero-Delay Coastal Supply Corridor</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-2 flex flex-col gap-3">
+        <span class="font-label-md text-xs font-bold text-primary uppercase tracking-wider">Navigation</span>
+        <ul class="flex flex-col gap-2 font-body-sm text-sm text-on-surface-variant">
+          <li><a class="hover:text-primary transition-colors" data-path="home" href="#home">Overview</a></li>
+          <li><a class="hover:text-primary transition-colors" data-path="strengths" href="#strengths">Core Strengths</a></li>
+          <li><a class="hover:text-primary transition-colors" data-path="brands" href="#brands">Product Portfolio</a></li>
+          <li><a class="hover:text-primary transition-colors" data-path="facility" href="#facility">About</a></li>
+          <li><a class="hover:text-primary transition-colors" data-path="team" href="#team">Executive Team</a></li>
+          <li><a class="hover:text-primary transition-colors" data-path="price-list" href="#contact">Wholesale Price List</a></li>
         </ul>
       </div>
 
-      <div class="footer-col">
-        <h4 class="footer-col-title">Quick Navigation</h4>
-        <ul class="footer-links-list">
-          <li><a href="#hero">Home</a></li>
-          <li><a href="#features">Why Choose Us (Pillars)</a></li>
-          <li><a href="#brands">Brands</a></li>
-          <li><a href="#about">About Anfal Enterprises</a></li>
-          <li><a href="#team">Leadership Team</a></li>
-          <li><a href="#contact">Contact &amp; Enquiry</a></li>
-        </ul>
+      <div class="lg:col-span-3 flex flex-col gap-3">
+        <span class="font-label-md text-xs font-bold text-primary uppercase tracking-wider">Authorized Brands</span>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Britannia Direct</span>
+          <span class="px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Nestle Professional</span>
+          <span class="px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">ITC Foods</span>
+          <span class="px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Parle Agro</span>
+          <span class="px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Tata Consumer</span>
+          <span class="px-3 py-1 bg-surface-container-lowest text-on-surface font-label-sm text-xs rounded-full border border-outline-variant/20">Hindustan Unilever</span>
+        </div>
       </div>
 
-      <div class="footer-col contact-col">
-        <h4 class="footer-col-title">Facility Details</h4>
-        <p class="footer-address">
-          N.H. 66, Nawayath Colony,<br>
-          Bhatkal, Karnataka – 581320, India
-        </p>
-        <p class="footer-contact-line">
-          <strong>Phone:</strong> <a href="tel:+919845012345">+91 98450 12345</a>
-        </p>
-        <p class="footer-contact-line">
-          <strong>Email:</strong> <a href="mailto:info@anfalenterprises.com">info@anfalenterprises.com</a>
-        </p>
-      </div>
-
-    </div>
-
-    <div class="footer-bottom-bar">
-      <div class="container footer-bottom-inner">
-        <p class="copyright-text">
-          &copy; <span id="current-year">2026</span> <strong>ANFAL ENTERPRISES</strong>. All Rights Reserved. • Bhatkal, Karnataka
-        </p>
-        <div class="footer-bottom-actions">
-          <span class="motto-tag">"TRUST. RANGE. RELIABILITY."</span>
-          <span class="dot-separator">•</span>
-          <a href="admin.html" class="footer-admin-link">Admin Portal</a>
-          <span class="dot-separator">•</span>
-          <a href="#hero" class="back-to-top-btn" title="Back to top">↑ Top</a>
+      <div class="lg:col-span-3 flex flex-col gap-3">
+        <span class="font-label-md text-xs font-bold text-primary uppercase tracking-wider">Direct Distribution Desk</span>
+        <div class="flex flex-col gap-2.5 font-body-sm text-sm text-on-surface-variant">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[17px] text-primary">phone_in_talk</span>
+            <span class="font-label-md text-xs text-on-surface font-semibold">+91 (8385) 226700 / 226701</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[17px] text-secondary">mail</span>
+            <span class="font-body-md text-xs text-on-surface">info@anfalenterprises.com</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[17px] text-primary">location_on</span>
+            <span class="text-xs">NH 66 Coastal Bypass Corridor, Bhatkal 581320</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[17px] text-primary">schedule</span>
+            <span class="text-xs">Dispatch: Mon - Sat | 08:30 - 19:30</span>
+          </div>
         </div>
       </div>
     </div>
-  </footer>
 
-  <!-- Toast Notification System -->
-  <div id="app-toast" class="toast-notice" role="status" aria-live="polite"></div>
+    <div class="pt-6 border-t border-outline-variant/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span class="font-label-sm text-xs text-on-surface-variant">© 2025 Anfal Enterprises Wholesale Distribution. All rights reserved.</span>
+      <div class="flex items-center gap-4">
+        <span class="font-label-sm text-xs text-primary font-semibold">GSTIN: 29AABCA1234F1Z8</span>
+        <span class="font-label-sm text-xs text-primary font-semibold">FSSAI Central Lic: 11221334000192</span>
+      </div>
+    </div>
+  </div>
+</footer>
 
-  <!-- Scripts -->
-  <script src="cms-data.js"></script>
-  <script src="app.js"></script>
+<!-- Leaflet Map JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<!-- Color Extractor & CMS Scripts -->
+<script src="color-extractor.js"></script>
+<script src="cms-data.js"></script>
+<script>
+  let publicLeafletMap = null;
+  let publicLeafletMarker = null;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Render all dynamic CMS sections
+    renderHomeHero();
+    renderFeaturedProducts();
+    renderFacility();
+    renderTeam();
+    renderPublicBrands();
+    renderContactAndMap();
+    setupWholesaleForm();
+    setupNavScroll();
+
+    // Listen for live updates from CMS across all sections
+    window.addEventListener('cms:home-updated', renderHomeHero);
+    window.addEventListener('cms:products-updated', renderFeaturedProducts);
+    window.addEventListener('cms:facility-updated', renderFacility);
+    window.addEventListener('cms:team-updated', renderTeam);
+    window.addEventListener('cms:brands-updated', renderPublicBrands);
+    window.addEventListener('cms:contact-updated', () => {
+      renderContactAndMap();
+      renderEnquiryReasons();
+    });
+  });
+
+  /**
+   * 1. Home Section Dynamic Binding
+   */
+  function renderHomeHero() {
+    if (typeof CMS === 'undefined') return;
+    const home = CMS.getHomeData();
+    if (!home) return;
+
+    const bgLayer = document.getElementById("hero-bg-layer");
+    if (bgLayer && home.heroImage) {
+      bgLayer.style.backgroundImage = `url('${home.heroImage}')`;
+    }
+
+    const badge = document.getElementById("hero-badge-text");
+    if (badge && home.heroBadge) {
+      badge.textContent = home.heroBadge;
+    }
+
+    const heading = document.getElementById("hero-heading-text");
+    if (heading && home.heroHeading) {
+      heading.innerHTML = escapeHtml(home.heroHeading);
+    }
+
+    const tagline = document.getElementById("hero-tagline-text");
+    if (tagline && home.heroTagline) {
+      tagline.textContent = home.heroTagline;
+    }
+
+    const ctaLabel = document.getElementById("hero-cta-label");
+    const ctaBtn = document.getElementById("hero-cta-btn");
+    if (ctaLabel && home.heroCtaText) {
+      ctaLabel.textContent = home.heroCtaText;
+    }
+    if (ctaBtn && home.heroCtaLink) {
+      ctaBtn.href = home.heroCtaLink;
+    }
+  }
+
+  /**
+   * 2. Home Featured Products Showcase Grid
+   */
+  function renderFeaturedProducts() {
+    const container = document.getElementById("hero-products-container");
+    if (!container || typeof CMS === 'undefined') return;
+
+    let products = (CMS.getFeaturedProducts() || []).filter(p => p.active !== false);
+    if (!products.length) return;
+
+    // Duplicate list if short to ensure seamless continuous side-to-side glide animation
+    if (products.length < 8) {
+      products = [...products, ...products];
+    }
+
+    container.innerHTML = products.map(prod => `
+      <div class="w-64 sm:w-72 shrink-0 group bg-surface-container-lowest/95 backdrop-blur-md border border-outline-variant/30 rounded-2xl p-4 shadow-sm hover:shadow-xl hover:border-secondary/40 transition-all duration-300 flex flex-col justify-between overflow-hidden">
+        <div class="w-full h-40 rounded-xl bg-surface-container-low/60 flex items-center justify-center p-3 overflow-hidden mb-3">
+          <img alt="${escapeHtml(prod.name)}" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" src="${escapeHtml(prod.image)}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'40\\' height=\\'40\\'><rect fill=\\'%23eee\\' width=\\'40\\' height=\\'40\\'/></svg>'"/>
+        </div>
+        <div class="flex items-center justify-between pt-1">
+          <div class="min-w-0 pr-2">
+            <span class="block font-label-sm text-[10px] text-secondary font-bold uppercase tracking-wider truncate">${escapeHtml(prod.category || prod.brand)}</span>
+            <h3 class="font-headline-sm text-sm font-bold text-primary leading-tight truncate">${escapeHtml(prod.name)}</h3>
+          </div>
+          <span class="shrink-0 font-label-sm px-2.5 py-0.5 rounded-full bg-secondary-fixed text-secondary font-bold text-[10px]">${escapeHtml(prod.badge || 'Direct')}</span>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  /**
+   * 3. Facility Section Dynamic Binding
+   */
+  function renderFacility() {
+    if (typeof CMS === 'undefined') return;
+    const fac = CMS.getFacilityData();
+    if (!fac) return;
+
+    const bgLayer = document.getElementById("facility-bg-layer");
+    if (bgLayer && fac.backgroundImage) {
+      bgLayer.style.backgroundImage = `url('${fac.backgroundImage}')`;
+    }
+
+    const pill = document.getElementById("fac-public-location-pill");
+    if (pill && fac.locationPill) pill.textContent = fac.locationPill;
+
+    const eyebrow = document.getElementById("fac-public-eyebrow");
+    if (eyebrow && fac.eyebrow) eyebrow.textContent = fac.eyebrow;
+
+    const heading = document.getElementById("fac-public-heading");
+    if (heading && fac.heading) heading.innerHTML = escapeHtml(fac.heading).replace(/\n/g, "<br/>");
+
+    const tagline = document.getElementById("fac-public-tagline");
+    if (tagline && fac.tagline) tagline.textContent = fac.tagline;
+
+    const leaderTag = document.getElementById("fac-public-leader-tag");
+    if (leaderTag && fac.bottomLeaderTag) leaderTag.textContent = fac.bottomLeaderTag;
+
+    const ctaBtn = document.getElementById("fac-public-cta-btn");
+    const ctaText = document.getElementById("fac-public-cta-text");
+    if (ctaText && fac.ctaText) ctaText.textContent = fac.ctaText;
+    if (ctaBtn && fac.ctaLink) ctaBtn.href = fac.ctaLink;
+
+    // Render 4 Feature Pillars
+    const featuresContainer = document.getElementById("fac-public-features");
+    if (featuresContainer && fac.features && fac.features.length) {
+      const icons = ["warehouse", "alt_route", "handshake", "receipt_long"];
+      featuresContainer.innerHTML = fac.features.map((feat, idx) => `
+        <div class="flex items-start gap-3">
+          <span class="material-symbols-outlined text-secondary-fixed text-[24px] shrink-0 mt-0.5">${icons[idx % icons.length]}</span>
+          <div class="flex flex-col">
+            <span class="font-headline-sm text-[15px] font-bold text-white leading-tight">${escapeHtml(feat.title)}</span>
+            <span class="font-body-sm text-[13px] text-stone-300 mt-0.5">${escapeHtml(feat.desc)}</span>
+          </div>
+        </div>
+      `).join("");
+    }
+  }
+
+  /**
+   * 4. Leadership Team Directory
+   */
+  function renderTeam() {
+    const container = document.getElementById("team-cards-container");
+    if (!container || typeof CMS === 'undefined') return;
+
+    const team = (CMS.getTeam() || []).filter(t => t.active !== false);
+
+    container.innerHTML = team.map(member => `
+      <div class="group bg-surface-container-lowest rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center border border-outline-variant/30">
+        <div class="relative mb-5">
+          <div class="w-28 h-28 rounded-full p-1 bg-gradient-to-tr from-secondary to-primary flex items-center justify-center shadow-md">
+            <div class="w-full h-full rounded-full bg-surface-container-low overflow-hidden">
+              <img alt="${escapeHtml(member.name)}" class="w-full h-full object-cover" src="${escapeHtml(member.image)}" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80'"/>
+            </div>
+          </div>
+          <div class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow">
+            <span class="material-symbols-outlined text-[17px]">stars</span>
+          </div>
+        </div>
+        <h3 class="font-headline-md text-xl text-primary font-bold leading-tight">${escapeHtml(member.name)}</h3>
+        <span class="inline-block mt-1 px-3 py-0.5 bg-primary-fixed text-primary font-label-sm text-xs font-bold rounded-full">${escapeHtml(member.role)}</span>
+        <p class="font-body-sm text-sm text-on-surface-variant mt-3 leading-relaxed">${escapeHtml(member.bio || 'Distribution operations & commercial leadership.')}</p>
+        <div class="flex items-center gap-2 mt-5 pt-2">
+          ${member.phone ? `<a class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary hover:text-on-secondary flex items-center justify-center transition-colors text-primary" href="tel:${escapeHtml(member.phone)}" title="Call"><span class="material-symbols-outlined text-[16px]">call</span></a>` : ''}
+          ${member.email ? `<a class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary hover:text-on-secondary flex items-center justify-center transition-colors text-primary" href="mailto:${escapeHtml(member.email)}" title="Email"><span class="material-symbols-outlined text-[16px]">mail</span></a>` : ''}
+          ${member.phone ? `<a class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary hover:text-on-secondary flex items-center justify-center transition-colors text-primary" href="https://wa.me/${escapeHtml(member.phone.replace(/[^0-9]/g, ''))}" title="WhatsApp"><span class="material-symbols-outlined text-[16px]">chat</span></a>` : ''}
+        </div>
+      </div>
+    `).join("");
+  }
+
+  /**
+   * 5. Contact Section & Live Interactive Leaflet Map
+   */
+  function renderContactAndMap() {
+    if (typeof CMS === 'undefined') return;
+    const contact = CMS.getContactData();
+    if (!contact) return;
+
+    const heading = document.getElementById("contact-public-heading");
+    if (heading && contact.heading) heading.textContent = contact.heading;
+
+    const subtitle = document.getElementById("contact-public-subtitle");
+    if (subtitle && contact.subtitle) subtitle.textContent = contact.subtitle;
+
+    const addr = document.getElementById("contact-public-address");
+    if (addr && contact.address) addr.textContent = contact.address;
+
+    const phone = document.getElementById("contact-public-phone");
+    const phoneLink = document.getElementById("contact-public-phone-link");
+    if (phone && contact.phone) phone.textContent = contact.phone;
+    if (phoneLink && contact.phone) phoneLink.href = `tel:${contact.phone.replace(/[^0-9+]/g, '')}`;
+
+    const wa = document.getElementById("contact-public-wa");
+    const waLink = document.getElementById("contact-public-wa-link");
+    if (wa && contact.whatsapp) wa.textContent = `${contact.whatsapp} (Instant Catalog)`;
+    if (waLink && contact.whatsapp) waLink.href = `https://wa.me/${contact.whatsapp.replace(/[^0-9]/g, '')}`;
+
+    const email = document.getElementById("contact-public-email");
+    const emailLink = document.getElementById("contact-public-email-link");
+    if (email && contact.email) email.textContent = contact.email;
+    if (emailLink && contact.email) emailLink.href = `mailto:${contact.email}`;
+
+    const hours = document.getElementById("contact-public-hours");
+    if (hours && contact.hours) hours.textContent = contact.hours;
+
+    const coordsText = document.getElementById("contact-map-coords-text");
+    if (coordsText) {
+      coordsText.textContent = `Coordinates: ${contact.mapLatitude || 13.9872}° N, ${contact.mapLongitude || 74.5539}° E | ${contact.mapLocationName || 'Bhatkal NH 66 Corridor'}`;
+    }
+
+    const dirLink = document.getElementById("contact-map-dir-link");
+    if (dirLink && contact.googleMapsUrl) {
+      dirLink.href = contact.googleMapsUrl;
+    }
+
+    // Initialize or Update Leaflet Map
+    initPublicLeafletMap(contact);
+  }
+
+  function initPublicLeafletMap(contact) {
+    const mapEl = document.getElementById("public-live-map");
+    if (!mapEl || typeof L === 'undefined') return;
+
+    const lat = parseFloat(contact.mapLatitude) || 13.9872;
+    const lng = parseFloat(contact.mapLongitude) || 74.5539;
+    const zoom = parseInt(contact.mapZoom) || 15;
+    const locName = contact.mapLocationName || "Anfal Wholesale Depot";
+
+    if (!publicLeafletMap) {
+      try {
+        publicLeafletMap = L.map(mapEl, {
+          center: [lat, lng],
+          zoom: zoom,
+          scrollWheelZoom: false
+        });
+
+        const googleRoadmap = L.tileLayer("https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
+          maxZoom: 20,
+          subdomains: ["0", "1", "2", "3"],
+          attribution: "&copy; Google Maps"
+        });
+
+        const googleSatellite = L.tileLayer("https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}", {
+          maxZoom: 20,
+          subdomains: ["0", "1", "2", "3"],
+          attribution: "&copy; Google Maps Satellite"
+        });
+
+        googleRoadmap.addTo(publicLeafletMap);
+
+        L.control.layers({
+          "Google Maps": googleRoadmap,
+          "Google Satellite": googleSatellite
+        }, null, { position: "topright" }).addTo(publicLeafletMap);
+
+        publicLeafletMarker = L.marker([lat, lng]).addTo(publicLeafletMap);
+        publicLeafletMarker.bindPopup(`<b>${escapeHtml(locName)}</b><br>${escapeHtml(contact.address || 'NH 66 Coastal Bypass Corridor')}`).openPopup();
+      } catch (e) {
+        console.error("Public Leaflet init error:", e);
+      }
+    } else {
+      publicLeafletMap.setView([lat, lng], zoom);
+      if (publicLeafletMarker) {
+        publicLeafletMarker.setLatLng([lat, lng]);
+        publicLeafletMarker.setPopupContent(`<b>${escapeHtml(locName)}</b><br>${escapeHtml(contact.address || 'NH 66 Coastal Bypass Corridor')}`).openPopup();
+      }
+      setTimeout(() => publicLeafletMap.invalidateSize(), 300);
+    }
+  }
+
+  /**
+   * 6. Render Brand Cards with Dynamic Color-Aware Atmospheric Gradient Cards
+   */
+  let publicBrandsExpanded = false;
+
+  function renderPublicBrands() {
+    const container = document.getElementById('brand-cards-container');
+    const toggleContainer = document.getElementById('brands-toggle-container');
+    if (!container || typeof CMS === 'undefined') return;
+
+    const allBrands = (CMS.getBrands() || []).filter(b => b.active !== false);
+    const visibleBrands = publicBrandsExpanded ? allBrands : allBrands.slice(0, 6);
+
+    container.innerHTML = visibleBrands.map((brand) => {
+      let logoHtml = '';
+      const nameUpper = (brand.name || '').toUpperCase();
+      const short = escapeHtml(brand.monogram || brand.name || 'B');
+
+      if (nameUpper.includes('UNILEVER') || short === 'HUL') {
+        logoHtml = `<span class="font-display-lg font-black tracking-tighter text-2xl">U</span>`;
+      } else if (nameUpper.includes('PROCTER') || short === 'P&G') {
+        logoHtml = `<span class="font-display-lg font-black italic tracking-tight text-xl">P&amp;G</span>`;
+      } else if (nameUpper.includes('NESTL') || short === 'NESTLÉ') {
+        logoHtml = `<span class="font-display-lg font-extrabold tracking-tight text-lg">Nestlé</span>`;
+      } else if (nameUpper.includes('BRITANNIA')) {
+        logoHtml = `<span class="font-display-lg font-black tracking-wider text-xs px-1 py-0.5 border border-current rounded uppercase">BRITANNIA</span>`;
+      } else if (nameUpper.includes('DABUR')) {
+        logoHtml = `<div class="flex flex-col items-center leading-none"><span class="material-symbols-outlined text-[18px]">park</span><span class="font-extrabold text-[11px] mt-0.5">Dabur</span></div>`;
+      } else if (nameUpper.includes('SAFFOLA')) {
+        logoHtml = `<div class="flex flex-col items-center leading-none"><span class="material-symbols-outlined text-[17px]">favorite</span><span class="font-extrabold text-[10px] mt-0.5">Saffola</span></div>`;
+      } else if (nameUpper.includes('ITC')) {
+        logoHtml = `<div class="flex flex-col items-center leading-none"><span class="material-symbols-outlined text-[20px]">change_history</span><span class="font-black text-[11px]">ITC</span></div>`;
+      } else if (nameUpper.includes('COLGATE')) {
+        logoHtml = `<span class="font-display-lg font-black italic tracking-tight text-base">Colgate</span>`;
+      } else {
+        logoHtml = `<span class="font-display-lg font-extrabold text-lg">${short}</span>`;
+      }
+
+      const categoryIcon = brand.icon || 'category';
+      const productsLine = Array.isArray(brand.products) ? brand.products.join(" • ") : (brand.products || "");
+
+      return `
+        <div id="brand-card-${brand.id}" 
+             class="brand-card group relative rounded-3xl overflow-hidden flex flex-col justify-between border border-black/5 hover:border-black/15 shadow-sm hover:shadow-xl transition-all duration-500 ease-out"
+             style="background: var(--card-gradient, #f8fafc);">
+          
+          <!-- Soft Ambient Top Blur Glow -->
+          <div class="absolute -top-16 -left-16 w-56 h-56 rounded-full blur-2xl pointer-events-none opacity-40 transition-opacity duration-500 group-hover:opacity-70"
+               style="background: var(--card-bg-start, #e2e8f0);"></div>
+
+          <!-- UPPER BRAND INFORMATION AREA -->
+          <div class="relative z-10 p-6 sm:p-7 pb-3 flex flex-col justify-between flex-1">
+            <div class="flex items-start justify-between gap-3 mb-3">
+              <div class="flex items-center gap-3.5 min-w-0">
+                <div class="brand-logo-badge w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center font-display-lg shadow-sm shrink-0 border border-white/20 transition-transform duration-300 group-hover:scale-105"
+                     style="background: var(--card-logo-bg, #0a192f); color: var(--card-logo-text, #ffffff);">
+                  ${logoHtml}
+                </div>
+                <div class="min-w-0">
+                  <h3 class="font-headline-xl text-xl sm:text-2xl font-extrabold leading-tight tracking-tight truncate"
+                      style="color: var(--card-text, #0a192f);">
+                    ${escapeHtml(brand.name)}
+                  </h3>
+                </div>
+              </div>
+
+              <a href="#contact" title="Enquire for ${escapeHtml(brand.name)}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 group-hover:translate-x-1 group-hover:scale-110 shadow-sm"
+                 style="background: var(--card-btn-bg, rgba(0,0,0,0.06)); color: var(--card-btn-text, #0a192f);">
+                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+              </a>
+            </div>
+
+            <div class="space-y-1.5 mt-1.5 mb-2">
+              <div class="inline-flex items-center gap-1.5 font-label-sm text-[11px] font-extrabold uppercase tracking-wider"
+                   style="color: var(--card-category-color, #c51d24);">
+                <span class="material-symbols-outlined text-[15px]">${escapeHtml(categoryIcon)}</span>
+                <span>${escapeHtml(brand.category)}</span>
+              </div>
+              <p class="font-body-md text-xs sm:text-sm font-semibold leading-relaxed"
+                 style="color: var(--card-subtext, #475569);">
+                ${escapeHtml(productsLine)}
+              </p>
+            </div>
+          </div>
+
+          <!-- FULL BLEED PRODUCT IMAGE WITH DYNAMIC SOFT BLURRED TRANSITION -->
+          <div class="brand-image-bleed relative w-full h-44 sm:h-52 overflow-hidden mt-auto">
+            <img src="${escapeHtml(brand.image || 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&auto=format&fit=crop&q=80')}"
+                 alt="${escapeHtml(brand.name)} Wholesale Products"
+                 loading="lazy"
+                 class="brand-product-img w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"/>
+
+            <div class="absolute inset-0 pointer-events-none transition-opacity duration-300"
+                 style="background: linear-gradient(180deg, var(--card-bg-mid, rgba(248,250,252,0.95)) 0%, rgba(var(--card-rgb, 248,250,252), 0.45) 25%, transparent 70%);"></div>
+            
+            <div class="absolute top-0 left-0 right-0 h-10 pointer-events-none backdrop-blur-[2px]"
+                 style="background: linear-gradient(180deg, var(--card-bg-mid, #f8fafc) 0%, transparent 100%);"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Render View More button if more than 6 brands exist
+    if (toggleContainer) {
+      if (allBrands.length > 6) {
+        toggleContainer.innerHTML = `
+          <button id="brands-toggle-btn" class="inline-flex items-center gap-2.5 px-8 py-3.5 bg-surface-container-lowest text-primary hover:text-secondary border border-outline-variant/60 hover:border-secondary rounded-full font-label-lg text-sm font-bold shadow-sm hover:shadow-md transition-all duration-200">
+            <span>${publicBrandsExpanded ? 'Show Less Brands' : `View More Brands (${allBrands.length - 6} more)`}</span>
+            <span class="material-symbols-outlined text-[20px] transition-transform duration-300 ${publicBrandsExpanded ? 'rotate-180' : ''}">expand_more</span>
+          </button>
+        `;
+        const toggleBtn = document.getElementById('brands-toggle-btn');
+        if (toggleBtn) {
+          toggleBtn.onclick = () => {
+            publicBrandsExpanded = !publicBrandsExpanded;
+            renderPublicBrands();
+            if (!publicBrandsExpanded) {
+              const brandsEl = document.getElementById('brands');
+              if (brandsEl) brandsEl.scrollIntoView({ behavior: 'smooth' });
+            }
+          };
+        }
+      } else {
+        toggleContainer.innerHTML = '';
+      }
+    }
+
+    // Apply Dynamic Color Extraction for each visible card
+    if (typeof ColorExtractor !== 'undefined') {
+      visibleBrands.forEach(brand => {
+        const cardEl = document.getElementById(`brand-card-${brand.id}`);
+        if (cardEl && brand.image) {
+          ColorExtractor.extract(brand.image).then(palette => {
+            ColorExtractor.applyToElement(cardEl, palette);
+          });
+        }
+      });
+    }
+  }
+
+  /**
+   * 7. Enquiry Reasons Dropdown & Wholesale Form Handler
+   */
+  function renderEnquiryReasons() {
+    const select = document.getElementById('enq-reason');
+    if (!select || typeof CMS === 'undefined') return;
+
+    const reasons = CMS.getEnquiryReasons();
+    select.innerHTML = reasons.map((r, i) => `
+      <option value="${escapeHtml(r)}" ${i === 0 ? 'selected' : ''}>${escapeHtml(r)}</option>
+    `).join('');
+  }
+
+  function setupWholesaleForm() {
+    renderEnquiryReasons();
+
+    const form = document.getElementById('enquiry-form');
+    const successBox = document.getElementById('enquiry-success');
+
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('enq-name').value;
+        const company = document.getElementById('enq-company').value;
+        const phone = document.getElementById('enq-phone').value;
+        const town = document.getElementById('enq-town').value;
+        const reasonSelect = document.getElementById('enq-reason');
+        const reason = reasonSelect ? reasonSelect.value : "Wholesale Supply / Bulk Purchase";
+        const userMsg = document.getElementById('enq-message').value;
+
+        const messageContent = `[Town: ${town}] [Reason: ${reason}] ${userMsg ? 'Note: ' + userMsg : ''}`;
+
+        const enquiryPayload = {
+          name: name,
+          company: `${company} (${town})`,
+          phone: phone,
+          town: town,
+          reason: reason,
+          message: messageContent
+        };
+
+        if (typeof CMS !== 'undefined' && CMS.addEnquiry) {
+          CMS.addEnquiry(enquiryPayload);
+        }
+
+        form.reset();
+        renderEnquiryReasons();
+        if (successBox) {
+          successBox.classList.remove('hidden');
+          successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => {
+            successBox.classList.add('hidden');
+          }, 8000);
+        }
+      });
+    }
+  }
+
+  /**
+   * 8. Navigation Active State on Scroll
+   */
+  function setupNavScroll() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('#desktop-nav .nav-item');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        const path = link.getAttribute('data-path');
+        if (path === current) {
+          link.classList.add('bg-primary', 'text-on-primary', 'shadow-sm', 'font-bold');
+          link.classList.remove('text-on-surface-variant');
+        } else {
+          link.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm', 'font-bold');
+          link.classList.add('text-on-surface-variant');
+        }
+      });
+    });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+</script>
 </body>
 </html>

@@ -1,622 +1,1478 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard | ANFAL ENTERPRISES</title>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Anfal Enterprises CMS | Content & Operations Management Console</title>
   
-  <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0D14'/><path d='M6 10h3l3 12h12l2-8H11' stroke='%23D32F2F' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/><circle cx='14' cy='25' r='2' fill='%23FFFFFF'/><circle cx='22' cy='25' r='2' fill='%23FFFFFF'/></svg>">
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  
+  <!-- Leaflet Live Interactive Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css">
-  
   <style>
-    /* Dedicated Admin Page Layout - Light Mode */
-    body.admin-body {
-      background-color: #F1F5F9;
-      color: #0F172A;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.2s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Drag & drop upload hover state */
+    .drop-zone.dragover {
+      border-color: #b85d19 !important;
+      background-color: rgba(255, 219, 206, 0.3) !important;
     }
 
-    .admin-navbar {
-      background-color: #FFFFFF;
-      border-bottom: 1px solid #E2E8F0;
-      padding: 14px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-
-    .admin-brand-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .admin-brand-title {
-      font-family: var(--font-heading);
-      font-weight: 800;
-      font-size: 1.1rem;
-      letter-spacing: 0.04em;
-      color: #0F172A;
-    }
-
-    .admin-badge {
-      background: var(--anfal-red);
-      color: #fff;
-      font-size: 0.68rem;
-      font-weight: 800;
-      padding: 3px 8px;
-      border-radius: var(--radius-xs);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .admin-nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .btn-view-site {
-      background: #F8FAFC;
-      color: #0F172A;
-      padding: 8px 16px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      border-radius: var(--radius-xs);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      border: 1px solid #CBD5E1;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all var(--transition-fast);
-    }
-
-    .btn-view-site:hover {
-      background: #E2E8F0;
-      color: #000000;
-    }
-
-    .admin-container {
-      width: 100%;
-      max-width: 1180px;
-      margin: 32px auto;
-      padding: 0 20px;
-      flex: 1;
-    }
-
-    .admin-dashboard-card {
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      border-radius: var(--radius-xs);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-      overflow: hidden;
-    }
-
-    .admin-tabs-bar {
-      display: flex;
-      background: #F8FAFC;
-      border-bottom: 1px solid #E2E8F0;
-      padding: 0 16px;
-      overflow-x: auto;
-    }
-
-    .admin-tab-btn {
-      background: transparent;
-      border: 0;
-      color: #64748B;
-      padding: 16px 20px;
-      font-size: 0.88rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      position: relative;
-      white-space: nowrap;
-      transition: color var(--transition-fast);
-    }
-
-    .admin-tab-btn:hover {
-      color: #0F172A;
-    }
-
-    .admin-tab-btn.active {
-      color: #0F172A;
-    }
-
-    .admin-tab-btn.active::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: var(--anfal-red);
-    }
-
-    .admin-tab-pane {
-      padding: 28px;
-      display: none;
-    }
-
-    .admin-tab-pane.active {
-      display: block;
-    }
-
-    .admin-section-title {
-      font-family: var(--font-heading);
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: #0F172A;
-      margin-bottom: 6px;
-      letter-spacing: 0.02em;
-    }
-
-    .admin-section-sub {
-      font-size: 0.88rem;
-      color: #64748B;
-      margin-bottom: 24px;
-    }
-
-    .admin-form-box {
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      border-radius: var(--radius-xs);
-      padding: 24px;
-      margin-bottom: 24px;
-    }
-
-    .cms-form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .cms-input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .cms-input-group.full-width {
-      grid-column: span 2;
-    }
-
-    .cms-label {
-      font-size: 0.75rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #475569;
-    }
-
-    .cms-input, .cms-textarea {
-      background: #FFFFFF;
-      border: 1px solid #CBD5E1;
-      color: #0F172A;
-      padding: 9px 12px;
-      border-radius: var(--radius-xs);
-      font-size: 0.88rem;
-      outline: none;
-    }
-
-    .cms-input:focus, .cms-textarea:focus {
-      border-color: var(--anfal-red);
-      box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
-    }
-
-    .cms-textarea {
-      min-height: 70px;
-      resize: vertical;
-    }
-
-    .btn-primary {
-      background: var(--anfal-red);
-      color: #FFFFFF;
-      border: 0;
-      padding: 11px 22px;
-      font-size: 0.88rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      border-radius: var(--radius-xs);
-      cursor: pointer;
-      transition: background var(--transition-fast);
-    }
-
-    .btn-primary:hover {
-      background: var(--anfal-red-hover);
-    }
-
-    .admin-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.88rem;
-    }
-
-    .admin-table th, .admin-table td {
-      padding: 12px 14px;
-      text-align: left;
-      border-bottom: 1px solid #E2E8F0;
-      vertical-align: middle;
-    }
-
-    .admin-table th {
-      background: #F8FAFC;
-      font-size: 0.75rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      color: #475569;
-      letter-spacing: 0.06em;
-    }
-
-    .admin-table tr:hover {
-      background: #F8FAFC;
-    }
-
-    .admin-enquiries-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .admin-enquiry-box {
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      border-left: 4px solid var(--anfal-red);
-      border-radius: var(--radius-xs);
-      padding: 20px;
-    }
-
-    .admin-footer {
-      background: #FFFFFF;
-      border-top: 1px solid #E2E8F0;
-      padding: 20px;
-      text-align: center;
-      font-size: 0.8rem;
-      color: #64748B;
-      margin-top: auto;
-    }
-
-    .team-edit-card {
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      padding: 20px;
-      border-radius: var(--radius-xs);
-      margin-bottom: 16px;
-    }
-
-    .brand-thumb-preview {
-      width: 60px;
-      height: 40px;
-      background: #FFFFFF;
-      border-radius: var(--radius-xs);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4px;
-      overflow: hidden;
-    }
-
-    .brand-thumb-preview img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-
-    .image-input-flex {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .image-preview-box {
-      width: 80px;
-      height: 45px;
-      background: #FFFFFF;
-      border: 1px solid #475569;
-      border-radius: var(--radius-xs);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4px;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .image-preview-box img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-
-    @media (max-width: 768px) {
-      .admin-navbar {
-        flex-direction: column;
-        gap: 12px;
-        align-items: flex-start;
-      }
-      .admin-nav-actions {
-        width: 100%;
-        justify-content: space-between;
-      }
-      .cms-form-grid {
-        grid-template-columns: 1fr;
-      }
-      .cms-input-group.full-width {
-        grid-column: span 1;
-      }
-      .admin-tab-pane {
-        padding: 16px;
-      }
+    /* Leaflet custom map container */
+    .leaflet-container {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+      z-index: 10 !important;
     }
   </style>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0a192f",
+            "primary-container": "#0f2442",
+            "primary-fixed": "#d6e3ff",
+            "primary-fixed-dim": "#b0c8f5",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#d6e3ff",
+            "on-primary-fixed": "#001b3e",
+            "on-primary-fixed-variant": "#003268",
+
+            "secondary": "#c51d24",
+            "secondary-container": "#d9252d",
+            "secondary-fixed": "#ffdad6",
+            "secondary-fixed-dim": "#ffb4ab",
+            "on-secondary": "#ffffff",
+            "on-secondary-container": "#ffffff",
+            "on-secondary-fixed": "#410002",
+            "on-secondary-fixed-variant": "#93000a",
+
+            "tertiary": "#0f1f38",
+            "tertiary-container": "#1b2d4b",
+            "tertiary-fixed": "#e0e7ff",
+            "tertiary-fixed-dim": "#b4c5ff",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-container": "#ffffff",
+            "on-tertiary-fixed": "#00184a",
+            "on-tertiary-fixed-variant": "#22355c",
+
+            "surface": "#f8fafc",
+            "surface-dim": "#e2e8f0",
+            "surface-bright": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f1f5f9",
+            "surface-container": "#e2e8f0",
+            "surface-container-high": "#cbd5e1",
+            "surface-container-highest": "#94a3b8",
+            "surface-variant": "#f1f5f9",
+            "surface-tint": "#0a192f",
+
+            "on-surface": "#0a192f",
+            "on-surface-variant": "#475569",
+            "inverse-surface": "#0a192f",
+            "inverse-on-surface": "#f1f5f9",
+            "inverse-primary": "#b0c8f5",
+
+            "outline": "#94a3b8",
+            "outline-variant": "#e2e8f0",
+            "background": "#f8fafc",
+            "on-background": "#0a192f",
+
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "on-error-container": "#93000a"
+          },
+          fontFamily: {
+            "headline-sm": ["Epilogue", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-md": ["Epilogue", "sans-serif"],
+            "headline-xl": ["Epilogue", "sans-serif"],
+            "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "label-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"],
+            "display-lg": ["Epilogue", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
 </head>
-<body class="admin-body">
+<body class="bg-surface font-body-md text-on-surface antialiased min-h-screen flex flex-col selection:bg-secondary selection:text-on-secondary">
 
-  <!-- Admin Navigation Bar -->
-  <nav class="admin-navbar">
-    <div class="admin-brand-group">
-      <img src="assets/images/anfal-logo.png" alt="Anfal Enterprises Logo" style="height: 36px; width: auto; object-fit: contain;">
-      <span class="admin-badge">Admin Panel</span>
-    </div>
-    
-    <div class="admin-nav-actions">
-      <a href="index.html" class="btn-view-site">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        View Live Website
-      </a>
-      <button type="button" id="btn-admin-reset" class="btn-view-site" style="background: #475569;">Reset Defaults</button>
-    </div>
-  </nav>
-
-  <!-- Admin Main Container -->
-  <main class="admin-container">
-    
-    <div class="admin-dashboard-card">
-      
-      <!-- Tab Header -->
-      <div class="admin-tabs-bar">
-        <button type="button" class="admin-tab-btn active" data-tab="company">
-          🏢 Company Details
-        </button>
-        <button type="button" class="admin-tab-btn" data-tab="team">
-          👥 Leadership Team
-        </button>
-        <button type="button" class="admin-tab-btn" data-tab="brands">
-          🏷️ Brands
-        </button>
-        <button type="button" class="admin-tab-btn" data-tab="enquiries">
-          📩 Wholesale Enquiries
-        </button>
+  <!-- ========================================== -->
+  <!-- TOP ADMIN BAR                             -->
+  <!-- ========================================== -->
+  <header class="sticky top-0 z-40 w-full bg-surface-container-lowest/90 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4">
+      <!-- Logo + Admin Moniker -->
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-3 group">
+          <img id="admin-header-logo" alt="Anfal Enterprises" class="h-9 w-auto object-contain transition-transform group-hover:scale-105" src="assets/images/anfal-logo.png"/>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-2">
+              <span class="font-headline-sm text-[16px] text-primary tracking-tight font-extrabold leading-none">Anfal Enterprises</span>
+              <span class="px-2 py-0.5 rounded-full bg-primary text-on-primary text-[10px] font-extrabold tracking-wider uppercase">CMS Panel</span>
+            </div>
+            <span class="font-label-sm text-[10px] text-on-surface-variant font-bold uppercase tracking-widest mt-1">Page &amp; Content Management System</span>
+          </div>
+        </a>
       </div>
 
-      <!-- Tab 1: Company Information -->
-      <section class="admin-tab-pane active" id="admin-tab-company">
-        <h2 class="admin-section-title">Company Profile & Contact Settings</h2>
-        <p class="admin-section-sub">Update business contact numbers, official address, and homepage copy.</p>
+      <!-- Quick Actions & Storefront Link -->
+      <div class="flex items-center gap-3">
+        <button id="quick-reset-btn" type="button" title="Revert to Factory Defaults" class="hidden md:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-error text-xs font-bold transition-all border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[16px]">restart_alt</span>
+          <span>Reset Defaults</span>
+        </button>
+        
+        <button id="quick-export-btn" type="button" title="Backup Database Snapshot" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary text-xs font-bold transition-all border border-outline-variant/20">
+          <span class="material-symbols-outlined text-[16px]">download</span>
+          <span>Backup JSON</span>
+        </button>
 
-        <form id="cms-company-form">
-          <div class="cms-form-grid">
-            
-            <div class="cms-input-group">
-              <label class="cms-label" for="cms-input-name">Company Name</label>
-              <input type="text" id="cms-input-name" class="cms-input" required>
-            </div>
+        <a href="index.html" target="_blank" class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-primary text-on-primary font-label-md text-xs font-bold shadow hover:bg-primary/90 active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+          <span>View Public Site</span>
+        </a>
+      </div>
+    </div>
+  </header>
 
-            <div class="cms-input-group">
-              <label class="cms-label" for="cms-input-subtitle">Subtitle / Category</label>
-              <input type="text" id="cms-input-subtitle" class="cms-input">
-            </div>
+  <!-- ========================================== -->
+  <!-- MAIN ADMIN CONTAINER                       -->
+  <!-- ========================================== -->
+  <div class="flex-1 max-w-[1440px] w-full mx-auto px-4 sm:px-8 py-8 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="w-full lg:w-72 shrink-0 flex flex-col gap-4">
+      <div class="p-3 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col gap-1">
+        
+        <!-- DASHBOARD GROUP -->
+        <button data-tab="dashboard" class="admin-tab-btn active w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all bg-primary text-on-primary shadow-sm">
+          <span class="material-symbols-outlined text-[20px]">dashboard</span>
+          <span>Dashboard</span>
+        </button>
 
-            <div class="cms-input-group">
-              <label class="cms-label" for="cms-input-tagline">Main Tagline</label>
-              <input type="text" id="cms-input-tagline" class="cms-input">
-            </div>
-
-            <div class="cms-input-group">
-              <label class="cms-label" for="cms-input-proprietor">Proprietor Name</label>
-              <input type="text" id="cms-input-proprietor" class="cms-input">
-            </div>
-
-            <div class="cms-input-group full-width">
-              <label class="cms-label" for="cms-input-hero-text">Hero Supporting Description</label>
-              <input type="text" id="cms-input-hero-text" class="cms-input">
-            </div>
-
-            <div class="cms-input-group full-width">
-              <label class="cms-label" for="cms-input-about-statement">About Statement</label>
-              <input type="text" id="cms-input-about-statement" class="cms-input">
-            </div>
-
-            <div class="cms-input-group full-width">
-              <label class="cms-label" for="cms-input-about-desc">About Full Description</label>
-              <textarea id="cms-input-about-desc" class="cms-textarea"></textarea>
-            </div>
-
-            <div class="cms-input-group full-width">
-              <label class="cms-label" for="cms-input-address">Official Address</label>
-              <textarea id="cms-input-address" class="cms-textarea" style="min-height: 60px;"></textarea>
-            </div>
-
-            <div class="cms-input-group">
-              <label class="cms-label" for="cms-input-location-short">Short Location (City, State)</label>
-              <input type="text" id="cms-input-location-short" class="cms-input">
-            </div>
-
-            <div class="cms-input-group">
-              <label class="cms-label" for="cms-input-phone">Phone Number (Calling)</label>
-              <input type="text" id="cms-input-phone" class="cms-input" placeholder="+91 98450 12345">
-            </div>
-
-            <div class="cms-input-group">
-              <label class="cms-label" for="cms-input-whatsapp">WhatsApp Number</label>
-              <input type="text" id="cms-input-whatsapp" class="cms-input" placeholder="+91 98450 12345">
-            </div>
-
-            <div class="cms-input-group">
-              <label class="cms-label" for="cms-input-email">Official Email</label>
-              <input type="email" id="cms-input-email" class="cms-input" placeholder="info@anfalenterprises.com">
-            </div>
-
-            <div class="cms-input-group full-width">
-              <label class="cms-label" for="cms-input-hours">Operating Working Hours</label>
-              <input type="text" id="cms-input-hours" class="cms-input" placeholder="Monday – Saturday: 9:00 AM – 8:00 PM">
-            </div>
-
-            <div class="cms-input-group full-width">
-              <label class="cms-label" for="cms-input-maps-url">Google Maps Embed URL</label>
-              <input type="text" id="cms-input-maps-url" class="cms-input">
-            </div>
-
-          </div>
-
-          <div style="margin-top: 24px; text-align: right;">
-            <button type="submit" class="btn-primary">💾 Save Company Settings</button>
-          </div>
-        </form>
-      </section>
-
-      <!-- Tab 2: Leadership & Team Management -->
-      <section class="admin-tab-pane" id="admin-tab-team">
-        <h2 class="admin-section-title">Leadership &amp; Management Team</h2>
-        <p class="admin-section-sub">Configure the 4 key roles: CEO, General Manager, Sales Manager, and Sales & Marketing.</p>
-
-        <div id="cms-team-list-container">
-          <!-- Dynamically populated from admin.js -->
+        <!-- WEBSITE PAGES GROUP -->
+        <div class="px-3 pt-4 pb-1 text-[11px] font-extrabold uppercase tracking-wider text-on-surface-variant flex items-center justify-between">
+          <span>Website Pages</span>
+          <span class="text-[9px] bg-surface-container px-1.5 py-0.5 rounded font-bold">PAGES</span>
         </div>
 
-        <div style="margin-top: 20px; text-align: right;">
-          <button type="button" id="btn-save-team" class="btn-primary">💾 Save Team Information</button>
+        <button data-tab="home" class="admin-tab-btn w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-bold text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[19px]">home</span>
+            <span>Home</span>
+          </div>
+          <span class="text-[10px] text-slate-400 font-bold">Hero &amp; Prods</span>
+        </button>
+
+        <button data-tab="facility" class="admin-tab-btn w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-bold text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[19px]">apartment</span>
+            <span>About</span>
+          </div>
+          <span class="text-[10px] text-slate-400 font-bold">Facility</span>
+        </button>
+
+        <button data-tab="team" class="admin-tab-btn w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-bold text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[19px]">badge</span>
+            <span>Team</span>
+          </div>
+          <span id="badge-team-count" class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[11px] font-extrabold">4</span>
+        </button>
+
+        <button data-tab="contact" class="admin-tab-btn w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-bold text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[19px]">location_on</span>
+            <span>Contact</span>
+          </div>
+          <span class="text-[10px] text-secondary font-bold">Live Map</span>
+        </button>
+
+        <!-- CONTENT GROUP -->
+        <div class="px-3 pt-4 pb-1 text-[11px] font-extrabold uppercase tracking-wider text-on-surface-variant flex items-center justify-between">
+          <span>Content &amp; Inquiries</span>
+          <span class="text-[9px] bg-surface-container px-1.5 py-0.5 rounded font-bold">DATA</span>
         </div>
-      </section>
 
-      <!-- Tab 3: Brands Management -->
-      <section class="admin-tab-pane" id="admin-tab-brands">
-        <h2 class="admin-section-title">Brands Management</h2>
-        <p class="admin-section-sub">Add, edit, upload brand logo images, or toggle brands displayed on the website.</p>
+        <button data-tab="brands" class="admin-tab-btn w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-bold text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[19px]">verified</span>
+            <span>Brands</span>
+          </div>
+          <span id="badge-brands-count" class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[11px] font-extrabold">9</span>
+        </button>
 
-        <!-- Add / Edit Brand Form Box -->
-        <div class="admin-form-box">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-            <h3 id="brand-form-heading" style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; text-transform: uppercase;">
-              + Add / Edit Brand
+        <button data-tab="enquiries" class="admin-tab-btn w-full flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-bold text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[19px]">inbox</span>
+            <span>Wholesale Enquiries</span>
+          </div>
+          <span id="badge-enquiries-count" class="px-2 py-0.5 rounded-full bg-secondary-fixed text-secondary text-[11px] font-extrabold">0</span>
+        </button>
+
+        <!-- BACKUP / SYSTEM TOOLS -->
+        <div class="px-3 pt-4 pb-1 text-[11px] font-extrabold uppercase tracking-wider text-on-surface-variant">
+          <span>Maintenance</span>
+        </div>
+
+        <button data-tab="tools" class="admin-tab-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all">
+          <span class="material-symbols-outlined text-[19px]">settings_backup_restore</span>
+          <span>System &amp; Backup</span>
+        </button>
+
+      </div>
+
+      <!-- Quick Depot Operational Widget -->
+      <div class="p-5 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2 text-primary font-headline-sm text-sm font-bold">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>Live Storefront Status</span>
+          </div>
+          <span class="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">ACTIVE</span>
+        </div>
+        <p class="text-xs text-on-surface-variant leading-relaxed">
+          NH 66 Coastal Bypass Corridor Hub. Real-time dynamic CMS sync connected.
+        </p>
+        <div class="pt-2 border-t border-outline-variant/20 flex items-center justify-between text-[11px] text-on-surface-variant font-semibold">
+          <span>Active SKUs</span>
+          <span class="text-secondary font-bold">600+ Stocked</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 min-w-0">
+      
+      <!-- ========================================== -->
+      <!-- TAB 1: DASHBOARD OVERVIEW                 -->
+      <!-- ========================================== -->
+      <div id="tab-dashboard" class="tab-content active space-y-6">
+        <!-- Header Banner -->
+        <div class="p-8 rounded-3xl bg-gradient-to-br from-primary via-primary to-[#06332c] text-on-primary shadow-sm relative overflow-hidden">
+          <div class="relative z-10 max-w-2xl">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-primary-fixed font-label-sm text-xs font-bold uppercase tracking-wider mb-3 border border-white/10">
+              <span class="material-symbols-outlined text-[14px]">tune</span>
+              <span>Anfal Web Management</span>
+            </div>
+            <h1 class="font-headline-xl text-3xl md:text-4xl font-extrabold tracking-tight">
+              Anfal Enterprises CMS Console
+            </h1>
+            <p class="text-primary-fixed-dim text-sm md:text-base mt-2 leading-relaxed">
+              Structured page and content management system. Control the public Home hero, facility information, leadership directory, interactive depot map, verified brand partners, and wholesale inquiries.
+            </p>
+          </div>
+          <span class="material-symbols-outlined text-white/5 absolute -right-6 -bottom-10 text-[220px] pointer-events-none select-none">
+            domain
+          </span>
+        </div>
+
+        <!-- 4 Metric Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Metric 1: Wholesale Inquiries -->
+          <div class="p-5 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex items-center gap-4 cursor-pointer hover:border-secondary transition-all" onclick="switchTab('enquiries')">
+            <div class="w-12 h-12 rounded-xl bg-secondary-fixed text-secondary flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[24px]">inbox</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-xs font-bold uppercase text-on-surface-variant tracking-wider">New Inquiries</span>
+              <span id="stat-enquiries-count" class="font-headline-xl text-2xl font-extrabold text-primary">0</span>
+            </div>
+          </div>
+
+          <!-- Metric 2: Verified Brands -->
+          <div class="p-5 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex items-center gap-4 cursor-pointer hover:border-primary transition-all" onclick="switchTab('brands')">
+            <div class="w-12 h-12 rounded-xl bg-primary-fixed text-primary flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[24px]">verified</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-xs font-bold uppercase text-on-surface-variant tracking-wider">Active Brands</span>
+              <span id="stat-brands-count" class="font-headline-xl text-2xl font-extrabold text-primary">9</span>
+            </div>
+          </div>
+
+          <!-- Metric 3: Featured Products -->
+          <div class="p-5 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex items-center gap-4 cursor-pointer hover:border-secondary transition-all" onclick="switchTab('home')">
+            <div class="w-12 h-12 rounded-xl bg-secondary-fixed text-secondary flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-xs font-bold uppercase text-on-surface-variant tracking-wider">Home Products</span>
+              <span id="stat-products-count" class="font-headline-xl text-2xl font-extrabold text-primary">4</span>
+            </div>
+          </div>
+
+          <!-- Metric 4: Leadership Directory -->
+          <div class="p-5 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex items-center gap-4 cursor-pointer hover:border-primary transition-all" onclick="switchTab('team')">
+            <div class="w-12 h-12 rounded-xl bg-primary-fixed text-primary flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[24px]">group</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-xs font-bold uppercase text-on-surface-variant tracking-wider">Team Executives</span>
+              <span id="stat-team-count" class="font-headline-xl text-2xl font-extrabold text-primary">4</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions & CMS Activity -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Recent Inquiries Preview -->
+          <div class="lg:col-span-7 p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex flex-col gap-4">
+            <div class="flex items-center justify-between pb-3 border-b border-outline-variant/20">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary text-[20px]">notifications_active</span>
+                <h3 class="font-headline-md text-lg font-bold text-primary">Recent Wholesale Leads</h3>
+              </div>
+              <button onclick="switchTab('enquiries')" class="text-xs font-bold text-secondary hover:text-primary transition-colors">
+                View All →
+              </button>
+            </div>
+            <div id="dashboard-recent-enquiries" class="space-y-3">
+              <!-- Dynamically rendered top 3 enquiries -->
+            </div>
+          </div>
+
+          <!-- Quick Actions & Live Activity Log -->
+          <div class="lg:col-span-5 flex flex-col gap-6">
+            <!-- Quick Actions -->
+            <div class="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm space-y-3">
+              <h3 class="font-headline-md text-base font-bold text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary text-[18px]">bolt</span>
+                <span>Quick Page Actions</span>
+              </h3>
+              <div class="grid grid-cols-2 gap-2.5 pt-1">
+                <button onclick="switchTab('home')" class="p-3 rounded-xl bg-surface-container-low hover:bg-surface-container text-left transition-all flex items-center gap-2.5 text-xs font-bold text-primary">
+                  <span class="material-symbols-outlined text-[18px] text-secondary">home</span>
+                  <span>Edit Home</span>
+                </button>
+                <button onclick="switchTab('facility')" class="p-3 rounded-xl bg-surface-container-low hover:bg-surface-container text-left transition-all flex items-center gap-2.5 text-xs font-bold text-primary">
+                  <span class="material-symbols-outlined text-[18px] text-primary">warehouse</span>
+                  <span>Edit Facility</span>
+                </button>
+                <button onclick="openAddBrandModal()" class="p-3 rounded-xl bg-surface-container-low hover:bg-surface-container text-left transition-all flex items-center gap-2.5 text-xs font-bold text-primary">
+                  <span class="material-symbols-outlined text-[18px] text-secondary">add_photo_alternate</span>
+                  <span>Add Brand</span>
+                </button>
+                <button onclick="switchTab('contact')" class="p-3 rounded-xl bg-surface-container-low hover:bg-surface-container text-left transition-all flex items-center gap-2.5 text-xs font-bold text-primary">
+                  <span class="material-symbols-outlined text-[18px] text-primary">pin_drop</span>
+                  <span>Edit Map</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Recent CMS Activity Log -->
+            <div class="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm space-y-3 flex-1">
+              <h3 class="font-headline-md text-base font-bold text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[18px]">history</span>
+                <span>Recent CMS Activity</span>
+              </h3>
+              <div id="dashboard-activity-log" class="space-y-2.5 pt-1 text-xs">
+                <!-- Dynamically rendered activity items -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 2: HOME PAGE MANAGEMENT               -->
+      <!-- ========================================== -->
+      <div id="tab-home" class="tab-content space-y-8">
+        <!-- Section Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-secondary font-label-sm text-xs font-bold uppercase tracking-wider mb-1">
+              <span class="material-symbols-outlined text-[14px]">home</span>
+              <span>Home Section CMS</span>
+            </div>
+            <h2 class="font-headline-xl text-2xl md:text-3xl text-primary font-extrabold">Home Page &amp; Hero Management</h2>
+            <p class="text-xs text-on-surface-variant mt-1">Control the main hero background image, headline copy, CTA links, and featured retail products.</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <a href="index.html#home" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-primary font-bold text-xs transition-colors border border-outline-variant/30">
+              <span class="material-symbols-outlined text-[16px]">visibility</span>
+              <span>View Home →</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 1. Hero Content & Image Form -->
+        <form id="form-home-hero" class="p-6 sm:p-8 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm space-y-6">
+          <div class="flex items-center justify-between pb-3 border-b border-outline-variant/20">
+            <h3 class="font-headline-md text-lg font-bold text-primary flex items-center gap-2">
+              <span class="material-symbols-outlined text-secondary text-[20px]">panorama</span>
+              <span>Hero Background &amp; Editorial Copy</span>
             </h3>
-            <button type="button" id="btn-cancel-brand-edit" class="btn-view-site" style="display: none; padding: 4px 10px; font-size: 0.75rem;">
-              Cancel Edit
-            </button>
+            <span class="px-3 py-0.5 rounded-full bg-primary-fixed text-primary text-[11px] font-extrabold">SECTION 1</span>
           </div>
 
-          <form id="cms-brand-edit-form">
-            <input type="hidden" id="cms-brand-edit-id" value="">
-            
-            <div class="cms-form-grid">
-              <div class="cms-input-group">
-                <label class="cms-label" for="cms-brand-name">Brand Name *</label>
-                <input type="text" id="cms-brand-name" class="cms-input" placeholder="e.g. Hindustan Unilever Limited" required>
-              </div>
-
-              <div class="cms-input-group">
-                <label class="cms-label" for="cms-brand-shortname">Short Name / Monogram *</label>
-                <input type="text" id="cms-brand-shortname" class="cms-input" placeholder="e.g. HUL" required>
-              </div>
-
-              <div class="cms-input-group">
-                <label class="cms-label" for="cms-brand-category">Product Category *</label>
-                <input type="text" id="cms-brand-category" class="cms-input" placeholder="e.g. Consumer Goods & Personal Care" required>
-              </div>
-
-              <div class="cms-input-group">
-                <label class="cms-label" for="cms-brand-color">Brand Accent Color</label>
-                <input type="color" id="cms-brand-color" class="cms-input" value="#005A9C" style="height: 38px; padding: 2px;">
-              </div>
-
-              <!-- Brand Image Upload / URL Option -->
-              <div class="cms-input-group full-width">
-                <label class="cms-label">Brand Logo Image (Upload File or Enter Image URL)</label>
-                <div class="image-input-flex">
-                  <div class="image-preview-box" id="brand-img-preview-box">
-                    <span style="font-size: 0.7rem; color: #64748B;">No Image</span>
-                  </div>
-                  <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
-                    <input type="file" id="cms-brand-image-file" class="cms-input" accept="image/*" style="padding: 6px;">
-                    <input type="text" id="cms-brand-image-url" class="cms-input" placeholder="Or enter image URL (https://... or assets/images/...)">
-                  </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <!-- Hero Image Preview & Upload -->
+            <div class="lg:col-span-5 space-y-3">
+              <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Hero Background Image</label>
+              <div class="relative aspect-[16/10] rounded-2xl overflow-hidden border border-outline-variant/40 bg-stone-900 group shadow-inner">
+                <img id="home-hero-preview" src="" alt="Hero Image Preview" class="w-full h-full object-cover"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent p-4 flex flex-col justify-end pointer-events-none">
+                  <span class="text-[10px] text-secondary-fixed font-bold uppercase tracking-wider">Live Storefront Hero</span>
                 </div>
               </div>
 
-              <div class="cms-input-group full-width">
-                <label class="cms-label" for="cms-brand-desc">Product Segment / Description</label>
-                <input type="text" id="cms-brand-desc" class="cms-input" placeholder="e.g. Home care, personal wash, skin care, and foods">
+              <!-- Upload / Replace Image -->
+              <input type="file" id="home-hero-file" accept="image/*" class="hidden"/>
+              <input type="hidden" id="home-hero-image-val" value=""/>
+              <div class="flex gap-2">
+                <button type="button" onclick="document.getElementById('home-hero-file').click()" class="flex-1 py-2.5 px-4 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-bold text-xs transition-colors flex items-center justify-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px]">upload</span>
+                  <span>Upload / Replace Photo</span>
+                </button>
+                <button type="button" id="btn-remove-hero-img" class="px-3 py-2 rounded-xl bg-surface-container hover:bg-error-container text-on-surface-variant hover:text-error text-xs font-bold transition-colors" title="Remove custom image and reset to default">
+                  <span class="material-symbols-outlined text-[16px]">delete</span>
+                </button>
               </div>
             </div>
 
-            <div style="text-align: right; margin-top: 16px;">
-              <button type="submit" id="btn-submit-brand-form" class="btn-primary" style="padding: 10px 22px; font-size: 0.85rem;">
-                💾 Save Brand
-              </button>
+            <!-- Hero Typography Fields -->
+            <div class="lg:col-span-7 space-y-4">
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Top Pill / Availability Badge</label>
+                <input id="home-hero-badge" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text" placeholder="e.g. Direct Wholesale Distribution"/>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Main Display Headline</label>
+                <input id="home-hero-heading" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface font-extrabold focus:outline-none" type="text" placeholder="e.g. DAILY FMCG ESSENTIALS"/>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Supporting Subtitle / Description</label>
+                <textarea id="home-hero-tagline" rows="2" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" placeholder="Enter supporting hero narrative..."></textarea>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">CTA Button Label</label>
+                  <input id="home-hero-cta-text" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text" placeholder="e.g. Get Wholesale Price List"/>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">CTA Button Target Link</label>
+                  <input id="home-hero-cta-link" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text" placeholder="e.g. #contact"/>
+                </div>
+              </div>
             </div>
-          </form>
+          </div>
+
+          <div class="pt-4 border-t border-outline-variant/20 flex items-center justify-end">
+            <button type="submit" class="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-primary text-on-primary text-sm font-bold shadow-md hover:bg-primary/90 active:scale-95 transition-all">
+              <span class="material-symbols-outlined text-[18px]">save</span>
+              <span>Save Hero Content</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- 2. Featured Home Products Table & Management -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-outline-variant/20">
+            <div>
+              <h3 class="font-headline-md text-lg font-bold text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary text-[20px]">shopping_bag</span>
+                <span>Home Featured Products Showcase</span>
+              </h3>
+              <p class="text-xs text-on-surface-variant mt-0.5">Manage the tangible FMCG products displayed inside the hero showcase grid.</p>
+            </div>
+
+            <button type="button" onclick="openAddProductModal()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-secondary text-on-secondary text-xs font-bold shadow hover:bg-secondary/90 transition-all self-start sm:self-auto">
+              <span class="material-symbols-outlined text-[16px]">add</span>
+              <span>Add Featured Product</span>
+            </button>
+          </div>
+
+          <!-- Products Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+              <thead>
+                <tr class="border-b border-outline-variant/30 text-on-surface-variant text-[11px] font-extrabold uppercase tracking-wider">
+                  <th class="py-3 px-4">Order</th>
+                  <th class="py-3 px-4">Image</th>
+                  <th class="py-3 px-4">Product Name</th>
+                  <th class="py-3 px-4">Brand / Manufacturer</th>
+                  <th class="py-3 px-4">Category</th>
+                  <th class="py-3 px-4">Badge / Slab</th>
+                  <th class="py-3 px-4">Visibility</th>
+                  <th class="py-3 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="home-products-tbody" class="divide-y divide-outline-variant/20">
+                <!-- Dynamically rendered products -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 3: FACILITY PAGE MANAGEMENT           -->
+      <!-- ========================================== -->
+      <div id="tab-facility" class="tab-content space-y-8">
+        <!-- Section Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-sm text-xs font-bold uppercase tracking-wider mb-1">
+              <span class="material-symbols-outlined text-[14px]">warehouse</span>
+              <span>Facility Page CMS</span>
+            </div>
+            <h2 class="font-headline-xl text-2xl md:text-3xl text-primary font-extrabold">Facility &amp; Depot Overview</h2>
+            <p class="text-xs text-on-surface-variant mt-1">Manage the full-bleed background facility photo, 4 key infrastructure pillars, and inspection actions.</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <a href="index.html#facility" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-primary font-bold text-xs transition-colors border border-outline-variant/30">
+              <span class="material-symbols-outlined text-[16px]">visibility</span>
+              <span>View Facility Page →</span>
+            </a>
+          </div>
         </div>
 
-        <!-- Brands Table -->
-        <div style="overflow-x: auto;">
-          <table class="admin-table">
+        <form id="form-facility-cms" class="p-6 sm:p-8 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm space-y-8">
+          <!-- 1. Background Facility Image Management -->
+          <div class="space-y-4">
+            <h3 class="font-headline-md text-base font-bold text-primary flex items-center gap-2 pb-2 border-b border-outline-variant/20">
+              <span class="material-symbols-outlined text-secondary text-[20px]">image</span>
+              <span>1. Facility Background Image (Full-Bleed 2D Backdrop)</span>
+            </h3>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              <div class="lg:col-span-6 relative aspect-[16/10] rounded-2xl overflow-hidden border border-stone-300 shadow-md bg-stone-900 group">
+                <img id="facility-cms-bg-preview" src="assets/images/facility-full.jpg" alt="Facility Preview" class="w-full h-full object-cover"/>
+                <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-transparent p-6 flex flex-col justify-end pointer-events-none">
+                  <span class="text-[10px] font-bold text-secondary-fixed uppercase tracking-wider">Facility Live Backdrop Overlay</span>
+                  <span class="text-base font-extrabold text-white">ABOUT ANFAL ENTERPRISES</span>
+                </div>
+              </div>
+
+              <div class="lg:col-span-6 space-y-4">
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Image URL / Path</label>
+                  <input id="facility-bg-url" type="text" value="assets/images/facility-full.jpg" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none"/>
+                </div>
+
+                <div id="dropzone-facility-cms" class="border-2 border-dashed border-outline-variant/60 hover:border-secondary hover:bg-surface-container-low/50 rounded-2xl p-5 text-center transition-all cursor-pointer">
+                  <input type="file" id="file-facility-cms" accept="image/*" class="hidden"/>
+                  <span class="material-symbols-outlined text-secondary text-[32px] mb-1 block">cloud_upload</span>
+                  <p class="text-xs font-bold text-primary">Upload new facility photo, or <span class="text-secondary underline">browse files</span></p>
+                  <p class="text-[11px] text-on-surface-variant mt-0.5">JPEG, PNG, WebP up to 10MB</p>
+                </div>
+
+                <div class="flex items-center gap-2 pt-1">
+                  <button type="button" id="btn-preset-facility-default" class="px-3.5 py-1.5 rounded-full bg-surface-container hover:bg-primary hover:text-white text-xs font-bold text-primary transition-all border border-outline-variant/20">
+                    📍 Use Bhatkal HQ Facility Photo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Facility Editorial Typography -->
+          <div class="space-y-4 pt-4 border-t border-outline-variant/20">
+            <h3 class="font-headline-md text-base font-bold text-primary flex items-center gap-2 pb-2 border-b border-outline-variant/20">
+              <span class="material-symbols-outlined text-secondary text-[20px]">title</span>
+              <span>2. Header &amp; Subtitle Copy</span>
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Location Pill Label</label>
+                <input id="fac-location-pill" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text"/>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Eyebrow Badge</label>
+                <input id="fac-eyebrow" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text"/>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Main Bold Headline</label>
+                <input id="fac-heading" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface font-extrabold focus:outline-none" type="text"/>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Supporting Statement / Tagline</label>
+                <input id="fac-tagline" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. 4 Key Feature Points (Infrastructure Pillars) -->
+          <div class="space-y-4 pt-4 border-t border-outline-variant/20">
+            <h3 class="font-headline-md text-base font-bold text-primary flex items-center gap-2 pb-2 border-b border-outline-variant/20">
+              <span class="material-symbols-outlined text-secondary text-[20px]">grid_view</span>
+              <span>3. 4 Key Company Infrastructure Highlights</span>
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Feature 1 -->
+              <div class="p-4 rounded-2xl bg-surface-container-low border border-outline-variant/30 space-y-2">
+                <span class="text-xs font-extrabold text-secondary uppercase">Feature #1 (Depot Scale)</span>
+                <input id="fac-f1-title" required placeholder="Title (e.g. High-Capacity Depot)" class="w-full px-3 py-2 rounded-xl bg-white border border-outline-variant/40 text-xs font-bold text-primary focus:outline-none" type="text"/>
+                <input id="fac-f1-desc" required placeholder="Description (e.g. 20,000+ sq. ft. modern facility)" class="w-full px-3 py-2 rounded-xl bg-white border border-outline-variant/40 text-xs text-on-surface focus:outline-none" type="text"/>
+              </div>
+
+              <!-- Feature 2 -->
+              <div class="p-4 rounded-2xl bg-surface-container-low border border-outline-variant/30 space-y-2">
+                <span class="text-xs font-extrabold text-secondary uppercase">Feature #2 (Highway Axis)</span>
+                <input id="fac-f2-title" required placeholder="Title (e.g. Highway Connectivity)" class="w-full px-3 py-2 rounded-xl bg-white border border-outline-variant/40 text-xs font-bold text-primary focus:outline-none" type="text"/>
+                <input id="fac-f2-desc" required placeholder="Description (e.g. Direct NH 66 corridor access)" class="w-full px-3 py-2 rounded-xl bg-white border border-outline-variant/40 text-xs text-on-surface focus:outline-none" type="text"/>
+              </div>
+
+              <!-- Feature 3 -->
+              <div class="p-4 rounded-2xl bg-surface-container-low border border-outline-variant/30 space-y-2">
+                <span class="text-xs font-extrabold text-secondary uppercase">Feature #3 (Direct Sourcing)</span>
+                <input id="fac-f3-title" required placeholder="Title (e.g. Direct Sourcing)" class="w-full px-3 py-2 rounded-xl bg-white border border-outline-variant/40 text-xs font-bold text-primary focus:outline-none" type="text"/>
+                <input id="fac-f3-desc" required placeholder="Description (e.g. Authorized manufacturer contracts)" class="w-full px-3 py-2 rounded-xl bg-white border border-outline-variant/40 text-xs text-on-surface focus:outline-none" type="text"/>
+              </div>
+
+              <!-- Feature 4 -->
+              <div class="p-4 rounded-2xl bg-surface-container-low border border-outline-variant/30 space-y-2">
+                <span class="text-xs font-extrabold text-secondary uppercase">Feature #4 (B2B Billing)</span>
+                <input id="fac-f4-title" required placeholder="Title (e.g. Transparent B2B Billing)" class="w-full px-3 py-2 rounded-xl bg-white border border-outline-variant/40 text-xs font-bold text-primary focus:outline-none" type="text"/>
+                <input id="fac-f4-desc" required placeholder="Description (e.g. Rapid digital invoicing & credit)" class="w-full px-3 py-2 rounded-xl bg-white border border-outline-variant/40 text-xs text-on-surface focus:outline-none" type="text"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Bottom Information & Inspection Link -->
+          <div class="space-y-4 pt-4 border-t border-outline-variant/20">
+            <h3 class="font-headline-md text-base font-bold text-primary flex items-center gap-2 pb-2 border-b border-outline-variant/20">
+              <span class="material-symbols-outlined text-secondary text-[20px]">link</span>
+              <span>4. Bottom Leader Tag &amp; Inspection Action</span>
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Leader Tagline</label>
+                <input id="fac-leader-tag" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-xs text-on-surface focus:outline-none" type="text"/>
+              </div>
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">CTA Button Text</label>
+                <input id="fac-cta-text" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-xs text-on-surface focus:outline-none" type="text"/>
+              </div>
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">CTA Target Link</label>
+                <input id="fac-cta-link" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-xs text-on-surface focus:outline-none" type="text"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-outline-variant/20 flex items-center justify-end">
+            <button type="submit" class="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-primary text-on-primary text-sm font-bold shadow-md hover:bg-primary/90 active:scale-95 transition-all">
+              <span class="material-symbols-outlined text-[18px]">save</span>
+              <span>Save Facility Page</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 4: TEAM ROSTER MANAGEMENT             -->
+      <!-- ========================================== -->
+      <div id="tab-team" class="tab-content space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-secondary font-label-sm text-xs font-bold uppercase tracking-wider mb-1">
+              <span class="material-symbols-outlined text-[14px]">badge</span>
+              <span>Executive Directory CMS</span>
+            </div>
+            <h2 class="font-headline-xl text-2xl md:text-3xl text-primary font-extrabold">Leadership Team Directory</h2>
+            <p class="text-xs text-on-surface-variant mt-1">Manage portraits, designations, direct phone lines, and biographies displayed on the website.</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <a href="index.html#team" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-primary font-bold text-xs transition-colors border border-outline-variant/30">
+              <span class="material-symbols-outlined text-[16px]">visibility</span>
+              <span>View Team →</span>
+            </a>
+            <button type="button" onclick="openAddTeamModal()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-secondary text-on-secondary text-xs font-bold shadow hover:bg-secondary/90 transition-all">
+              <span class="material-symbols-outlined text-[16px]">person_add</span>
+              <span>Add Team Member</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Team Table / List -->
+        <div class="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm overflow-x-auto">
+          <table class="w-full text-left text-sm">
             <thead>
-              <tr>
-                <th style="width: 40px;">#</th>
-                <th style="width: 80px;">Logo</th>
-                <th>Brand Name</th>
-                <th>Category</th>
-                <th>Status</th>
-                <th>Actions</th>
+              <tr class="border-b border-outline-variant/30 text-on-surface-variant text-[11px] font-extrabold uppercase tracking-wider">
+                <th class="py-3 px-4">Order</th>
+                <th class="py-3 px-4">Portrait</th>
+                <th class="py-3 px-4">Full Name</th>
+                <th class="py-3 px-4">Designation / Role</th>
+                <th class="py-3 px-4">Direct Contact</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody id="cms-brands-tbody">
-              <!-- Dynamically populated from admin.js -->
+            <tbody id="admin-team-tbody" class="divide-y divide-outline-variant/20">
+              <!-- Dynamically rendered team members -->
             </tbody>
           </table>
         </div>
-      </section>
+      </div>
 
-      <!-- Tab 4: Enquiries Inbox -->
-      <section class="admin-tab-pane" id="admin-tab-enquiries">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+      <!-- ========================================== -->
+      <!-- TAB 5: CONTACT & LIVE INTERACTIVE MAP CMS  -->
+      <!-- ========================================== -->
+      <div id="tab-contact" class="tab-content space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 class="admin-section-title">Wholesale Enquiries Inbox</h2>
-            <p class="admin-section-sub" style="margin-bottom: 0;">Direct inquiries submitted by retail stores and business clients.</p>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-sm text-xs font-bold uppercase tracking-wider mb-1">
+              <span class="material-symbols-outlined text-[14px]">location_on</span>
+              <span>Contact &amp; Live Map CMS</span>
+            </div>
+            <h2 class="font-headline-xl text-2xl md:text-3xl text-primary font-extrabold">Contact Details &amp; Interactive Map</h2>
+            <p class="text-xs text-on-surface-variant mt-1">Manage official commercial contacts, warehouse dispatch hours, and the live interactive depot map coordinates.</p>
           </div>
-          <button type="button" class="btn-view-site" id="btn-export-enquiries" style="background: var(--anfal-red); border-color: var(--anfal-red);">
-            📥 Export to CSV
+
+          <div class="flex items-center gap-3">
+            <a href="index.html#contact" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-primary font-bold text-xs transition-colors border border-outline-variant/30">
+              <span class="material-symbols-outlined text-[16px]">visibility</span>
+              <span>View Contact Page →</span>
+            </a>
+          </div>
+        </div>
+
+        <form id="form-contact-cms" class="p-6 sm:p-8 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm space-y-8">
+          <!-- 1. Corporate Contact Details -->
+          <div class="space-y-4">
+            <h3 class="font-headline-md text-base font-bold text-primary flex items-center gap-2 pb-2 border-b border-outline-variant/20">
+              <span class="material-symbols-outlined text-secondary text-[20px]">call</span>
+              <span>1. Official Commercial Contact Details</span>
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Section Heading</label>
+                <input id="contact-heading" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text"/>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Section Subtitle</label>
+                <input id="contact-subtitle" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text"/>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Desk Landline Phone</label>
+                <input id="contact-phone" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text"/>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">WhatsApp Hotline</label>
+                <input id="contact-whatsapp" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text"/>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">General Inquiries Email</label>
+                <input id="contact-email" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="email"/>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Warehouse Dispatch Hours</label>
+                <input id="contact-hours" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text"/>
+              </div>
+
+              <div class="md:col-span-2 flex flex-col gap-1.5">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Depot Physical Address (NH 66)</label>
+                <input id="contact-address" required class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Live Interactive Map Configuration -->
+          <div class="space-y-4 pt-4 border-t border-outline-variant/20">
+            <div class="flex items-center justify-between pb-2 border-b border-outline-variant/20">
+              <h3 class="font-headline-md text-base font-bold text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary text-[20px]">explore</span>
+                <span>2. Live Interactive Map Location</span>
+              </h3>
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase">INTERACTIVE MAP</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              <!-- Live Map Interactive Preview Box -->
+              <div class="lg:col-span-7 space-y-2">
+                <div class="flex items-center justify-between">
+                  <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Live Google Map (Click to Change Location)</label>
+                  <span class="text-[11px] font-bold text-secondary flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">touch_app</span>
+                    Click map to pick pin
+                  </span>
+                </div>
+
+                <!-- Click-to-Pick Map Action Hint Banner -->
+                <div class="p-3 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-between gap-3 text-xs text-primary font-semibold">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary text-[18px]">location_searching</span>
+                    <span><strong>Click anywhere on the map</strong> to relocate the depot marker. Latitude &amp; Longitude update automatically.</span>
+                  </div>
+                  <span class="text-[10px] bg-primary text-white px-2 py-0.5 rounded-full uppercase font-bold shrink-0">Click Enabled</span>
+                </div>
+
+                <div id="admin-interactive-map" class="w-full h-72 sm:h-80 rounded-2xl overflow-hidden border border-outline-variant/40 shadow-inner bg-slate-100 z-10">
+                  <!-- Leaflet Map Container with Google Maps Tiles -->
+                </div>
+                <div class="flex items-center justify-between text-[11px] text-on-surface-variant pt-1 font-semibold">
+                  <span id="map-coords-indicator">Coordinates: 13.9872° N, 74.5539° E</span>
+                  <span class="text-emerald-700 font-bold flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    Google Maps Tile Engine
+                  </span>
+                </div>
+              </div>
+
+              <!-- Map Coordinate Inputs -->
+              <div class="lg:col-span-5 space-y-3.5">
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Location Marker Name</label>
+                  <input id="map-location-name" required class="px-4 py-2 rounded-xl bg-surface-container-low border border-outline-variant/40 text-xs text-on-surface font-bold focus:outline-none" type="text" placeholder="e.g. Anfal Wholesale Depot (Bhatkal)"/>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Latitude</label>
+                    <input id="map-latitude" step="any" required class="px-4 py-2 rounded-xl bg-surface-container-low border border-outline-variant/40 text-xs text-on-surface font-mono font-bold focus:outline-none" type="number" placeholder="13.9872"/>
+                  </div>
+                  <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Longitude</label>
+                    <input id="map-longitude" step="any" required class="px-4 py-2 rounded-xl bg-surface-container-low border border-outline-variant/40 text-xs text-on-surface font-mono font-bold focus:outline-none" type="number" placeholder="74.5539"/>
+                  </div>
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Default Zoom Level (10 - 18)</label>
+                  <div class="flex items-center gap-3">
+                    <input id="map-zoom" min="10" max="18" value="15" class="flex-1 accent-primary" type="range"/>
+                    <span id="map-zoom-val" class="font-mono text-xs font-bold px-2 py-1 bg-surface-container rounded-lg">15</span>
+                  </div>
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                  <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Driving Directions URL</label>
+                  <input id="map-directions-url" required class="px-4 py-2 rounded-xl bg-surface-container-low border border-outline-variant/40 text-xs text-on-surface focus:outline-none" type="text" placeholder="https://maps.google.com/?q=..."/>
+                </div>
+
+                <button type="button" id="btn-update-map-preview" class="w-full py-2 px-4 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-bold text-xs transition-colors flex items-center justify-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px]">my_location</span>
+                  <span>Update Map Preview Position</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Enquiry Form Dropdown Reasons Management -->
+          <div class="space-y-4 pt-4 border-t border-outline-variant/20">
+            <div class="flex items-center justify-between pb-2 border-b border-outline-variant/20">
+              <h3 class="font-headline-md text-base font-bold text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary text-[20px]">list_alt</span>
+                <span>3. Enquiry Form Reasons Dropdown Options</span>
+              </h3>
+              <span class="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-extrabold uppercase">FORM SETTINGS</span>
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Dropdown Options (One reason per line)</label>
+              <textarea id="contact-enquiry-reasons" rows="6" class="w-full px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none leading-relaxed font-sans" placeholder="Wholesale Supply / Bulk Purchase&#10;Brands & Product Distribution&#10;Retailer Partnership&#10;Depot Logistics & Transportation&#10;Institutional & Enterprise Supply&#10;General Inquiry"></textarea>
+              <p class="text-[11px] text-on-surface-variant">These options dynamically populate the "Reason for Enquiry" dropdown menu on the website contact form.</p>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-outline-variant/20 flex items-center justify-end">
+            <button type="submit" class="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-primary text-on-primary text-sm font-bold shadow-md hover:bg-primary/90 active:scale-95 transition-all">
+              <span class="material-symbols-outlined text-[18px]">save</span>
+              <span>Save Contact &amp; Map Settings</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 6: BRANDS PORTFOLIO CMS               -->
+      <!-- ========================================== -->
+      <div id="tab-brands" class="tab-content space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-sm text-xs font-bold uppercase tracking-wider mb-1">
+              <span class="material-symbols-outlined text-[14px]">verified</span>
+              <span>Manufacturing Partners CMS</span>
+            </div>
+            <h2 class="font-headline-xl text-2xl md:text-3xl text-primary font-extrabold">Brand Catalog Management</h2>
+            <p class="text-xs text-on-surface-variant mt-1">Upload brand images with dynamic client-side color extraction for full-bleed atmospheric gradient cards.</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <a href="index.html#brands" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-primary font-bold text-xs transition-colors border border-outline-variant/30">
+              <span class="material-symbols-outlined text-[16px]">visibility</span>
+              <span>View Brands →</span>
+            </a>
+            <button type="button" onclick="openAddBrandModal()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-secondary text-on-secondary text-xs font-bold shadow hover:bg-secondary/90 transition-all">
+              <span class="material-symbols-outlined text-[16px]">add_photo_alternate</span>
+              <span>Add Brand Partner</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Brand Cards Grid (Showing Full Bleed & Extracted Theme) -->
+        <div id="admin-brands-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Dynamically rendered brand cards -->
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 7: WHOLESALE ENQUIRIES                -->
+      <!-- ========================================== -->
+      <div id="tab-enquiries" class="tab-content space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-fixed text-secondary font-label-sm text-xs font-bold uppercase tracking-wider mb-1">
+              <span class="material-symbols-outlined text-[14px]">inbox</span>
+              <span>B2B Commercial Inquiries</span>
+            </div>
+            <h2 class="font-headline-xl text-2xl md:text-3xl text-primary font-extrabold">Wholesale Quotation Requests</h2>
+            <p class="text-xs text-on-surface-variant mt-1">Review merchant intake records, bulk rate requests, and dispatch allocations.</p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button id="clear-all-enquiries-btn" class="px-4 py-2 rounded-full bg-surface-container hover:bg-error-container text-on-surface-variant hover:text-error text-xs font-bold transition-all border border-outline-variant/20">
+              Clear All Enquiries
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Chips & Search Bar -->
+        <div class="p-4 bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-2" id="enquiry-filter-chips">
+            <button data-filter="all" class="enq-filter-btn px-4 py-1.5 rounded-full bg-primary text-on-primary text-xs font-bold shadow-sm">All</button>
+            <button data-filter="New" class="enq-filter-btn px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high text-xs font-bold">New Only</button>
+            <button data-filter="Contacted" class="enq-filter-btn px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high text-xs font-bold">Contacted</button>
+            <button data-filter="Closed" class="enq-filter-btn px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high text-xs font-bold">Closed</button>
+          </div>
+          
+          <div class="relative w-full sm:w-64">
+            <span class="material-symbols-outlined text-outline absolute left-3 top-2.5 text-[18px]">search</span>
+            <input id="search-enquiries-input" placeholder="Search by name, town, reason..." class="w-full pl-9 pr-4 py-2 rounded-xl bg-surface-container-low border border-outline-variant/40 text-xs focus:outline-none focus:border-secondary"/>
+          </div>
+        </div>
+
+        <!-- Enquiries List Table -->
+        <div class="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b border-outline-variant/30 text-on-surface-variant text-[11px] font-extrabold uppercase tracking-wider">
+                <th class="py-3 px-4">Date &amp; Time</th>
+                <th class="py-3 px-4">Merchant / Contact</th>
+                <th class="py-3 px-4">Reason for Enquiry</th>
+                <th class="py-3 px-4">Phone / WhatsApp</th>
+                <th class="py-3 px-4">Message / Requirements</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-enquiries-tbody" class="divide-y divide-outline-variant/20">
+              <!-- Dynamically rendered enquiry rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 8: SYSTEM & BACKUP TOOLS              -->
+      <!-- ========================================== -->
+      <div id="tab-tools" class="tab-content space-y-6">
+        <div class="flex flex-col gap-1">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-sm text-xs font-bold uppercase tracking-wider mb-1 max-w-fit">
+            <span class="material-symbols-outlined text-[14px]">settings_backup_restore</span>
+            <span>Data Operations</span>
+          </div>
+          <h2 class="font-headline-xl text-2xl md:text-3xl text-primary font-extrabold">Data Tools, Backup &amp; Reset</h2>
+          <p class="text-xs text-on-surface-variant">Export complete database JSON backups, restore snapshots, or reset to original factory data.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Tool 1: Export Backup -->
+          <div class="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex flex-col justify-between gap-4">
+            <div class="space-y-2">
+              <div class="w-12 h-12 rounded-2xl bg-primary-fixed text-primary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[24px]">download</span>
+              </div>
+              <h3 class="font-headline-sm text-lg font-bold text-primary">Export JSON Snapshot</h3>
+              <p class="text-xs text-on-surface-variant leading-relaxed">
+                Download complete store configuration, brand listings, team profiles, and enquiry records as a single JSON file.
+              </p>
+            </div>
+            <button id="btn-export-json" class="w-full py-2.5 px-4 rounded-xl bg-primary text-on-primary text-xs font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined text-[16px]">file_download</span>
+              <span>Download JSON Backup</span>
+            </button>
+          </div>
+
+          <!-- Tool 2: Import Backup -->
+          <div class="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex flex-col justify-between gap-4">
+            <div class="space-y-2">
+              <div class="w-12 h-12 rounded-2xl bg-secondary-fixed text-secondary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[24px]">upload</span>
+              </div>
+              <h3 class="font-headline-sm text-lg font-bold text-primary">Restore JSON Snapshot</h3>
+              <p class="text-xs text-on-surface-variant leading-relaxed">
+                Upload and apply a previously exported Anfal Enterprises configuration JSON archive.
+              </p>
+            </div>
+            <div>
+              <input type="file" id="import-file-input" accept=".json" class="hidden"/>
+              <button onclick="document.getElementById('import-file-input').click()" class="w-full py-2.5 px-4 rounded-xl bg-secondary text-on-secondary text-xs font-bold hover:bg-secondary/90 transition-all flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-[16px]">file_upload</span>
+                <span>Select &amp; Restore File</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tool 3: Factory Reset -->
+          <div class="p-6 rounded-3xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex flex-col justify-between gap-4">
+            <div class="space-y-2">
+              <div class="w-12 h-12 rounded-2xl bg-error-container text-error flex items-center justify-center">
+                <span class="material-symbols-outlined text-[24px]">restart_alt</span>
+              </div>
+              <h3 class="font-headline-sm text-lg font-bold text-error">Factory Seed Reset</h3>
+              <p class="text-xs text-on-surface-variant leading-relaxed">
+                Revert all pages, products, team members, brands, and settings back to original factory defaults.
+              </p>
+            </div>
+            <button id="btn-factory-reset" class="w-full py-2.5 px-4 rounded-xl bg-error text-on-error text-xs font-bold hover:bg-error/90 transition-all flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined text-[16px]">refresh</span>
+              <span>Reset All to Defaults</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: ADD / EDIT FEATURED PRODUCT         -->
+  <!-- ========================================== -->
+  <div id="product-modal" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto" style="display: none;">
+    <div class="bg-surface-container-lowest w-full max-w-lg rounded-3xl shadow-2xl border border-outline-variant/30 overflow-hidden my-8 animate-fadeIn">
+      <div class="p-6 bg-surface-container-low border-b border-outline-variant/20 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-[22px]">add_shopping_cart</span>
+          <h3 id="product-modal-title" class="font-headline-md text-lg font-bold text-primary">Add Featured Product</h3>
+        </div>
+        <button onclick="closeProductModal()" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-dim flex items-center justify-center text-on-surface-variant">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <form id="product-modal-form" class="p-6 space-y-4">
+        <input type="hidden" id="pm-id" value=""/>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Product Name</label>
+            <input id="pm-name" required placeholder="e.g. Britannia Treats" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" type="text"/>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Brand</label>
+            <input id="pm-brand" required placeholder="e.g. Britannia / HUL" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" type="text"/>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Category</label>
+            <input id="pm-category" placeholder="e.g. Confectionery / Snacks" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" type="text"/>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Badge Tag</label>
+            <input id="pm-badge" placeholder="e.g. Direct / Factory Slabs" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" type="text"/>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Display Order</label>
+            <input id="pm-order" type="number" min="1" value="1" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none"/>
+          </div>
+          <div class="flex flex-col gap-1.5 justify-end">
+            <label class="flex items-center gap-2 cursor-pointer pb-2">
+              <input id="pm-active" type="checkbox" checked class="rounded text-primary focus:ring-primary h-4 w-4"/>
+              <span class="text-xs font-bold text-primary">Published / Visible on Home</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Product Image Upload -->
+        <div class="space-y-2 pt-2">
+          <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Product Packaging Image</label>
+          <div class="flex items-center gap-4">
+            <div class="w-20 h-20 rounded-xl bg-white border border-outline-variant/30 flex items-center justify-center p-2 overflow-hidden shrink-0">
+              <img id="pm-image-preview" src="" class="max-h-full object-contain"/>
+            </div>
+            <div class="flex-1 space-y-2">
+              <input type="file" id="pm-image-file" accept="image/*" class="hidden"/>
+              <button type="button" onclick="document.getElementById('pm-image-file').click()" class="w-full py-2 px-3 rounded-xl bg-surface-container text-primary font-bold text-xs hover:bg-surface-container-high transition-colors flex items-center justify-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px]">upload</span>
+                <span>Upload Product Image</span>
+              </button>
+              <input id="pm-image-url" type="text" placeholder="Or paste image URL" class="w-full px-3 py-1.5 rounded-lg bg-surface-container-low border border-outline-variant/40 text-xs focus:outline-none"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-outline-variant/20 flex items-center justify-end gap-3">
+          <button type="button" onclick="closeProductModal()" class="px-5 py-2 rounded-full bg-surface-container text-on-surface-variant text-xs font-bold hover:bg-surface-dim transition-all">
+            Cancel
+          </button>
+          <button type="submit" class="px-7 py-2.5 rounded-full bg-primary text-on-primary text-xs font-bold shadow hover:bg-primary/90 transition-all flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px]">save</span>
+            <span>Save Product</span>
           </button>
         </div>
-
-        <div class="admin-enquiries-grid" id="cms-enquiries-container">
-          <!-- Dynamically populated -->
-        </div>
-      </section>
-
+      </form>
     </div>
+  </div>
 
-  </main>
+  <!-- ========================================== -->
+  <!-- MODAL: ADD / EDIT TEAM MEMBER              -->
+  <!-- ========================================== -->
+  <div id="team-modal" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto" style="display: none;">
+    <div class="bg-surface-container-lowest w-full max-w-lg rounded-3xl shadow-2xl border border-outline-variant/30 overflow-hidden my-8 animate-fadeIn">
+      <div class="p-6 bg-surface-container-low border-b border-outline-variant/20 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-[22px]">person</span>
+          <h3 id="team-modal-title" class="font-headline-md text-lg font-bold text-primary">Add Team Member</h3>
+        </div>
+        <button onclick="closeTeamModal()" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-dim flex items-center justify-center text-on-surface-variant">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
 
-  <footer class="admin-footer">
-    ANFAL ENTERPRISES • Internal Management Portal • Bhatkal, Karnataka
-  </footer>
+      <form id="team-modal-form" class="p-6 space-y-4">
+        <input type="hidden" id="tm-id" value=""/>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Full Name</label>
+            <input id="tm-name" required placeholder="e.g. Mohammed Anfal" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" type="text"/>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Role / Designation</label>
+            <input id="tm-role" required placeholder="e.g. Founder & CEO" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" type="text"/>
+          </div>
+        </div>
 
-  <!-- Scripts -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Direct Phone / Hotline</label>
+            <input id="tm-phone" placeholder="+91 8385 226700" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none" type="text"/>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Official Email</label>
+            <input id="tm-email" placeholder="info@anfalenterprises.com" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none" type="email"/>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Short Bio / Operational Focus</label>
+          <input id="tm-bio" placeholder="Strategic commercial direction & manufacturer relations." class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none" type="text"/>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Display Order</label>
+            <input id="tm-order" type="number" min="1" value="1" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none"/>
+          </div>
+          <div class="flex flex-col gap-1.5 justify-end">
+            <label class="flex items-center gap-2 cursor-pointer pb-2">
+              <input id="tm-active" type="checkbox" checked class="rounded text-primary focus:ring-primary h-4 w-4"/>
+              <span class="text-xs font-bold text-primary">Active on Leadership Page</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Portrait Image Upload -->
+        <div class="space-y-2 pt-2">
+          <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Person Portrait Photo</label>
+          <div class="flex items-center gap-4">
+            <div class="w-16 h-16 rounded-full bg-slate-100 border border-outline-variant/30 flex items-center justify-center overflow-hidden shrink-0">
+              <img id="tm-avatar-preview" src="" class="w-full h-full object-cover"/>
+            </div>
+            <div class="flex-1 space-y-2">
+              <input type="file" id="tm-avatar-file" accept="image/*" class="hidden"/>
+              <button type="button" onclick="document.getElementById('tm-avatar-file').click()" class="w-full py-2 px-3 rounded-xl bg-surface-container text-primary font-bold text-xs hover:bg-surface-container-high transition-colors flex items-center justify-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px]">upload</span>
+                <span>Upload Portrait Image</span>
+              </button>
+              <input id="tm-avatar-url" type="text" placeholder="Or paste portrait URL" class="w-full px-3 py-1.5 rounded-lg bg-surface-container-low border border-outline-variant/40 text-xs focus:outline-none"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-outline-variant/20 flex items-center justify-end gap-3">
+          <button type="button" onclick="closeTeamModal()" class="px-5 py-2 rounded-full bg-surface-container text-on-surface-variant text-xs font-bold hover:bg-surface-dim transition-all">
+            Cancel
+          </button>
+          <button type="submit" class="px-7 py-2.5 rounded-full bg-primary text-on-primary text-xs font-bold shadow hover:bg-primary/90 transition-all flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px]">save</span>
+            <span>Save Member</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: ADD / EDIT BRAND                    -->
+  <!-- ========================================== -->
+  <div id="brand-modal" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto" style="display: none;">
+    <div class="bg-surface-container-lowest w-full max-w-xl rounded-3xl shadow-2xl border border-outline-variant/30 overflow-hidden my-8 animate-fadeIn">
+      <div class="p-6 bg-surface-container-low border-b border-outline-variant/20 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-[22px]">add_photo_alternate</span>
+          <h3 id="brand-modal-title" class="font-headline-md text-lg font-bold text-primary">Add Brand Partner</h3>
+        </div>
+        <button onclick="closeBrandModal()" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-dim flex items-center justify-center text-on-surface-variant">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <form id="brand-modal-form" class="p-6 space-y-5">
+        <input type="hidden" id="bm-id" value=""/>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Official Brand Name</label>
+            <input id="bm-name" required placeholder="e.g. Hindustan Unilever" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text"/>
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Short Monogram / Mark</label>
+            <input id="bm-monogram" required placeholder="e.g. HUL / P&G / Nestle" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text"/>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Category</label>
+            <input id="bm-category" required placeholder="e.g. PERSONAL CARE & HYGIENE" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text"/>
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Category Icon (Google Material)</label>
+            <input id="bm-icon" placeholder="e.g. spa / clean_hands / cookie" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text"/>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Product Line Summary</label>
+          <input id="bm-products" required placeholder="e.g. Lifebuoy • Dove • Surf Excel • Rin • Lux" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 focus:border-secondary focus:bg-white text-sm text-on-surface focus:outline-none" type="text"/>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Display Order</label>
+            <input id="bm-order" type="number" min="1" value="1" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none"/>
+          </div>
+          <div class="flex flex-col gap-1.5 justify-end">
+            <label class="flex items-center gap-2 cursor-pointer pb-2">
+              <input id="bm-active" type="checkbox" checked class="rounded text-primary focus:ring-primary h-4 w-4"/>
+              <span class="text-xs font-bold text-primary">Published / Visible in Catalog</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Brand Image Upload & Dynamic Extraction -->
+        <div class="space-y-2 pt-1">
+          <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant flex items-center justify-between">
+            <span>Product Packaging / Showcase Image</span>
+            <span class="text-[10px] text-secondary font-bold">Dynamic Color Extraction Active</span>
+          </label>
+
+          <input type="hidden" id="bm-image-data" value=""/>
+          <input type="file" id="brand-image-file-input" accept="image/*" class="hidden"/>
+
+          <div id="upload-dropzone" class="drop-zone border-2 border-dashed border-outline-variant/80 hover:border-secondary rounded-2xl p-6 text-center transition-all bg-surface-container-low/50 cursor-pointer">
+            <span class="material-symbols-outlined text-secondary text-[36px] mb-2">cloud_upload</span>
+            <p class="text-xs font-bold text-primary">Drag and drop product image here, or <span class="text-secondary underline">browse files</span></p>
+            <p class="text-[11px] text-on-surface-variant mt-1">JPEG, PNG, WebP up to 5MB</p>
+          </div>
+
+          <!-- Preview & Color Palette Box -->
+          <div id="upload-preview-box" class="hidden p-4 rounded-2xl bg-surface-container-low border border-outline-variant/30 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <img id="upload-preview-thumb" src="" class="w-12 h-12 rounded-xl object-cover border border-outline-variant/30 bg-white"/>
+                <div>
+                  <span id="upload-preview-filename" class="block font-headline-sm text-xs font-bold text-primary truncate max-w-[200px]">image.jpg</span>
+                  <span class="text-[10px] text-emerald-700 font-bold flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Palette Extracted
+                  </span>
+                </div>
+              </div>
+              <button type="button" onclick="document.getElementById('brand-image-file-input').click()" class="px-3 py-1 rounded-full bg-surface-container text-primary font-bold text-xs hover:bg-surface-container-high transition-colors">
+                Replace
+              </button>
+            </div>
+
+            <!-- Mini Live Card Preview -->
+            <div class="pt-2 border-t border-outline-variant/20">
+              <span class="text-[10px] font-bold uppercase text-on-surface-variant block mb-1.5">Live Storefront Card Visualizer</span>
+              <div id="brand-mini-card" class="rounded-2xl p-3 border border-outline-variant/30 overflow-hidden" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <div id="mini-preview-monogram" class="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-xs">BRND</div>
+                    <span id="mini-preview-name" class="font-bold text-xs text-primary">Brand Name</span>
+                  </div>
+                  <span class="w-5 h-5 rounded-full bg-black/5 flex items-center justify-center text-[10px]">→</span>
+                </div>
+                <div class="w-full h-16 rounded-b-xl overflow-hidden relative mt-2">
+                  <img id="mini-preview-img" src="" class="w-full h-full object-cover"/>
+                  <div id="mini-preview-overlay" class="absolute inset-0 pointer-events-none" style="background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, transparent 80%);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Secondary Image URL input fallback -->
+          <div class="flex items-center gap-2 pt-1">
+            <span class="text-[11px] text-on-surface-variant font-medium">Or paste image URL:</span>
+            <input id="bm-image-url-input" placeholder="https://..." class="flex-1 px-3 py-1.5 rounded-lg bg-surface-container-low border border-outline-variant/30 text-xs text-on-surface focus:outline-none" type="text"/>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-outline-variant/20 flex items-center justify-end gap-3">
+          <button type="button" onclick="closeBrandModal()" class="px-5 py-2 rounded-full bg-surface-container text-on-surface-variant text-xs font-bold hover:bg-surface-dim transition-all">
+            Cancel
+          </button>
+          <button type="submit" class="px-7 py-2.5 rounded-full bg-secondary text-on-secondary text-xs font-bold shadow hover:bg-secondary/90 transition-all flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px]">save</span>
+            <span>Save Brand</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: VIEW WHOLESALE ENQUIRY DETAILS      -->
+  <!-- ========================================== -->
+  <div id="enquiry-modal" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto" style="display: none;">
+    <div class="bg-surface-container-lowest w-full max-w-lg rounded-3xl shadow-2xl border border-outline-variant/30 overflow-hidden my-8 animate-fadeIn">
+      <div class="p-6 bg-surface-container-low border-b border-outline-variant/20 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-secondary text-[22px]">mail</span>
+          <h3 class="font-headline-md text-lg font-bold text-primary">Wholesale Lead Details</h3>
+        </div>
+        <button onclick="closeEnquiryModal()" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-dim flex items-center justify-center text-on-surface-variant">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-5">
+        <input type="hidden" id="view-enq-id"/>
+
+        <div class="p-4 rounded-2xl bg-surface-container-low border border-outline-variant/20 flex items-center justify-between">
+          <div>
+            <h4 id="view-enq-company" class="font-headline-sm text-base font-extrabold text-primary">Coastal Hypermarket</h4>
+            <span id="view-enq-name" class="text-xs text-on-surface-variant font-semibold">Salim Ahmed</span>
+          </div>
+          <span id="view-enq-badge" class="px-3 py-1 rounded-full bg-secondary-fixed text-secondary text-xs font-extrabold">New</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div class="p-3 rounded-xl bg-surface-container-low">
+            <span class="text-on-surface-variant font-bold block mb-0.5">Enquiry Reason</span>
+            <span id="view-enq-reason" class="font-bold text-secondary text-[11px] block truncate">Wholesale Supply</span>
+          </div>
+          <div class="p-3 rounded-xl bg-surface-container-low">
+            <span class="text-on-surface-variant font-bold block mb-0.5">Phone / WhatsApp</span>
+            <span id="view-enq-phone" class="font-bold text-primary font-mono">+91 98765 43210</span>
+          </div>
+          <div class="p-3 rounded-xl bg-surface-container-low">
+            <span class="text-on-surface-variant font-bold block mb-0.5">Timestamp</span>
+            <span id="view-enq-date" class="font-semibold text-slate-700">2026-09-24 02:30 PM</span>
+          </div>
+        </div>
+
+        <div class="space-y-1.5">
+          <span class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Detailed Message / Requested SKUs</span>
+          <div id="view-enq-message" class="p-4 rounded-2xl bg-surface-container-low border border-outline-variant/20 text-xs text-on-surface leading-relaxed whitespace-pre-wrap font-sans">
+            -
+          </div>
+        </div>
+
+        <!-- Change Status -->
+        <div class="flex items-center justify-between pt-2 border-t border-outline-variant/20">
+          <div class="flex items-center gap-2">
+            <label class="text-xs font-bold uppercase text-on-surface-variant">Update Status:</label>
+            <select id="view-enq-status-select" class="px-3 py-1.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-xs font-bold text-primary focus:outline-none">
+              <option value="New">New</option>
+              <option value="Read">Read</option>
+              <option value="Contacted">Contacted</option>
+              <option value="Closed">Closed</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <a id="view-enq-wa-btn" href="#" target="_blank" class="px-3.5 py-1.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1 shadow-sm transition-colors">
+              <span class="material-symbols-outlined text-[14px]">chat</span>
+              <span>WhatsApp</span>
+            </a>
+            <a id="view-enq-call-btn" href="#" class="px-3.5 py-1.5 rounded-full bg-primary hover:bg-primary/90 text-white text-xs font-bold flex items-center gap-1 shadow-sm transition-colors">
+              <span class="material-symbols-outlined text-[14px]">call</span>
+              <span>Call</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="admin-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="px-5 py-3.5 rounded-2xl bg-inverse-surface text-inverse-on-surface shadow-xl flex items-center gap-3 border border-white/10">
+      <span id="toast-icon" class="material-symbols-outlined text-secondary-fixed text-[20px]">check_circle</span>
+      <span id="toast-message" class="text-xs font-bold">Action completed successfully</span>
+    </div>
+  </div>
+
+  <!-- Leaflet Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- Color Extractor & CMS Scripts -->
+  <script src="color-extractor.js"></script>
   <script src="cms-data.js"></script>
   <script src="admin.js"></script>
 </body>
