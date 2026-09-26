@@ -282,6 +282,14 @@ function renderTeam() {
           <p class="text-xs sm:text-sm text-charcoal-muted leading-relaxed">
             ${escapeHtml(founder.bio || "Steering commercial operations and highway distribution strategy across coastal Karnataka.")}
           </p>
+          ${founder.phone ? `
+            <div class="mt-3">
+              <a href="tel:${escapeHtml(founder.phone.replace(/[^0-9+]/g, ''))}" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container/60 hover:bg-primary hover:text-white transition-colors text-on-surface font-mono text-xs font-bold border border-hairline">
+                <span class="material-symbols-outlined text-[14px]">call</span>
+                <span>${escapeHtml(founder.phone)}</span>
+              </a>
+            </div>
+          ` : ''}
         </div>
         <div class="mt-6 pt-4 border-t border-hairline flex items-center justify-between text-xs font-mono text-charcoal-muted">
           <span>ANFAL ENTERPRISES</span>
@@ -311,7 +319,12 @@ function renderTeam() {
                 <span class="text-[10px] font-mono text-secondary uppercase font-bold">${serial}</span>
               </div>
               <p class="text-xs font-display text-charcoal-muted uppercase tracking-wider font-semibold">${escapeHtml(member.role)}</p>
-              <p class="text-[11px] text-charcoal-muted mt-1 font-mono">${escapeHtml(member.category || member.boardRole || "")}</p>
+              ${member.phone ? `
+                <a href="tel:${escapeHtml(member.phone.replace(/[^0-9+]/g, ''))}" class="inline-flex items-center gap-1.5 mt-2 px-2.5 py-1 rounded-full bg-surface-container/60 hover:bg-primary hover:text-white transition-colors text-on-surface font-mono text-[11px] font-bold border border-outline-variant/30">
+                  <span class="material-symbols-outlined text-[13px]">call</span>
+                  <span>${escapeHtml(member.phone)}</span>
+                </a>
+              ` : ''}
             </div>
           </div>
         `;

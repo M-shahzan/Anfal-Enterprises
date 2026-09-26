@@ -14,10 +14,10 @@
 
 :root {
   /* Color System */
-  --bg-canvas: #F8FAFC;
+  --bg-canvas: #F0ECE4;
   --bg-card: #FFFFFF;
-  --bg-subtle: #F1F5F9;
-  --bg-alt: #E2E8F0;
+  --bg-subtle: #F8F6F1;
+  --bg-alt: #ECE7DE;
 
   --color-navy: #0A192F;
   --color-navy-dark: #06101E;
@@ -60,27 +60,27 @@
 }
 
 /* ==========================================================================
-   DARK THEME OVERRIDE (Lighter, Elegant Slate Palette)
+   DARK THEME OVERRIDE (Neutral IDE Charcoal / Zinc Palette)
    ========================================================================== */
 html[data-theme="dark"] {
-  --bg-canvas: #1E2433;
-  --bg-card: #283144;
-  --bg-subtle: #313C52;
-  --bg-alt: #3B4863;
+  --bg-canvas: #18181b;
+  --bg-card: #222226;
+  --bg-subtle: #2b2b30;
+  --bg-alt: #35353c;
 
-  --color-navy: #FFFFFF;
-  --color-navy-dark: #F1F5F9;
-  --color-navy-light: #F8FAFC;
+  --color-navy: #F4F4F5;
+  --color-navy-dark: #FAFAFA;
+  --color-navy-light: #E4E4E7;
 
-  --color-charcoal: #E2E8F0;
-  --color-charcoal-muted: #94A3B8;
+  --color-charcoal: #E4E4E7;
+  --color-charcoal-muted: #A1A1AA;
 
-  --color-gray: rgba(255, 255, 255, 0.12);
-  --color-gray-dark: rgba(255, 255, 255, 0.20);
+  --color-gray: rgba(255, 255, 255, 0.10);
+  --color-gray-dark: rgba(255, 255, 255, 0.18);
 
-  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.20);
-  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.30);
-  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.45);
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.60);
 }
 
 /* Smooth Theme Transitions using existing --trans-smooth */
@@ -125,63 +125,65 @@ html[data-theme="dark"] .text-charcoal-muted {
 
 /* Header Base & Matte Glass Effect */
 header {
-  background-color: rgba(248, 250, 252, 0.35) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border-bottom: none !important;
+  box-shadow: none !important;
 }
 
 header.scrolled {
-  background-color: rgba(248, 250, 252, 0.45) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border-bottom: none !important;
-  box-shadow: 0 4px 20px rgba(10, 25, 47, 0.05) !important;
+  background-color: rgba(240, 236, 228, 0.45) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(221, 215, 202, 0.35) !important;
+  box-shadow: 0 4px 20px rgba(10, 25, 47, 0.04) !important;
 }
 
 #desktop-nav {
-  background-color: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(226, 232, 240, 0.6);
-  box-shadow: 0 2px 10px rgba(10, 25, 47, 0.04);
+  background-color: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.45);
+  box-shadow: 0 2px 10px rgba(10, 25, 47, 0.03);
 }
 
 #theme-toggle-btn {
-  background-color: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(226, 232, 240, 0.6);
+  background-color: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.45);
 }
 
 html[data-theme="dark"] header {
-  background-color: rgba(30, 36, 51, 0.35) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border-bottom: none !important;
+  box-shadow: none !important;
 }
 
 html[data-theme="dark"] header.scrolled {
-  background-color: rgba(30, 36, 51, 0.48) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
-  border-bottom: none !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+  background-color: rgba(24, 24, 27, 0.50) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
 }
 
 html[data-theme="dark"] #desktop-nav {
-  background-color: rgba(40, 49, 68, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  background-color: rgba(34, 34, 38, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 }
 
 html[data-theme="dark"] #theme-toggle-btn {
-  background-color: rgba(40, 49, 68, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background-color: rgba(34, 34, 38, 0.70);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 html[data-theme="dark"] #desktop-nav .nav-item {
@@ -189,8 +191,8 @@ html[data-theme="dark"] #desktop-nav .nav-item {
 }
 
 html[data-theme="dark"] #desktop-nav .nav-item.bg-primary {
-  background-color: #FFFFFF !important;
-  color: #1E2433 !important;
+  background-color: #F4F4F5 !important;
+  color: #18181b !important;
 }
 
 html[data-theme="dark"] .border-outline-variant\/40,
@@ -2905,7 +2907,7 @@ header.scrolled > div,
 }
 
 html[data-theme="dark"] #desktop-nav .nav-item.is-active {
-  color: #0A192F !important;
+  color: #18181b !important;
 }
 
 /* 6. Stepped Products Track */

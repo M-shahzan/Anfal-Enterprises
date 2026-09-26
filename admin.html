@@ -733,7 +733,7 @@
                 <th class="py-3 px-4">Portrait</th>
                 <th class="py-3 px-4">Full Name</th>
                 <th class="py-3 px-4">Designation / Role</th>
-                <th class="py-3 px-4">Direct Contact</th>
+                <th class="py-3 px-4">Phone Number</th>
                 <th class="py-3 px-4">Status</th>
                 <th class="py-3 px-4 text-right">Actions</th>
               </tr>
@@ -1194,15 +1194,9 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="flex flex-col gap-1.5">
-            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Direct Phone / Hotline</label>
-            <input id="tm-phone" placeholder="+91 8385 226700" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none" type="text"/>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Official Email</label>
-            <input id="tm-email" placeholder="info@anfalenterprises.com" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none" type="email"/>
-          </div>
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Phone Number (Visible on Card)</label>
+          <input id="tm-phone" required placeholder="+91 8385 226700" class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary font-mono" type="text"/>
         </div>
 
         <div class="flex flex-col gap-1.5">

@@ -687,7 +687,7 @@ function renderTeamDirectory() {
       </td>
       <td class="py-3 px-4 font-bold text-primary text-sm">${escapeHtml(member.name)}</td>
       <td class="py-3 px-4 text-xs font-semibold text-slate-700">${escapeHtml(member.role)}</td>
-      <td class="py-3 px-4 text-xs text-on-surface-variant font-mono">${escapeHtml(member.phone || member.email || "-")}</td>
+      <td class="py-3 px-4 text-xs font-mono font-semibold text-primary">${escapeHtml(member.phone || "-")}</td>
       <td class="py-3 px-4">
         <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${member.active !== false ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'}">
           ${member.active !== false ? 'ACTIVE' : 'HIDDEN'}
@@ -743,7 +743,6 @@ function setupTeamModal() {
         name: document.getElementById("tm-name").value.trim(),
         role: document.getElementById("tm-role").value.trim(),
         phone: document.getElementById("tm-phone").value.trim(),
-        email: document.getElementById("tm-email").value.trim(),
         bio: document.getElementById("tm-bio").value.trim(),
         order: parseInt(document.getElementById("tm-order").value) || 1,
         active: document.getElementById("tm-active").checked,
@@ -772,7 +771,6 @@ function openAddTeamModal() {
   document.getElementById("tm-name").value = "";
   document.getElementById("tm-role").value = "";
   document.getElementById("tm-phone").value = "+91 8385 226700";
-  document.getElementById("tm-email").value = "info@anfalenterprises.com";
   document.getElementById("tm-bio").value = "";
   document.getElementById("tm-order").value = (CMS.getTeam().length + 1);
   document.getElementById("tm-active").checked = true;
@@ -794,7 +792,6 @@ function editTeamMember(id) {
   document.getElementById("tm-name").value = member.name || "";
   document.getElementById("tm-role").value = member.role || "";
   document.getElementById("tm-phone").value = member.phone || "";
-  document.getElementById("tm-email").value = member.email || "";
   document.getElementById("tm-bio").value = member.bio || "";
   document.getElementById("tm-order").value = member.order || 1;
   document.getElementById("tm-active").checked = member.active !== false;
